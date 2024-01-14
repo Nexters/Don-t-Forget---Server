@@ -19,25 +19,35 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+      # 2. gradle 캐쉬
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-      # 2. Spring Boot 애플리케이션 빌드
+      # 3. Spring Boot 애플리케이션 빌드
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: clean bootJar
 
-      # 3. Docker 이미지 빌드
+      # 4. Docker 이미지 빌드
       - name: docker image build
         run: docker build --platform linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/don-t-forget-server .
 
-      # 4. DockerHub 로그인
+      # 5. DockerHub 로그인
       - name: docker login
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # 5. Docker Hub 이미지 푸시
+      # 6. Docker Hub 이미지 푸시
       - name: docker Hub push
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/don-t-forget-server
 
