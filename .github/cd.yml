@@ -2,9 +2,9 @@ name: Java CD with Gradle
 # main, develop 에 push 될 때, cd가 돈다.
 on:
   push:
-    branches: [ "feat", "develop" ]
+    branches: [ "develop" ]
   pull_request:
-    branches: [ "feat" ]
+    branches: [ "develop" ]
 
 permissions:
   contents: read
