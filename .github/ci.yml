@@ -33,6 +33,7 @@ jobs:
         with:
           arguments: clean bootJar
 
+
       # 3. Docker 이미지 빌드
       - name: docker image build
         run: docker build  --platform linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/don-t-forget-server .

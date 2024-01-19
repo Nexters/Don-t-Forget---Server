@@ -2,9 +2,9 @@ name: Java CD with Gradle
 # main, develop 에 push 될 때, cd가 돈다.
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "feat/10", "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "feat/10" ]
 
 permissions:
   contents: read
@@ -56,6 +56,15 @@ jobs:
     # build (위)과정이 완료되어야 실행됩니다.
     needs: build-docker-image
     runs-on: self-hosted
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: sa
+          MYSQL_DATABASE: dontForget
+        ports:
+          - 3306:3306
+
     steps:
       # 최신 이미지를 풀받습니다
       - name: docker pull

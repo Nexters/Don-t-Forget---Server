@@ -1,0 +1,16 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-dontforget
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: sa
+      MYSQL_DATABASE: 'dontForget'
+      MYSQL_USER: 'dontForget'
+      MYSQL_PASSWORD: 'dontForget'
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql-init-files/:/docker-entrypoint-initdb.d
+    platform: linux/arm64
