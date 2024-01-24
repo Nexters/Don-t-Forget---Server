@@ -5,6 +5,7 @@ import com.dontforget.dontforget.app.anniversary.application.AnniversaryApplicat
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ public class AnniversaryController {
 
   private final AnniversaryApplication anniversaryApplication;
 
+  @PostMapping
   public ResponseEntity<Void> createAnniversary(@RequestHeader("deviceId") String deviceId,
       @RequestBody AnniversaryCreateRequest request) {
     Long id = anniversaryApplication.create(request.toQuery(deviceId));
