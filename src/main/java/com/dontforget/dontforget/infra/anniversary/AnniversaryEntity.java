@@ -35,8 +35,13 @@ public class AnniversaryEntity {
   @Column(name = "solar_date", nullable = false)
   private LocalDateTime solarDate;
 
-  public AnniversaryEntity(Long id, String title, String content, String deviceUuid,
-      LocalDateTime lunarDate, LocalDateTime solarDate) {
+  public AnniversaryEntity(
+      Long id,
+      String title,
+      String content,
+      String deviceUuid,
+      LocalDateTime lunarDate,
+      LocalDateTime solarDate) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -45,8 +50,12 @@ public class AnniversaryEntity {
     this.solarDate = solarDate;
   }
 
-  public AnniversaryEntity(String title, String content, String deviceUuid,
-      LocalDateTime lunarDate, LocalDateTime solarDate) {
+  public AnniversaryEntity(
+      String title,
+      String content,
+      String deviceUuid,
+      LocalDateTime lunarDate,
+      LocalDateTime solarDate) {
     this(null, title, content, deviceUuid, lunarDate, solarDate);
   }
 }

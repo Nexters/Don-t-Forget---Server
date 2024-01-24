@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AnniversaryEntityRepository extends JpaRepository<AnniversaryEntity, Long> {
 
   Optional<AnniversaryEntity> findById(Long id);
-  List<AnniversaryEntity> findAllByDeviceUuid(String deviceUuid);
 
+  List<AnniversaryEntity> findAllByDeviceUuid(String deviceUuid);
 }
