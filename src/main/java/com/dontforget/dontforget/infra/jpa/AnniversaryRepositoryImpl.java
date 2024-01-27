@@ -77,4 +77,16 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
             .toList();
         noticeEntityRepository.saveAll(noticeEntities);
     }
+
+    @Override
+    public void delete(final Anniversary anniversary) {
+        final AnniversaryEntity anniversaryEntity = anniversaryMapper.toEntity(anniversary);
+        anniversaryEntityRepository.delete(anniversaryEntity);
+
+        final List<Long> deleteIds = anniversary.getNotices()
+            .stream()
+            .map(Notice::getId)
+            .toList();
+        noticeEntityRepository.deleteAllByIdInBatch(deleteIds);
+    }
 }

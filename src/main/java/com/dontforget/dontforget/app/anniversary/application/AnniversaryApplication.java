@@ -5,6 +5,7 @@ import com.dontforget.dontforget.app.anniversary.api.response.AnniversaryDetailR
 import com.dontforget.dontforget.app.anniversary.api.response.AnniversaryListResponse;
 import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
 import com.dontforget.dontforget.domain.anniversary.service.CreateAnniversary;
+import com.dontforget.dontforget.domain.anniversary.service.DeleteAnniversary;
 import com.dontforget.dontforget.domain.anniversary.service.ReadAnniversary;
 import com.dontforget.dontforget.domain.anniversary.service.UpdateAnniversary;
 import jakarta.transaction.Transactional;
@@ -19,6 +20,7 @@ public class AnniversaryApplication {
     private final CreateAnniversary createAnniversary;
     private final ReadAnniversary readAnniversary;
     private final UpdateAnniversary updateAnniversary;
+    private final DeleteAnniversary deleteAnniversary;
 
     @Transactional
     public Long create(CreateAnniversaryQuery query) {
@@ -36,5 +38,10 @@ public class AnniversaryApplication {
     @Transactional
     public void updateAnniversary(final Long anniversaryId, final AnniversaryUpdateRequest request) {
         updateAnniversary.updateAnniversary(anniversaryId, request);
+    }
+
+    @Transactional
+    public void deleteAnniversary(final Long anniversaryId) {
+        deleteAnniversary.deleteAnniversary(anniversaryId);
     }
 }

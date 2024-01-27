@@ -11,4 +11,6 @@ public interface AnniversaryRepository {
     List<AnniversaryEntity> findByDeviceUuidOrderByRecentDate(final String deviceId);
 
     void update(final Anniversary anniversary);
+
+    void delete(final Anniversary anniversary);
 }
