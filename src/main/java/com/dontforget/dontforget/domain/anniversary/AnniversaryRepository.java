@@ -1,6 +1,6 @@
 package com.dontforget.dontforget.domain.anniversary;
 
-import com.dontforget.dontforget.infra.anniversary.AnniversaryEntity;
+import com.dontforget.dontforget.infra.jpa.anniversary.AnniversaryEntity;
 import java.util.List;
 
 public interface AnniversaryRepository {

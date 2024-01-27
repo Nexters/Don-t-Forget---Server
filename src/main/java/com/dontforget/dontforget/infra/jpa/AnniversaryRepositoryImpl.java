@@ -1,14 +1,15 @@
-package com.dontforget.dontforget.infra.anniversary.repository;
+package com.dontforget.dontforget.infra.jpa;
 
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
 import com.dontforget.dontforget.domain.anniversary.exception.NotFoundAnniversaryException;
 import com.dontforget.dontforget.domain.notice.Notice;
-import com.dontforget.dontforget.infra.anniversary.AnniversaryEntity;
+import com.dontforget.dontforget.infra.jpa.anniversary.AnniversaryEntity;
+import com.dontforget.dontforget.infra.jpa.anniversary.repository.AnniversaryEntityRepository;
 import com.dontforget.dontforget.infra.mapper.AnniversaryMapper;
 import com.dontforget.dontforget.infra.mapper.NoticeMapper;
-import com.dontforget.dontforget.infra.notice.NoticeEntity;
-import com.dontforget.dontforget.infra.notice.repository.NoticeEntityRepository;
+import com.dontforget.dontforget.infra.jpa.notice.NoticeEntity;
+import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
 import java.util.List;
 
 public class AnniversaryRepositoryImpl implements AnniversaryRepository {

@@ -5,7 +5,7 @@ import com.dontforget.dontforget.app.anniversary.api.response.AnniversaryListRes
 import com.dontforget.dontforget.common.DomainService;
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
-import com.dontforget.dontforget.infra.anniversary.AnniversaryEntity;
+import com.dontforget.dontforget.infra.jpa.anniversary.AnniversaryEntity;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 

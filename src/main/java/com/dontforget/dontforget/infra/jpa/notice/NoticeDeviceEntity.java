@@ -1,4 +1,4 @@
-package com.dontforget.dontforget.infra.notice;
+package com.dontforget.dontforget.infra.jpa.notice;
 
 import com.dontforget.dontforget.domain.notice.DeviceStatus;
 import jakarta.persistence.Column;

@@ -1,6 +1,6 @@
-package com.dontforget.dontforget.infra.anniversary.repository;
+package com.dontforget.dontforget.infra.jpa.anniversary.repository;
 
-import com.dontforget.dontforget.infra.anniversary.AnniversaryEntity;
+import com.dontforget.dontforget.infra.jpa.anniversary.AnniversaryEntity;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

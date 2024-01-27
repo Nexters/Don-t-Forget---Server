@@ -1,7 +1,7 @@
 package com.dontforget.dontforget.infra.mapper;
 
 import com.dontforget.dontforget.domain.notice.Notice;
-import com.dontforget.dontforget.infra.notice.NoticeEntity;
+import com.dontforget.dontforget.infra.jpa.notice.NoticeEntity;
 import org.springframework.stereotype.Component;
 
 @Component

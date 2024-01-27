@@ -1,11 +1,11 @@
 package com.dontforget.dontforget.config;
 
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
-import com.dontforget.dontforget.infra.anniversary.repository.AnniversaryEntityRepository;
-import com.dontforget.dontforget.infra.anniversary.repository.AnniversaryRepositoryImpl;
+import com.dontforget.dontforget.infra.jpa.anniversary.repository.AnniversaryEntityRepository;
+import com.dontforget.dontforget.infra.jpa.AnniversaryRepositoryImpl;
 import com.dontforget.dontforget.infra.mapper.AnniversaryMapper;
 import com.dontforget.dontforget.infra.mapper.NoticeMapper;
-import com.dontforget.dontforget.infra.notice.repository.NoticeEntityRepository;
+import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 

@@ -12,8 +12,8 @@ import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.anniversary.service.CreateAnniversary;
 import com.dontforget.dontforget.domain.notice.NoticeType;
-import com.dontforget.dontforget.infra.notice.NoticeEntity;
-import com.dontforget.dontforget.infra.notice.repository.NoticeEntityRepository;
+import com.dontforget.dontforget.infra.jpa.notice.NoticeEntity;
+import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
