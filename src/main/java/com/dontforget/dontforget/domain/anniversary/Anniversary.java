@@ -1,6 +1,6 @@
 package com.dontforget.dontforget.domain.anniversary;
 
-import com.dontforget.dontforget.app.anniversary.application.service.CalendarCalculator;
+import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.notice.Notice;
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import lombok.Getter;

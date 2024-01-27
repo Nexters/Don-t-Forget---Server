@@ -1,10 +1,10 @@
 package com.dontforget.dontforget.domain;
 
 import autoparams.AutoSource;
-import com.dontforget.dontforget.app.anniversary.application.query.CreateAnniversaryQuery;
-import com.dontforget.dontforget.app.anniversary.application.service.CalendarCalculator;
-import com.dontforget.dontforget.app.anniversary.application.service.CreateAnniversary;
-import com.dontforget.dontforget.app.anniversary.application.service.KoreanLunarCalendarCalculator;
+import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
+import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
+import com.dontforget.dontforget.domain.anniversary.service.CreateAnniversary;
+import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;

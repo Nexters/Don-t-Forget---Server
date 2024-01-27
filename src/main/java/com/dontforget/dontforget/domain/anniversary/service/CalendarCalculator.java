@@ -1,6 +1,7 @@
-package com.dontforget.dontforget.app.anniversary.application.service;
+package com.dontforget.dontforget.domain.anniversary.service;
 
 import com.dontforget.dontforget.common.DomainService;
+import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;

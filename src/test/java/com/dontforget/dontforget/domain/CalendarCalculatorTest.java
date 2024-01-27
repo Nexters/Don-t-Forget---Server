@@ -1,7 +1,7 @@
 package com.dontforget.dontforget.domain;
 
-import com.dontforget.dontforget.app.anniversary.application.service.CalendarCalculator;
-import com.dontforget.dontforget.app.anniversary.application.service.KoreanLunarCalendarCalculator;
+import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
+import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

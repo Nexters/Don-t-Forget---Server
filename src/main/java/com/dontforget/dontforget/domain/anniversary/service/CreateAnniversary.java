@@ -1,6 +1,6 @@
-package com.dontforget.dontforget.app.anniversary.application.service;
+package com.dontforget.dontforget.domain.anniversary.service;
 
-import com.dontforget.dontforget.app.anniversary.application.query.CreateAnniversaryQuery;
+import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
 import com.dontforget.dontforget.common.DomainService;
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;

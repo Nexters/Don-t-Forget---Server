@@ -1,4 +1,4 @@
-package com.dontforget.dontforget.app.anniversary.application.query;
+package com.dontforget.dontforget.domain.anniversary.query;
 
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import lombok.Getter;

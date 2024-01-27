@@ -1,6 +1,6 @@
 package com.dontforget.dontforget.app.anniversary.api.request;
 
-import com.dontforget.dontforget.app.anniversary.application.query.CreateAnniversaryQuery;
+import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

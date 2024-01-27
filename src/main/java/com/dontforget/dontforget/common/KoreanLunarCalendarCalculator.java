@@ -1,6 +1,4 @@
-package com.dontforget.dontforget.app.anniversary.application.service;
-
-import com.dontforget.dontforget.common.DomainService;
+package com.dontforget.dontforget.common;
 
 import java.time.LocalDate;
 

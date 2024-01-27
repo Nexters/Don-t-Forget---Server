@@ -1,7 +1,7 @@
 package com.dontforget.dontforget.app.anniversary.application;
 
-import com.dontforget.dontforget.app.anniversary.application.query.CreateAnniversaryQuery;
-import com.dontforget.dontforget.app.anniversary.application.service.CreateAnniversary;
+import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
+import com.dontforget.dontforget.domain.anniversary.service.CreateAnniversary;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
