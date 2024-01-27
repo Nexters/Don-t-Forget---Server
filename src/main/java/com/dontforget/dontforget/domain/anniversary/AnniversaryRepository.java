@@ -9,4 +9,6 @@ public interface AnniversaryRepository {
     Long save(final Anniversary anniversary);
 
     List<AnniversaryEntity> findByDeviceUuidOrderByRecentDate(final String deviceId);
+
+    void update(final Anniversary anniversary);
 }

@@ -66,4 +66,12 @@ public class Anniversary {
             .map(it -> new Notice(null, it))
             .toList();
     }
+
+    public void update(String title, LocalDate date, String type, List<NoticeType> noticeTypes, String content, CalendarCalculator calendarCalculator) {
+        this.title = title;
+        this.lunarDate = calendarCalculator.calculateLunarDate(date, type);
+        this.solarDate = calendarCalculator.calculateSolarDate(date, type);
+        this.notices = calculateNotice(noticeTypes);
+        this.content = content;
+    }
 }

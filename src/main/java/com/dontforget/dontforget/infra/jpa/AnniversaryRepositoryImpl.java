@@ -62,4 +62,19 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
     public List<AnniversaryEntity> findByDeviceUuidOrderByRecentDate(final String deviceId) {
         return  anniversaryEntityRepository.findByDeviceUuidOrderByRecentDate(deviceId);
     }
+
+    @Override
+    public void update(final Anniversary anniversary) {
+        final AnniversaryEntity anniversaryEntity = anniversaryMapper.toEntity(anniversary);
+        anniversaryEntityRepository.save(anniversaryEntity);
+
+        noticeEntityRepository.deleteByAnniversaryId(anniversary.getId());
+        noticeEntityRepository.flush();
+
+        final List<NoticeEntity> noticeEntities = anniversary.getNotices()
+            .stream()
+            .map(it -> noticeMapper.toEntity(it,anniversaryEntity.getId()))
+            .toList();
+        noticeEntityRepository.saveAll(noticeEntities);
+    }
 }
