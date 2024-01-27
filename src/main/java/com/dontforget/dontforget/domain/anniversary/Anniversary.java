@@ -1,43 +1,69 @@
 package com.dontforget.dontforget.domain.anniversary;
 
+import com.dontforget.dontforget.app.anniversary.application.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.notice.Notice;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import com.dontforget.dontforget.domain.notice.NoticeType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class Anniversary {
 
-  private Long id;
+    private Long id;
 
-  private String title;
+    private String title;
 
-  private String content;
+    private String content;
 
-  private String deviceUuid;
+    private String deviceUuid;
 
-  private LocalDateTime lunarDate;
+    private LocalDate lunarDate;
 
-  private LocalDateTime solarDate;
+    private LocalDate solarDate;
 
-  private List<Notice> notices = new ArrayList<>();
+    private List<Notice> notices = new ArrayList<>();
 
-  public Anniversary(Long id, String title, String content, String deviceUuid,
-      LocalDateTime lunarDate, LocalDateTime solarDate, List<Notice> notices) {
-    this.id = id;
-    this.title = title;
-    this.content = content;
-    this.deviceUuid = deviceUuid;
-    this.lunarDate = lunarDate;
-    this.solarDate = solarDate;
-    this.notices = notices;
-  }
+    public Anniversary(Long id, String title, String content, String deviceUuid,
+                       LocalDate lunarDate, LocalDate solarDate, List<Notice> notices
+    ) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.deviceUuid = deviceUuid;
+        this.lunarDate = lunarDate;
+        this.solarDate = solarDate;
+        this.notices = notices;
+    }
 
-  public Anniversary(String title, String content, String deviceUuid, LocalDateTime lunarDate,
-      LocalDateTime solarDate, List<Notice> notices) {
-    this(null, title, content, deviceUuid, lunarDate, solarDate, notices);
-  }
+    public Anniversary(String title, String content, String deviceUuid,
+                       LocalDate lunarDate, LocalDate solarDate, List<Notice> notices
+    ) {
+        this(null, title, content, deviceUuid, lunarDate, solarDate, notices);
+    }
+
+    public static Anniversary create(
+            String deviceUuid, String title, LocalDate date,
+            String content, String type, List<NoticeType> alarmSchedule,
+            CalendarCalculator calendarCalculator
+    ) {
+        return new Anniversary(
+                title,
+                content,
+                deviceUuid,
+                calendarCalculator.calculateLunarDate(date, type),
+                calendarCalculator.calculateSolarDate(date, type),
+                calculateNotice(alarmSchedule)
+        );
+    }
+
+    private static List<Notice> calculateNotice(final List<NoticeType> alarmSchedule) {
+        return alarmSchedule.stream()
+                .map(it -> new Notice(null, it))
+                .toList();
+    }
 }
