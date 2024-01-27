@@ -3,12 +3,12 @@ package com.dontforget.dontforget.domain;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import autoparams.AutoSource;
-import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryUpdateRequest;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
 import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
+import com.dontforget.dontforget.domain.anniversary.query.UpdateAnniversaryQuery;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.anniversary.service.CreateAnniversary;
 import com.dontforget.dontforget.domain.anniversary.service.UpdateAnniversary;
@@ -30,7 +30,6 @@ class UpdateAnniversaryTest {
 
     @Autowired
     private AnniversaryRepository anniversaryRepository;
-
 
     @DisplayName("기념일을 정상적으로 수정하면, 그에 따라 알림이 정상적으로 수정된다.")
     @ParameterizedTest
@@ -56,17 +55,17 @@ class UpdateAnniversaryTest {
             calculator);
         final Long anniversaryId = createAnniversary.create(query);
 
-        final AnniversaryUpdateRequest updateQuery = new AnniversaryUpdateRequest(
-            updatedTitle, updatedDate, "solar", updatedNotices, updatedContent
+        final UpdateAnniversaryQuery updateQuery = new UpdateAnniversaryQuery(
+            anniversaryId, updatedTitle, updatedDate, "solar", updatedNotices, updatedContent
         );
         final UpdateAnniversary sut = new UpdateAnniversary(anniversaryRepository, calculator);
 
         // when
-        sut.updateAnniversary(anniversaryId, updateQuery);
+        sut.updateAnniversary(updateQuery);
 
         // then
         final Anniversary anniversary = anniversaryRepository.findById(anniversaryId);
-        
+
         assertThat(anniversary.getTitle()).isEqualTo(updatedTitle);
         assertThat(anniversary.getContent()).isEqualTo(updatedContent);
         assertThat(anniversary.getLunarDate()).isEqualTo(

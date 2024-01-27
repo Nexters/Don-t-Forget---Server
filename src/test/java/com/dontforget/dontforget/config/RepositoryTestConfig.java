@@ -31,9 +31,9 @@ public class RepositoryTestConfig {
     AnniversaryMapper anniversaryMapper() {
         return new AnniversaryMapper();
     }
+
     @Bean
     NoticeMapper noticeMapper() {
         return new NoticeMapper();
     }
-
 }

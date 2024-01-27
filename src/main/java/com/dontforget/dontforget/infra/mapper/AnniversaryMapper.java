@@ -30,4 +30,16 @@ public class AnniversaryMapper {
             notices
         );
     }
+
+    public Anniversary toDomain(final AnniversaryEntity anniversaryEntity) {
+        return new Anniversary(
+            anniversaryEntity.getId(),
+            anniversaryEntity.getTitle(),
+            anniversaryEntity.getContent(),
+            anniversaryEntity.getDeviceUuid(),
+            anniversaryEntity.getLunarDate(),
+            anniversaryEntity.getSolarDate(),
+            null
+        );
+    }
 }

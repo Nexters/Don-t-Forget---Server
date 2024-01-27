@@ -1,6 +1,5 @@
 package com.dontforget.dontforget.domain.anniversary;
 
-import com.dontforget.dontforget.infra.jpa.anniversary.AnniversaryEntity;
 import java.util.List;
 
 public interface AnniversaryRepository {
@@ -8,7 +7,7 @@ public interface AnniversaryRepository {
 
     Long save(final Anniversary anniversary);
 
-    List<AnniversaryEntity> findByDeviceUuidOrderByRecentDate(final String deviceId);
+    List<Anniversary> findByDeviceUuidOrderByRecentDate(final String deviceId);
 
     void update(final Anniversary anniversary);
 

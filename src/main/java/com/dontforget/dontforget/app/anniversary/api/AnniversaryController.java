@@ -57,7 +57,8 @@ public class AnniversaryController {
         @PathVariable final Long anniversaryId,
         @RequestBody final AnniversaryUpdateRequest request
     ) {
-        anniversaryApplication.updateAnniversary(anniversaryId,request);
+
+        anniversaryApplication.updateAnniversary(request.toQuery(anniversaryId));
 
         return ResponseEntity.ok().build();
     }

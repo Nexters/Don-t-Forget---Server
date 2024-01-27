@@ -1,9 +1,10 @@
 package com.dontforget.dontforget.app.anniversary.application;
 
-import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryUpdateRequest;
 import com.dontforget.dontforget.app.anniversary.api.response.AnniversaryDetailResponse;
 import com.dontforget.dontforget.app.anniversary.api.response.AnniversaryListResponse;
+import com.dontforget.dontforget.domain.anniversary.Anniversary;
 import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
+import com.dontforget.dontforget.domain.anniversary.query.UpdateAnniversaryQuery;
 import com.dontforget.dontforget.domain.anniversary.service.CreateAnniversary;
 import com.dontforget.dontforget.domain.anniversary.service.DeleteAnniversary;
 import com.dontforget.dontforget.domain.anniversary.service.ReadAnniversary;
@@ -28,16 +29,35 @@ public class AnniversaryApplication {
     }
 
     public AnniversaryDetailResponse getAnniversary(final Long anniversaryId) {
-        return readAnniversary.getAnniversary(anniversaryId);
+        final Anniversary anniversary = readAnniversary.getAnniversary(anniversaryId);
+
+        return new AnniversaryDetailResponse(
+            anniversary.getId(),
+            anniversary.getTitle(),
+            anniversary.getLunarDate(),
+            anniversary.getSolarDate(),
+            anniversary.getNotices()
+                .stream()
+                .map(it -> it.getNoticeType().toString()).toList(),
+            anniversary.getContent(),
+            anniversary.getDeviceUuid()
+        );
     }
 
     public List<AnniversaryListResponse> getAnniversaryList(final String deviceId) {
-        return readAnniversary.getAnniversaryList(deviceId);
+        return readAnniversary.getAnniversaryList(deviceId).stream()
+            .map(it -> new AnniversaryListResponse(
+                it.getId(),
+                it.getTitle(),
+                it.getLunarDate(),
+                it.getSolarDate()
+            ))
+            .toList();
     }
 
     @Transactional
-    public void updateAnniversary(final Long anniversaryId, final AnniversaryUpdateRequest request) {
-        updateAnniversary.updateAnniversary(anniversaryId, request);
+    public void updateAnniversary(final UpdateAnniversaryQuery request) {
+        updateAnniversary.updateAnniversary(request);
     }
 
     @Transactional

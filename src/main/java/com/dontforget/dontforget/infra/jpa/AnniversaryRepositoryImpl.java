@@ -28,7 +28,6 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
         this.noticeMapper = noticeMapper;
     }
 
-
     @Override
     public Long save(final Anniversary anniversary) {
         final AnniversaryEntity anniversaryEntity = anniversaryMapper.toEntity(anniversary);
@@ -59,8 +58,11 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
     }
 
     @Override
-    public List<AnniversaryEntity> findByDeviceUuidOrderByRecentDate(final String deviceId) {
-        return  anniversaryEntityRepository.findByDeviceUuidOrderByRecentDate(deviceId);
+    public List<Anniversary> findByDeviceUuidOrderByRecentDate(final String deviceId) {
+          return anniversaryEntityRepository.findByDeviceUuidOrderByRecentDate(deviceId)
+              .stream()
+              .map(anniversaryMapper::toDomain)
+              .toList();
     }
 
     @Override
