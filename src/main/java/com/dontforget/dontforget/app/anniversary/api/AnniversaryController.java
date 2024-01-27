@@ -2,7 +2,10 @@ package com.dontforget.dontforget.app.anniversary.api;
 
 import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryCreateRequest;
 import com.dontforget.dontforget.app.anniversary.api.response.AnniversaryDetailResponse;
+import com.dontforget.dontforget.app.anniversary.api.response.AnniversaryListResponse;
 import com.dontforget.dontforget.app.anniversary.application.AnniversaryApplication;
+import java.net.URI;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,5 +38,14 @@ public class AnniversaryController {
         final AnniversaryDetailResponse anniversary = anniversaryApplication.getAnniversary(anniversaryId);
 
         return ResponseEntity.ok(anniversary);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AnniversaryListResponse>> getAnniversaryList(
+        @RequestHeader("deviceId") final String deviceId
+    ) {
+        final List<AnniversaryListResponse> anniversaryList = anniversaryApplication.getAnniversaryList(deviceId);
+
+        return ResponseEntity.ok(anniversaryList);
     }
 }

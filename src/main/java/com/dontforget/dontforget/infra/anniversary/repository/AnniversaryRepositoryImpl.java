@@ -56,4 +56,9 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
 
         return anniversaryMapper.toDomain(anniversaryEntity, notices);
     }
+
+    @Override
+    public List<AnniversaryEntity> findByDeviceUuidOrderByRecentDate(final String deviceId) {
+        return  anniversaryEntityRepository.findByDeviceUuidOrderByRecentDate(deviceId);
+    }
 }

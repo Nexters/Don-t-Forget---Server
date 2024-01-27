@@ -70,4 +70,49 @@ class AnniversaryControllerTest extends AcceptanceTest {
         // then
         assertThat(getResponse.statusCode()).isEqualTo(OK.value());
     }
+
+
+    @Test
+    @DisplayName("기념일이 정상적으로 리스트 조회된다.")
+    void sut_get_anniversary_list() {
+        // given
+        final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
+            "생일",
+            LocalDate.of(2000, 2,1), "hello", "solar", List.of(NoticeType.D_DAY)
+        );
+        final AnniversaryCreateRequest request2 = new AnniversaryCreateRequest(
+            "생일",
+            LocalDate.of(2000, 5,21), "hello", "solar", List.of(NoticeType.D_DAY)
+        );
+
+        RestAssured
+            .given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header("deviceId", "deviceId")
+            .body(request).log().all()
+            .when().post("/api/anniversary/")
+            .then().log().all()
+            .extract();
+
+        RestAssured
+            .given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header("deviceId", "deviceId")
+            .body(request2).log().all()
+            .when().post("/api/anniversary/")
+            .then().log().all()
+            .extract();
+
+        // when
+        final ExtractableResponse<Response> getResponse = RestAssured
+            .given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header("deviceId", "deviceId")
+            .when().get("/api/anniversary/")
+            .then().log().all()
+            .extract();
+
+        // then
+        assertThat(getResponse.statusCode()).isEqualTo(OK.value());
+    }
 }
