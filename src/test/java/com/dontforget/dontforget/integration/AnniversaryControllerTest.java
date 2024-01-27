@@ -115,4 +115,40 @@ class AnniversaryControllerTest extends AcceptanceTest {
         // then
         assertThat(getResponse.statusCode()).isEqualTo(OK.value());
     }
+
+    @Test
+    @DisplayName("기념일이 정상적으로 수정된다.")
+    void sut_update_anniversary() {
+        // given
+        final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
+            "생일",
+            LocalDate.of(2000, 2,1), "hello",
+            "solar", List.of(NoticeType.D_DAY)
+        );
+        final String anniversaryId = RestAssured
+            .given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header("deviceId", "deviceId")
+            .body(request).log().all()
+            .when().post("/api/anniversary/")
+            .then().log().all()
+            .extract().header("Location").split("/")[2];
+        final AnniversaryCreateRequest updateRequest = new AnniversaryCreateRequest(
+            "생일",
+            LocalDate.of(2000, 3,23), "hello2",
+            "solar", List.of(NoticeType.ONE_MONTH, NoticeType.ONE_DAYS)
+        );
+
+        // when
+        final ExtractableResponse<Response> response = RestAssured
+            .given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(updateRequest).log().all()
+            .when().put("/api/anniversary/" + anniversaryId)
+            .then().log().all()
+            .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(OK.value());
+    }
 }

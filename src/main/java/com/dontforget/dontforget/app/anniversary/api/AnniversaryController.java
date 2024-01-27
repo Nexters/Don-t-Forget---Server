@@ -1,6 +1,7 @@
 package com.dontforget.dontforget.app.anniversary.api;
 
 import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryCreateRequest;
+import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryUpdateRequest;
 import com.dontforget.dontforget.app.anniversary.api.response.AnniversaryDetailResponse;
 import com.dontforget.dontforget.app.anniversary.api.response.AnniversaryListResponse;
 import com.dontforget.dontforget.app.anniversary.application.AnniversaryApplication;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,5 +49,15 @@ public class AnniversaryController {
         final List<AnniversaryListResponse> anniversaryList = anniversaryApplication.getAnniversaryList(deviceId);
 
         return ResponseEntity.ok(anniversaryList);
+    }
+
+    @PutMapping("/{anniversaryId}")
+    public ResponseEntity<Void> updateAnniversary(
+        @PathVariable final Long anniversaryId,
+        @RequestBody final AnniversaryUpdateRequest request
+    ) {
+        anniversaryApplication.updateAnniversary(anniversaryId,request);
+
+        return ResponseEntity.ok().build();
     }
 }
