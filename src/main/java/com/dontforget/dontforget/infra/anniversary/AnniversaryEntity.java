@@ -1,18 +1,14 @@
 package com.dontforget.dontforget.infra.anniversary;
 
-import com.dontforget.dontforget.domain.anniversary.Anniversary;
-import com.dontforget.dontforget.domain.notice.Notice;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -55,29 +51,5 @@ public class AnniversaryEntity {
         LocalDate lunarDate, LocalDate solarDate
     ) {
         this(null, title, content, deviceUuid, lunarDate, solarDate);
-    }
-
-
-    public Anniversary toDomain(final List<Notice> notices) {
-        return new Anniversary(
-            this.id,
-            this.title,
-            this.content,
-            this.deviceUuid,
-            this.lunarDate,
-            this.solarDate,
-            notices
-        );
-    }
-
-    public static AnniversaryEntity from(final Anniversary anniversary) {
-        return new AnniversaryEntity(
-            anniversary.getId(),
-            anniversary.getTitle(),
-            anniversary.getContent(),
-            anniversary.getDeviceUuid(),
-            anniversary.getLunarDate(),
-            anniversary.getSolarDate()
-        );
     }
 }

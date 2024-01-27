@@ -1,6 +1,5 @@
 package com.dontforget.dontforget.infra.notice;
 
-import com.dontforget.dontforget.domain.notice.Notice;
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,29 +35,5 @@ public class NoticeEntity {
 
     public NoticeEntity(Long anniversaryId, NoticeType noticeType) {
         this(null, anniversaryId, noticeType);
-    }
-
-    public static NoticeEntity of(final Notice notice, final Long anniversaryId) {
-        return new NoticeEntity(
-            notice.getId(),
-            anniversaryId,
-            notice.getNoticeType()
-        );
-    }
-
-    public Notice toDomain() {
-        return new Notice(
-            this.id,
-            this.anniversaryId,
-            this.noticeType
-        );
-    }
-
-    public static NoticeEntity from(final Notice notice) {
-        return new NoticeEntity(
-            notice.getId(),
-            notice.getAnniversaryId(),
-            notice.getNoticeType()
-        );
     }
 }
