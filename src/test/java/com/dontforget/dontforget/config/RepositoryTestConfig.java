@@ -9,14 +9,15 @@ import org.springframework.context.annotation.Bean;
 
 @TestConfiguration
 public class RepositoryTestConfig {
+
     @Bean
     public AnniversaryRepository anniversaryRepository(
-            AnniversaryEntityRepository anniversaryEntityRepository,
-            NoticeEntityRepository noticeEntityRepository
+        AnniversaryEntityRepository anniversaryEntityRepository,
+        NoticeEntityRepository noticeEntityRepository
     ) {
         return new AnniversaryRepositoryImpl(
-                anniversaryEntityRepository,
-                noticeEntityRepository
+            anniversaryEntityRepository,
+            noticeEntityRepository
         );
     }
 }

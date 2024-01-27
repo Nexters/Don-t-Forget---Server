@@ -17,14 +17,14 @@ import lombok.NoArgsConstructor;
 @Entity
 public class NoticeDeviceEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column(name = "device_uuid", nullable = false)
-  private String deviceUuid;
+    @Column(name = "device_uuid", nullable = false)
+    private String deviceUuid;
 
-  @Column(name = "device_status", nullable = false)
-  @Enumerated(EnumType.STRING)
-  private DeviceStatus deviceStatus;
+    @Column(name = "device_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private DeviceStatus deviceStatus;
 }

@@ -15,13 +15,13 @@ public class CreateAnniversary {
 
     public Long create(final CreateAnniversaryQuery query) {
         final Anniversary anniversary = Anniversary.create(
-                query.getDeviceUuid(),
-                query.getTitle(),
-                query.getDate(),
-                query.getContent(),
-                query.getType(),
-                query.getAlarmSchedule(),
-                calendarCalculator
+            query.getDeviceUuid(),
+            query.getTitle(),
+            query.getDate(),
+            query.getContent(),
+            query.getType(),
+            query.getAlarmSchedule(),
+            calendarCalculator
         );
 
         return anniversaryRepository.save(anniversary);

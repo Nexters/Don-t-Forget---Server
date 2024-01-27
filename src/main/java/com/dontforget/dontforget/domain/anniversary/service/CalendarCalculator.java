@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @DomainService
 @RequiredArgsConstructor
 public class CalendarCalculator {
+
     private static final String LUNAR = "lunar";
     private static final String SOLAR = "solar";
 

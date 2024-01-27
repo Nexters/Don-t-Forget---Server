@@ -26,8 +26,8 @@ public class AnniversaryCreateRequest {
 
     public CreateAnniversaryQuery toQuery(final String deviceUuid) {
         return new CreateAnniversaryQuery(
-                deviceUuid, title, date,
-                content, type, alarmSchedule
+            deviceUuid, title, date,
+            content, type, alarmSchedule
         );
     }
 }

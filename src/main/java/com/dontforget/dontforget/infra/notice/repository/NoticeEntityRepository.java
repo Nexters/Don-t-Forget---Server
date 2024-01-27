@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface NoticeEntityRepository extends JpaRepository<NoticeEntity, Long> {
+
     List<NoticeEntity> findAllByAnniversaryId(final Long anniversaryId);
 }

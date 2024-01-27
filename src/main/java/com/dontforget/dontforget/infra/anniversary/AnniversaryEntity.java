@@ -39,8 +39,8 @@ public class AnniversaryEntity {
     private LocalDate solarDate;
 
     public AnniversaryEntity(
-            Long id, String title, String content,
-            String deviceUuid, LocalDate lunarDate, LocalDate solarDate
+        Long id, String title, String content,
+        String deviceUuid, LocalDate lunarDate, LocalDate solarDate
     ) {
         this.id = id;
         this.title = title;
@@ -51,8 +51,8 @@ public class AnniversaryEntity {
     }
 
     public AnniversaryEntity(
-            String title, String content, String deviceUuid,
-            LocalDate lunarDate, LocalDate solarDate
+        String title, String content, String deviceUuid,
+        LocalDate lunarDate, LocalDate solarDate
     ) {
         this(null, title, content, deviceUuid, lunarDate, solarDate);
     }
@@ -60,24 +60,24 @@ public class AnniversaryEntity {
 
     public Anniversary toDomain(final List<Notice> notices) {
         return new Anniversary(
-                this.id,
-                this.title,
-                this.content,
-                this.deviceUuid,
-                this.lunarDate,
-                this.solarDate,
-                notices
+            this.id,
+            this.title,
+            this.content,
+            this.deviceUuid,
+            this.lunarDate,
+            this.solarDate,
+            notices
         );
     }
 
     public static AnniversaryEntity from(final Anniversary anniversary) {
         return new AnniversaryEntity(
-                anniversary.getId(),
-                anniversary.getTitle(),
-                anniversary.getContent(),
-                anniversary.getDeviceUuid(),
-                anniversary.getLunarDate(),
-                anniversary.getSolarDate()
+            anniversary.getId(),
+            anniversary.getTitle(),
+            anniversary.getContent(),
+            anniversary.getDeviceUuid(),
+            anniversary.getLunarDate(),
+            anniversary.getSolarDate()
         );
     }
 }

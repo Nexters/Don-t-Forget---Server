@@ -21,8 +21,8 @@ public class AnniversaryController {
 
     @PostMapping
     public ResponseEntity<Void> createAnniversary(
-            @RequestHeader("deviceId") final String deviceId,
-            @RequestBody final AnniversaryCreateRequest request
+        @RequestHeader("deviceId") final String deviceId,
+        @RequestBody final AnniversaryCreateRequest request
     ) {
         final Long id = anniversaryApplication.create(request.toQuery(deviceId));
 

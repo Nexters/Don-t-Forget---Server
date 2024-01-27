@@ -10,13 +10,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DisplayName("Notice 도메인 테스트")
 class NoticeTest {
+
     @ParameterizedTest
     @AutoSource
     @DisplayName("Notice 생성 테스트")
     void sut_create_notice_success(
-            final Long id,
-            final Long anniversaryId,
-            final NoticeType type
+        final Long id,
+        final Long anniversaryId,
+        final NoticeType type
     ) {
         // given
         // when

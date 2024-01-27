@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AnniversaryApplication {
 
-  private final CreateAnniversary createAnniversary;
+    private final CreateAnniversary createAnniversary;
 
-  @Transactional
-  public Long create(CreateAnniversaryQuery query) {
-    return createAnniversary.create(query);
-  }
+    @Transactional
+    public Long create(CreateAnniversaryQuery query) {
+        return createAnniversary.create(query);
+    }
 }

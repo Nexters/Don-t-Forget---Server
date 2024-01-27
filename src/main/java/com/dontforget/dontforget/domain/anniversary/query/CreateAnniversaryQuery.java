@@ -11,22 +11,22 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateAnniversaryQuery {
 
-  private String deviceUuid;
-  private String title;
-  private LocalDate date;
-  private String content;
-  private String type;
-  private List<NoticeType> alarmSchedule;
+    private String deviceUuid;
+    private String title;
+    private LocalDate date;
+    private String content;
+    private String type;
+    private List<NoticeType> alarmSchedule;
 
-  public CreateAnniversaryQuery(
-          String deviceUuid, String title, LocalDate date,
-          String content, String type, List<NoticeType> alarmSchedule
-  ) {
-    this.deviceUuid = deviceUuid;
-    this.title = title;
-    this.date = date;
-    this.content = content;
-    this.type = type;
-    this.alarmSchedule = alarmSchedule;
-  }
+    public CreateAnniversaryQuery(
+        String deviceUuid, String title, LocalDate date,
+        String content, String type, List<NoticeType> alarmSchedule
+    ) {
+        this.deviceUuid = deviceUuid;
+        this.title = title;
+        this.date = date;
+        this.content = content;
+        this.type = type;
+        this.alarmSchedule = alarmSchedule;
+    }
 }

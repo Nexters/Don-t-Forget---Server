@@ -17,48 +17,48 @@ import lombok.NoArgsConstructor;
 @Entity
 public class NoticeEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column(name = "anniversary_id", nullable = false)
-  private Long anniversaryId;
+    @Column(name = "anniversary_id", nullable = false)
+    private Long anniversaryId;
 
-  @Column(name = "notice_type", nullable = false)
-  @Enumerated
-  private NoticeType noticeType;
+    @Column(name = "notice_type", nullable = false)
+    @Enumerated
+    private NoticeType noticeType;
 
-  public NoticeEntity(Long id, Long anniversaryId, NoticeType noticeType) {
-    this.id = id;
-    this.anniversaryId = anniversaryId;
-    this.noticeType = noticeType;
-  }
+    public NoticeEntity(Long id, Long anniversaryId, NoticeType noticeType) {
+        this.id = id;
+        this.anniversaryId = anniversaryId;
+        this.noticeType = noticeType;
+    }
 
-  public NoticeEntity(Long anniversaryId, NoticeType noticeType) {
-    this(null,anniversaryId, noticeType);
-  }
+    public NoticeEntity(Long anniversaryId, NoticeType noticeType) {
+        this(null, anniversaryId, noticeType);
+    }
 
-  public static NoticeEntity of(final Notice notice, final Long anniversaryId) {
-    return new NoticeEntity(
+    public static NoticeEntity of(final Notice notice, final Long anniversaryId) {
+        return new NoticeEntity(
             notice.getId(),
             anniversaryId,
             notice.getNoticeType()
-    );
-  }
+        );
+    }
 
-  public Notice toDomain() {
-    return new Notice(
+    public Notice toDomain() {
+        return new Notice(
             this.id,
             this.anniversaryId,
             this.noticeType
-    );
-  }
+        );
+    }
 
-  public static NoticeEntity from(final Notice notice) {
-    return new NoticeEntity(
+    public static NoticeEntity from(final Notice notice) {
+        return new NoticeEntity(
             notice.getId(),
             notice.getAnniversaryId(),
             notice.getNoticeType()
-    );
-  }
+        );
+    }
 }

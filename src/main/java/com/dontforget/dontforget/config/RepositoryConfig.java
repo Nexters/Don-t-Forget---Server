@@ -12,12 +12,12 @@ public class RepositoryConfig {
 
     @Bean
     public AnniversaryRepository anniversaryRepository(
-            AnniversaryEntityRepository anniversaryEntityRepository,
-            NoticeEntityRepository noticeEntityRepository
+        AnniversaryEntityRepository anniversaryEntityRepository,
+        NoticeEntityRepository noticeEntityRepository
     ) {
         return new AnniversaryRepositoryImpl(
-                anniversaryEntityRepository,
-                noticeEntityRepository
+            anniversaryEntityRepository,
+            noticeEntityRepository
         );
     }
 }

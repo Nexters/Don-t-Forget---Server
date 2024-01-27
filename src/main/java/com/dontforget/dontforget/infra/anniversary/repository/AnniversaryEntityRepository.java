@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface AnniversaryEntityRepository extends JpaRepository<AnniversaryEntity, Long> {
 
-  Optional<AnniversaryEntity> findById(final Long anniversaryId);
+    Optional<AnniversaryEntity> findById(final Long anniversaryId);
 
-  List<AnniversaryEntity> findAllByDeviceUuid(String deviceUuid);
+    List<AnniversaryEntity> findAllByDeviceUuid(String deviceUuid);
 }

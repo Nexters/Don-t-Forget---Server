@@ -13,12 +13,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 @DisplayName("KoreanLunarCalendarCalculator 테스트")
 class KoreanLunarCalendarCalculatorTest {
+
     @ParameterizedTest
     @CsvSource(value = "2000-03-23:2000-02-18", delimiter = ':')
     @DisplayName("양력일 경우, 음력 날짜로 변환한다.")
     void sut_convert_lunar_date_if_type_is_solar_date(
-            final LocalDate jonghaSolarBirthday,
-            final LocalDate expectedDate
+        final LocalDate jonghaSolarBirthday,
+        final LocalDate expectedDate
     ) {
         // given
         final KoreanLunarCalendarCalculator sut = new KoreanLunarCalendarCalculator();
@@ -35,8 +36,8 @@ class KoreanLunarCalendarCalculatorTest {
     @CsvSource(value = "2000-02-18:2000-03-23", delimiter = ':')
     @DisplayName("음력일 경우, 양력 날짜로 변환한다.")
     void sut_convert_solar_date_if_type_is_lunar_date(
-            final LocalDate lunarDate,
-            final LocalDate expectedDate
+        final LocalDate lunarDate,
+        final LocalDate expectedDate
     ) {
         // given
         final KoreanLunarCalendarCalculator sut = new KoreanLunarCalendarCalculator();
@@ -58,7 +59,7 @@ class KoreanLunarCalendarCalculatorTest {
 
         // when
         assertThatCode(() -> sut.setSolarDate(wrongDate))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("날짜의 범위가 잘못되었습니다.");
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("날짜의 범위가 잘못되었습니다.");
     }
 }

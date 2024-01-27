@@ -29,7 +29,7 @@ public class Anniversary {
     private List<Notice> notices = new ArrayList<>();
 
     public Anniversary(Long id, String title, String content, String deviceUuid,
-                       LocalDate lunarDate, LocalDate solarDate, List<Notice> notices
+        LocalDate lunarDate, LocalDate solarDate, List<Notice> notices
     ) {
         this.id = id;
         this.title = title;
@@ -41,29 +41,29 @@ public class Anniversary {
     }
 
     public Anniversary(String title, String content, String deviceUuid,
-                       LocalDate lunarDate, LocalDate solarDate, List<Notice> notices
+        LocalDate lunarDate, LocalDate solarDate, List<Notice> notices
     ) {
         this(null, title, content, deviceUuid, lunarDate, solarDate, notices);
     }
 
     public static Anniversary create(
-            String deviceUuid, String title, LocalDate date,
-            String content, String type, List<NoticeType> alarmSchedule,
-            CalendarCalculator calendarCalculator
+        String deviceUuid, String title, LocalDate date,
+        String content, String type, List<NoticeType> alarmSchedule,
+        CalendarCalculator calendarCalculator
     ) {
         return new Anniversary(
-                title,
-                content,
-                deviceUuid,
-                calendarCalculator.calculateLunarDate(date, type),
-                calendarCalculator.calculateSolarDate(date, type),
-                calculateNotice(alarmSchedule)
+            title,
+            content,
+            deviceUuid,
+            calendarCalculator.calculateLunarDate(date, type),
+            calendarCalculator.calculateSolarDate(date, type),
+            calculateNotice(alarmSchedule)
         );
     }
 
     private static List<Notice> calculateNotice(final List<NoticeType> alarmSchedule) {
         return alarmSchedule.stream()
-                .map(it -> new Notice(null, it))
-                .toList();
+            .map(it -> new Notice(null, it))
+            .toList();
     }
 }
