@@ -9,6 +9,7 @@ import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,5 +60,12 @@ public class AnniversaryController {
         anniversaryApplication.updateAnniversary(anniversaryId,request);
 
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{anniversaryId}")
+    public ResponseEntity<Void> deleteAnniversary(@PathVariable final Long anniversaryId) {
+        anniversaryApplication.deleteAnniversary(anniversaryId);
+
+        return ResponseEntity.noContent().build();
     }
 }

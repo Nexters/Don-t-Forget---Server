@@ -2,6 +2,7 @@ package com.dontforget.dontforget.integration;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryCreateRequest;
@@ -57,7 +58,8 @@ class AnniversaryControllerTest extends AcceptanceTest {
             .body(request).log().all()
             .when().post("/api/anniversary/")
             .then().log().all()
-            .extract().header("Location").split("/")[2];
+            .extract()
+            .header("Location").split("/")[2];
 
         // when
         final ExtractableResponse<Response> getResponse = RestAssured
@@ -132,7 +134,8 @@ class AnniversaryControllerTest extends AcceptanceTest {
             .body(request).log().all()
             .when().post("/api/anniversary/")
             .then().log().all()
-            .extract().header("Location").split("/")[2];
+            .extract()
+            .header("Location").split("/")[2];
         final AnniversaryCreateRequest updateRequest = new AnniversaryCreateRequest(
             "생일",
             LocalDate.of(2000, 3,23), "hello2",
@@ -150,5 +153,37 @@ class AnniversaryControllerTest extends AcceptanceTest {
 
         // then
         assertThat(response.statusCode()).isEqualTo(OK.value());
+    }
+
+    @Test
+    @DisplayName("기념일이 정상적으로 삭제된다.")
+    void sut_delete_anniversary() {
+        // given
+        final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
+            "생일",
+            LocalDate.of(2000, 2,1), "hello",
+            "solar", List.of(NoticeType.D_DAY)
+        );
+        final String anniversaryId = RestAssured
+            .given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header("deviceId", "deviceId")
+            .body(request).log().all()
+            .when().post("/api/anniversary/")
+            .then().log().all()
+            .extract()
+            .header("Location").split("/")[2];
+
+        // when
+        final ExtractableResponse<Response> response = RestAssured
+            .given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when().delete("/api/anniversary/" + anniversaryId)
+            .then().log().all()
+            .extract();
+
+        // then
+        assertThat(response.statusCode())
+            .isEqualTo(NO_CONTENT.value());
     }
 }
