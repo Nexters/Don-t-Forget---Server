@@ -18,4 +18,8 @@ public class Notice {
     this.anniversaryId = anniversaryId;
     this.noticeType = noticeType;
   }
+
+  public Notice(final Long anniversaryId, final NoticeType noticeType) {
+    this(null, anniversaryId, noticeType);
+  }
 }
