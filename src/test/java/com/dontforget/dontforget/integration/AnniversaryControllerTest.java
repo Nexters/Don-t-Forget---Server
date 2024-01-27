@@ -2,6 +2,7 @@ package com.dontforget.dontforget.integration;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryCreateRequest;
 import com.dontforget.dontforget.domain.notice.NoticeType;
@@ -27,7 +28,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
         );
 
         // when
-        ExtractableResponse<Response> response = RestAssured
+        final ExtractableResponse<Response> response = RestAssured
             .given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("deviceId", "deviceId")
@@ -38,6 +39,35 @@ class AnniversaryControllerTest extends AcceptanceTest {
 
         // then
         assertThat(response.statusCode()).isEqualTo(CREATED.value());
-        assertThat(response.header("Location")).isEqualTo("anniversary/1");
+        assertThat(response.header("Location")).isEqualTo("/anniversary/1");
+    }
+
+    @Test
+    @DisplayName("기념일이 정상적으로 단건 조회된다.")
+    void sut_get_anniversary_detail() {
+        // given
+        final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
+            "생일",
+            LocalDate.of(2000, 3,23), "hello", "solar", List.of(NoticeType.D_DAY)
+        );
+        final String anniversaryId = RestAssured
+            .given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header("deviceId", "deviceId")
+            .body(request).log().all()
+            .when().post("/api/anniversary/")
+            .then().log().all()
+            .extract().header("Location").split("/")[2];
+
+        // when
+        final ExtractableResponse<Response> getResponse = RestAssured
+            .given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when().get("/api/anniversary/" + anniversaryId)
+            .then().log().all()
+            .extract();
+
+        // then
+        assertThat(getResponse.statusCode()).isEqualTo(OK.value());
     }
 }
