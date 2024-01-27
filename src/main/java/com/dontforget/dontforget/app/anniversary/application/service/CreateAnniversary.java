@@ -1,33 +1,29 @@
 package com.dontforget.dontforget.app.anniversary.application.service;
 
-import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryCreateRequest;
-import com.dontforget.dontforget.app.anniversary.application.query.CreateQuery;
-import com.dontforget.dontforget.app.anniversary.application.service.mapper.AnniversaryMapper;
-import com.dontforget.dontforget.infra.anniversary.AnniversaryEntity;
-import com.dontforget.dontforget.infra.anniversary.repository.AnniversaryEntityRepository;
-import com.dontforget.dontforget.infra.notice.repository.NoticeEntityRepository;
+import com.dontforget.dontforget.app.anniversary.application.query.CreateAnniversaryQuery;
+import com.dontforget.dontforget.common.DomainService;
+import com.dontforget.dontforget.domain.anniversary.Anniversary;
+import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@DomainService
 @RequiredArgsConstructor
 public class CreateAnniversary {
 
-  private final AnniversaryEntityRepository anniversaryRepository;
-  private final NoticeEntityRepository noticeRepository;
-  private final AnniversaryMapper mapper;
+    private final AnniversaryRepository anniversaryRepository;
+    private final CalendarCalculator calendarCalculator;
 
-  @Transactional
-  public Long create(CreateQuery query) {
-    AnniversaryEntity savedAnniversary = anniversaryRepository.save(
-        mapper.toAnniversaryEntity(query));
+    public Long create(final CreateAnniversaryQuery query) {
+        final Anniversary anniversary = Anniversary.create(
+                query.getDeviceUuid(),
+                query.getTitle(),
+                query.getDate(),
+                query.getContent(),
+                query.getType(),
+                query.getAlarmSchedule(),
+                calendarCalculator
+        );
 
-    createNotice(query, savedAnniversary);
-    return savedAnniversary.getId();
-  }
-
-  private void createNotice(CreateQuery query, AnniversaryEntity savedAnniversary) {
-    noticeRepository.saveAll(mapper.toNoticeEntities(savedAnniversary.getId(), query));
-  }
+        return anniversaryRepository.save(anniversary);
+    }
 }
