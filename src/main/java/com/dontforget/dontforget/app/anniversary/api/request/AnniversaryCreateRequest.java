@@ -1,6 +1,6 @@
 package com.dontforget.dontforget.app.anniversary.api.request;
 
-import com.dontforget.dontforget.app.anniversary.application.query.CreateQuery;
+import com.dontforget.dontforget.app.anniversary.application.query.CreateAnnivarsaryQuery;
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,8 +30,8 @@ public class AnniversaryCreateRequest {
     this.alarmSchedule = alarmSchedule;
   }
 
-  public CreateQuery toQuery(String deviceUuid) {
-    return new CreateQuery(
+  public CreateAnnivarsaryQuery toQuery(String deviceUuid) {
+    return new CreateAnnivarsaryQuery(
         deviceUuid = deviceUuid,
         title = title,
         date = date,

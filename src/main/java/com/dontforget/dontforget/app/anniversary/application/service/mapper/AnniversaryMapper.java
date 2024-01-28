@@ -1,6 +1,6 @@
 package com.dontforget.dontforget.app.anniversary.application.service.mapper;
 
-import com.dontforget.dontforget.app.anniversary.application.query.CreateQuery;
+import com.dontforget.dontforget.app.anniversary.application.query.CreateAnnivarsaryQuery;
 import com.dontforget.dontforget.infra.anniversary.AnniversaryEntity;
 import com.dontforget.dontforget.infra.notice.NoticeEntity;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AnniversaryMapper {
 
-  public AnniversaryEntity toAnniversaryEntity(CreateQuery query) {
+  public AnniversaryEntity toAnniversaryEntity(CreateAnnivarsaryQuery query) {
     return new AnniversaryEntity(
         query.getTitle(),
         query.getContent(),
@@ -18,7 +18,7 @@ public class AnniversaryMapper {
         query.getDate());
   }
 
-  public List<NoticeEntity> toNoticeEntities(Long anniversaryId, CreateQuery query) {
+  public List<NoticeEntity> toNoticeEntities(Long anniversaryId, CreateAnnivarsaryQuery query) {
     return query.getAlarmSchedule().stream()
         .map(it -> new NoticeEntity(anniversaryId, it))
         .toList();

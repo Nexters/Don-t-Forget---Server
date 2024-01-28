@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateQuery {
+public class CreateAnnivarsaryQuery {
 
   private String deviceUuid;
   private String title;
@@ -17,7 +17,7 @@ public class CreateQuery {
   private String type;
   private List<NoticeType> alarmSchedule;
 
-  public CreateQuery(String deviceUuid, String title, LocalDateTime date, String content,
+  public CreateAnnivarsaryQuery(String deviceUuid, String title, LocalDateTime date, String content,
       String type,
       List<NoticeType> alarmSchedule) {
     this.deviceUuid = deviceUuid;
