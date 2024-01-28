@@ -9,12 +9,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class NoticeDeviceEntity {
 
   @Id
@@ -27,4 +30,10 @@ public class NoticeDeviceEntity {
   @Column(name = "device_status", nullable = false)
   @Enumerated(EnumType.STRING)
   private DeviceStatus deviceStatus;
+
+  @Builder
+  public NoticeDeviceEntity(String deviceUuid, DeviceStatus deviceStatus) {
+    this.deviceUuid = deviceUuid;
+    this.deviceStatus = deviceStatus;
+  }
 }

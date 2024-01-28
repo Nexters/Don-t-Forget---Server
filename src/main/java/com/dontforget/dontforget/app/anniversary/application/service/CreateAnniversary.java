@@ -1,7 +1,6 @@
 package com.dontforget.dontforget.app.anniversary.application.service;
 
-import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryCreateRequest;
-import com.dontforget.dontforget.app.anniversary.application.query.CreateQuery;
+import com.dontforget.dontforget.app.anniversary.application.query.CreateAnnivarsaryQuery;
 import com.dontforget.dontforget.app.anniversary.application.service.mapper.AnniversaryMapper;
 import com.dontforget.dontforget.infra.anniversary.AnniversaryEntity;
 import com.dontforget.dontforget.infra.anniversary.repository.AnniversaryEntityRepository;
@@ -19,7 +18,7 @@ public class CreateAnniversary {
   private final AnniversaryMapper mapper;
 
   @Transactional
-  public Long create(CreateQuery query) {
+  public Long create(CreateAnnivarsaryQuery query) {
     AnniversaryEntity savedAnniversary = anniversaryRepository.save(
         mapper.toAnniversaryEntity(query));
 
@@ -27,7 +26,7 @@ public class CreateAnniversary {
     return savedAnniversary.getId();
   }
 
-  private void createNotice(CreateQuery query, AnniversaryEntity savedAnniversary) {
+  private void createNotice(CreateAnnivarsaryQuery query, AnniversaryEntity savedAnniversary) {
     noticeRepository.saveAll(mapper.toNoticeEntities(savedAnniversary.getId(), query));
   }
 }
