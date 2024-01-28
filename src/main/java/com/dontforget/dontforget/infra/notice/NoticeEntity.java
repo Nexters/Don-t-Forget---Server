@@ -8,12 +8,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class NoticeEntity {
 
   @Id
@@ -27,13 +28,7 @@ public class NoticeEntity {
   @Enumerated
   private NoticeType noticeType;
 
-  public NoticeEntity(Long id, Long anniversaryId, NoticeType noticeType) {
-    this.id = id;
-    this.anniversaryId = anniversaryId;
-    this.noticeType = noticeType;
-  }
-
   public NoticeEntity(Long anniversaryId, NoticeType noticeType) {
-    this(null,anniversaryId, noticeType);
+    this(null, anniversaryId, noticeType);
   }
 }

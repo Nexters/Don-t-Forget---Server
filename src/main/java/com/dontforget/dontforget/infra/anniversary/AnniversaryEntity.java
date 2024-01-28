@@ -8,12 +8,15 @@ import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+
 public class AnniversaryEntity {
 
   @Id
@@ -35,21 +38,7 @@ public class AnniversaryEntity {
   @Column(name = "solar_date", nullable = false)
   private LocalDateTime solarDate;
 
-  public AnniversaryEntity(
-      Long id,
-      String title,
-      String content,
-      String deviceUuid,
-      LocalDateTime lunarDate,
-      LocalDateTime solarDate) {
-    this.id = id;
-    this.title = title;
-    this.content = content;
-    this.deviceUuid = deviceUuid;
-    this.lunarDate = lunarDate;
-    this.solarDate = solarDate;
-  }
-
+  @Builder
   public AnniversaryEntity(
       String title,
       String content,
