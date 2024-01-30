@@ -22,6 +22,9 @@ bin/
 *.iws
 *.iml
 *.ipr
+
+src/main/resources/noticeServiceKey.json
+
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
