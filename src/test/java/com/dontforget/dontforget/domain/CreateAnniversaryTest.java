@@ -4,6 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import autoparams.AutoSource;
+import com.dontforget.dontforget.common.CalenderType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
@@ -33,10 +34,9 @@ class CreateAnniversaryTest {
     @Autowired
     private NoticeEntityRepository noticeEntityRepository;
 
-    @DisplayName("기념일을 정상적으로 생성하면, 그에 따라 알림이 정상적으로 생성된다.")
     @AutoSource
     @ParameterizedTest
-    void sut_create_anniversary_success(
+    void 기념일을_정상적으로_생성하면_그에_따라_알림이_정상적으로_생성된다(
         final String deviceUuid,
         final String title,
         final LocalDate date,
@@ -46,7 +46,7 @@ class CreateAnniversaryTest {
         // given
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(
             deviceUuid, title, date,
-            content, "solar", notices
+            content, CalenderType.SOLAR, notices
         );
         final CalendarCalculator calculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());
@@ -70,10 +70,9 @@ class CreateAnniversaryTest {
         assertThat(anniversary.getContent()).isEqualTo(content);
     }
 
-    @DisplayName("타입(solar, lunar) 이 올바르지 않은 경우, 예외가 발생한다.")
     @ParameterizedTest
     @AutoSource
-    void sut_create_anniversary_fail_when_type_is_invalid(
+    void 타입이_올바르지_않으면_예외가_발생한다(
         final String deviceUuid,
         final String title,
         final LocalDate date,
@@ -81,7 +80,7 @@ class CreateAnniversaryTest {
         final List<NoticeType> notices
     ) {
         // given
-        final String type = "invalid";
+        final CalenderType type = null;
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(
             deviceUuid, title, date,
             content, type, notices

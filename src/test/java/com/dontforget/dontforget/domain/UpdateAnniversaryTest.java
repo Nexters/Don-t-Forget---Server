@@ -1,8 +1,10 @@
 package com.dontforget.dontforget.domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import autoparams.AutoSource;
+import com.dontforget.dontforget.common.CalenderType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
@@ -31,10 +33,9 @@ class UpdateAnniversaryTest {
     @Autowired
     private AnniversaryRepository anniversaryRepository;
 
-    @DisplayName("기념일을 정상적으로 수정하면, 그에 따라 알림이 정상적으로 수정된다.")
     @ParameterizedTest
     @AutoSource
-    void sut_update_anniversary_success(
+    void 기념일을_정상적으로_수정하면_그에_따라_알림이_정상적으로_수정된다(
         final String deviceUuid,
         final String title,
         final LocalDate date,
@@ -46,17 +47,18 @@ class UpdateAnniversaryTest {
         final List<NoticeType> updatedNotices
     ) {
         // given
+        final CalenderType type = CalenderType.SOLAR;
         final CalendarCalculator calculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(
-            deviceUuid, title, date, content, "solar", notices);
+            deviceUuid, title, date, content, type, notices);
 
         final CreateAnniversary createAnniversary = new CreateAnniversary(anniversaryRepository,
             calculator);
         final Long anniversaryId = createAnniversary.create(query);
 
         final UpdateAnniversaryQuery updateQuery = new UpdateAnniversaryQuery(
-            anniversaryId, updatedTitle, updatedDate, "solar", updatedNotices, updatedContent
+            anniversaryId, updatedTitle, updatedDate, type, updatedNotices, updatedContent
         );
         final UpdateAnniversary sut = new UpdateAnniversary(anniversaryRepository, calculator);
 
@@ -66,16 +68,17 @@ class UpdateAnniversaryTest {
         // then
         final Anniversary anniversary = anniversaryRepository.findById(anniversaryId);
 
-        assertThat(anniversary.getTitle()).isEqualTo(updatedTitle);
-        assertThat(anniversary.getContent()).isEqualTo(updatedContent);
-        assertThat(anniversary.getLunarDate()).isEqualTo(
-            calculator.calculateLunarDate(updatedDate, "solar"));
-        assertThat(anniversary.getSolarDate()).isEqualTo(
-            calculator.calculateSolarDate(updatedDate, "solar"));
-
-        assertThat(anniversary.getNotices().stream()
-            .map(Notice::getNoticeType).toList())
-            .usingRecursiveComparison()
-            .isEqualTo(updatedNotices);
+        assertAll(
+            () -> assertThat(anniversary.getTitle()).isEqualTo(updatedTitle),
+            () -> assertThat(anniversary.getContent()).isEqualTo(updatedContent),
+            () -> assertThat(anniversary.getLunarDate()).isEqualTo(
+                calculator.calculateLunarDate(updatedDate, type)),
+            () -> assertThat(anniversary.getSolarDate()).isEqualTo(
+                calculator.calculateSolarDate(updatedDate, type)),
+            () -> assertThat(anniversary.getNotices().stream()
+                .map(Notice::getNoticeType).toList())
+                .usingRecursiveComparison()
+                .isEqualTo(updatedNotices)
+        );
     }
 }

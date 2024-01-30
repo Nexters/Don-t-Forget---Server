@@ -1,25 +1,25 @@
 package com.dontforget.dontforget.domain.anniversary;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import autoparams.AutoSource;
-import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
+import com.dontforget.dontforget.common.CalenderType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
+import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.notice.Notice;
 import com.dontforget.dontforget.domain.notice.NoticeType;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
 
 @DisplayName("Anniversary 도메인 테스트")
 class AnniversaryTest {
 
     @AutoSource
-    @DisplayName("기념일이 정상적으로 생성된다.")
     @ParameterizedTest
-    void sut_create_anniversary(
+    void 기념일이_정상적으로_생성된다(
         final String deviceUuid,
         final String title,
         final LocalDate date,
@@ -27,7 +27,7 @@ class AnniversaryTest {
         final List<NoticeType> alarmSchedule
     ) {
         // given
-        final String type = "solar";
+        final CalenderType type = CalenderType.SOLAR;
         final CalendarCalculator calendarCalculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());
 
@@ -43,14 +43,17 @@ class AnniversaryTest {
         );
 
         // then
-        assertThat(anniversary).isNotNull();
-        assertThat(anniversary.getDeviceUuid()).isEqualTo(deviceUuid);
-        assertThat(anniversary.getTitle()).isEqualTo(title);
-        assertThat(anniversary.getContent()).isEqualTo(content);
-        assertThat(anniversary.getLunarDate()).isEqualTo(
-            calendarCalculator.calculateLunarDate(date, type));
-        assertThat(anniversary.getSolarDate()).isEqualTo(
-            calendarCalculator.calculateSolarDate(date, type));
+
+        assertAll(
+            () -> assertThat(anniversary).isNotNull(),
+            () -> assertThat(anniversary.getDeviceUuid()).isEqualTo(deviceUuid),
+            () -> assertThat(anniversary.getTitle()).isEqualTo(title),
+            () -> assertThat(anniversary.getContent()).isEqualTo(content),
+            () -> assertThat(anniversary.getLunarDate()).isEqualTo(
+                calendarCalculator.calculateLunarDate(date, type)),
+            () -> assertThat(anniversary.getSolarDate()).isEqualTo(
+                calendarCalculator.calculateSolarDate(date, type))
+        );
 
         final List<Notice> notices = alarmSchedule
             .stream()

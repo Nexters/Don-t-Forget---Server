@@ -4,6 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import autoparams.AutoSource;
+import com.dontforget.dontforget.common.CalenderType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
@@ -37,8 +38,7 @@ class DeleteAnniversaryTest {
 
     @ParameterizedTest
     @AutoSource
-    @DisplayName("기념일을 정상적으로 삭제하면, 그에 따라 기념일과 알림이 정상적으로 삭제된다.")
-    void sut_delete_anniversary_success(
+    void 기념일을_정상적으로_삭제하면_그에_따라_기념일과_알림이_정상적으로_삭제된다(
         final String deviceUuid,
         final String title,
         final LocalDate date,
@@ -46,9 +46,10 @@ class DeleteAnniversaryTest {
         final List<NoticeType> notices
     ) {
         // given
+        final CalenderType type = CalenderType.SOLAR;
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(
             deviceUuid, title, date,
-            content, "solar", notices
+            content, type, notices
         );
         final CalendarCalculator calculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());

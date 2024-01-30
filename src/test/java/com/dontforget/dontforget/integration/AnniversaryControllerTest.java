@@ -6,6 +6,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryCreateRequest;
+import com.dontforget.dontforget.common.CalenderType;
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -20,12 +21,11 @@ import org.springframework.http.MediaType;
 class AnniversaryControllerTest extends AcceptanceTest {
 
     @Test
-    @DisplayName("기념일이 정상적으로 생성된다.")
-    void sut_create_anniversary() {
+    void 기념일이_정상적으로_생성된다() {
         // given
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
-            LocalDate.now(), "hello", "solar", List.of(NoticeType.D_DAY)
+            LocalDate.now(), "hello", CalenderType.SOLAR, List.of(NoticeType.D_DAY)
         );
 
         // when
@@ -34,7 +34,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("deviceId", "deviceId")
             .body(request).log().all()
-            .when().post("/api/anniversary/")
+            .when().post("/api/anniversary")
             .then().log().all()
             .extract();
 
@@ -44,19 +44,19 @@ class AnniversaryControllerTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("기념일이 정상적으로 단건 조회된다.")
-    void sut_get_anniversary_detail() {
+    void 기념일이_정상적으로_단건_조회된다() {
         // given
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
-            LocalDate.of(2000, 3,23), "hello", "solar", List.of(NoticeType.D_DAY)
+            LocalDate.of(2000, 3,23), "hello",
+            CalenderType.SOLAR, List.of(NoticeType.D_DAY)
         );
         final String anniversaryId = RestAssured
             .given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("deviceId", "deviceId")
             .body(request).log().all()
-            .when().post("/api/anniversary/")
+            .when().post("/api/anniversary")
             .then().log().all()
             .extract()
             .header("Location").split("/")[2];
@@ -75,16 +75,17 @@ class AnniversaryControllerTest extends AcceptanceTest {
 
 
     @Test
-    @DisplayName("기념일이 정상적으로 리스트 조회된다.")
-    void sut_get_anniversary_list() {
+    void 기념일이_정상적으로_리스트_조회된다() {
         // given
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
-            LocalDate.of(2000, 2,1), "hello", "solar", List.of(NoticeType.D_DAY)
+            LocalDate.of(2000, 2,1), "hello", CalenderType.SOLAR,
+            List.of(NoticeType.D_DAY)
         );
         final AnniversaryCreateRequest request2 = new AnniversaryCreateRequest(
             "생일",
-            LocalDate.of(2000, 5,21), "hello", "solar", List.of(NoticeType.D_DAY)
+            LocalDate.of(2000, 5,21), "hello", CalenderType.SOLAR,
+            List.of(NoticeType.D_DAY)
         );
 
         RestAssured
@@ -92,7 +93,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("deviceId", "deviceId")
             .body(request).log().all()
-            .when().post("/api/anniversary/")
+            .when().post("/api/anniversary")
             .then().log().all()
             .extract();
 
@@ -101,7 +102,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("deviceId", "deviceId")
             .body(request2).log().all()
-            .when().post("/api/anniversary/")
+            .when().post("/api/anniversary")
             .then().log().all()
             .extract();
 
@@ -110,7 +111,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
             .given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("deviceId", "deviceId")
-            .when().get("/api/anniversary/")
+            .when().get("/api/anniversary")
             .then().log().all()
             .extract();
 
@@ -119,27 +120,26 @@ class AnniversaryControllerTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("기념일이 정상적으로 수정된다.")
-    void sut_update_anniversary() {
+    void 기념일이_정상적으로_수정된다() {
         // given
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
             LocalDate.of(2000, 2,1), "hello",
-            "solar", List.of(NoticeType.D_DAY)
+            CalenderType.SOLAR, List.of(NoticeType.D_DAY)
         );
         final String anniversaryId = RestAssured
             .given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("deviceId", "deviceId")
             .body(request).log().all()
-            .when().post("/api/anniversary/")
+            .when().post("/api/anniversary")
             .then().log().all()
             .extract()
             .header("Location").split("/")[2];
         final AnniversaryCreateRequest updateRequest = new AnniversaryCreateRequest(
             "생일",
             LocalDate.of(2000, 3,23), "hello2",
-            "solar", List.of(NoticeType.ONE_MONTH, NoticeType.ONE_DAYS)
+            CalenderType.SOLAR, List.of(NoticeType.ONE_MONTH, NoticeType.ONE_DAYS)
         );
 
         // when
@@ -156,20 +156,19 @@ class AnniversaryControllerTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("기념일이 정상적으로 삭제된다.")
-    void sut_delete_anniversary() {
+    void 기념일이_정상적으로_삭제된다() {
         // given
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
             LocalDate.of(2000, 2,1), "hello",
-            "solar", List.of(NoticeType.D_DAY)
+            CalenderType.SOLAR, List.of(NoticeType.D_DAY)
         );
         final String anniversaryId = RestAssured
             .given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("deviceId", "deviceId")
             .body(request).log().all()
-            .when().post("/api/anniversary/")
+            .when().post("/api/anniversary")
             .then().log().all()
             .extract()
             .header("Location").split("/")[2];
