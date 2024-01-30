@@ -4,6 +4,7 @@ spring:
     url: jdbc:mysql://localhost:3306/dontForget
     username: dontForget
     password: dontForget
+
 firebase:
   project-id: fir-d61fb
   key-path: noticeServiceKey.json
