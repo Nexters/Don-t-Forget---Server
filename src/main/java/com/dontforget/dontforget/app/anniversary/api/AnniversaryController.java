@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/anniversary/")
+@RequestMapping("/api/anniversary")
 public class AnniversaryController {
 
     private final AnniversaryApplication anniversaryApplication;
