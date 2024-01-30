@@ -1,5 +1,6 @@
 package com.dontforget.dontforget.domain.anniversary;
 
+import com.dontforget.dontforget.common.CalenderType;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.notice.Notice;
 import com.dontforget.dontforget.domain.notice.NoticeType;
@@ -48,7 +49,7 @@ public class Anniversary {
 
     public static Anniversary create(
         String deviceUuid, String title, LocalDate date,
-        String content, String type, List<NoticeType> alarmSchedule,
+        String content, CalenderType type, List<NoticeType> alarmSchedule,
         CalendarCalculator calendarCalculator
     ) {
         return new Anniversary(
@@ -67,7 +68,9 @@ public class Anniversary {
             .toList();
     }
 
-    public void update(String title, LocalDate date, String type, List<NoticeType> noticeTypes, String content, CalendarCalculator calendarCalculator) {
+    public void update(String title, LocalDate date, CalenderType type,
+        List<NoticeType> noticeTypes, String content, CalendarCalculator calendarCalculator
+    ) {
         this.title = title;
         this.lunarDate = calendarCalculator.calculateLunarDate(date, type);
         this.solarDate = calendarCalculator.calculateSolarDate(date, type);

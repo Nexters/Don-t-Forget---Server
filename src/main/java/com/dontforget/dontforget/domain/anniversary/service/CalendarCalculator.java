@@ -1,6 +1,7 @@
 package com.dontforget.dontforget.domain.anniversary.service;
 
 import com.dontforget.dontforget.common.DomainService;
+import com.dontforget.dontforget.common.CalenderType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import lombok.RequiredArgsConstructor;
 
@@ -10,37 +11,33 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class CalendarCalculator {
 
-    private static final String LUNAR = "lunar";
-    private static final String SOLAR = "solar";
-
     private final KoreanLunarCalendarCalculator koreanLunar;
 
-    public LocalDate calculateSolarDate(final LocalDate dateTime, final String type) {
-        if (LUNAR.equals(type)) {
+    public LocalDate calculateSolarDate(final LocalDate dateTime, final CalenderType type) {
+        if (CalenderType.LUNAR == type) {
             return getCurSolarDate(dateTime);
         }
 
-        if (SOLAR.equals(type)) {
+        if (CalenderType.SOLAR == type) {
             koreanLunar.setSolarDate(dateTime);
-            final LocalDate lunarConvertDate = koreanLunar.getLunarDate();
-            return getCurSolarDate(lunarConvertDate);
+            return getCurSolarDate(koreanLunar.getLunarDate());
         }
 
         throw new IllegalArgumentException("잘못된 타입입니다.");
     }
 
     private LocalDate getCurSolarDate(final LocalDate dateTime) {
-        LocalDate nowLunarDate = getCurLunarDate(dateTime);
+        final LocalDate nowLunarDate = getCurLunarDate(dateTime);
         koreanLunar.setLunarDate(nowLunarDate);
         return koreanLunar.getSolarDate();
     }
 
-    public LocalDate calculateLunarDate(final LocalDate date, final String type) {
-        if (LUNAR.equals(type)) {
+    public LocalDate calculateLunarDate(final LocalDate date, final CalenderType type) {
+        if (CalenderType.LUNAR == type) {
             return getCurLunarDate(date);
         }
 
-        if (SOLAR.equals(type)) {
+        if (CalenderType.SOLAR == type) {
             koreanLunar.setSolarDate(date);
             return getCurLunarDate(koreanLunar.getLunarDate());
         }
