@@ -1,17 +1,15 @@
 package com.dontforget.dontforget.app.anniversary.api.request;
 
+import com.dontforget.dontforget.common.CalenderType;
 import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
 import com.dontforget.dontforget.domain.notice.NoticeType;
-import lombok.AllArgsConstructor;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class AnniversaryCreateRequest {
 
     private String title;
@@ -20,9 +18,21 @@ public class AnniversaryCreateRequest {
 
     private String content;
 
-    private String type;
+    private CalenderType type;
 
     private List<NoticeType> alarmSchedule;
+
+    public AnniversaryCreateRequest(
+        String title, LocalDate date,
+        String content, CalenderType type,
+        List<NoticeType> alarmSchedule
+    ) {
+        this.title = title;
+        this.date = date;
+        this.content = content;
+        this.type = type;
+        this.alarmSchedule = alarmSchedule;
+    }
 
     public CreateAnniversaryQuery toQuery(final String deviceUuid) {
         return new CreateAnniversaryQuery(

@@ -19,7 +19,8 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
     private final AnniversaryMapper anniversaryMapper;
     private final NoticeMapper noticeMapper;
 
-    public AnniversaryRepositoryImpl(AnniversaryEntityRepository anniversaryEntityRepository,
+    public AnniversaryRepositoryImpl(
+        AnniversaryEntityRepository anniversaryEntityRepository,
         NoticeEntityRepository noticeEntityRepository, AnniversaryMapper anniversaryMapper,
         NoticeMapper noticeMapper) {
         this.anniversaryEntityRepository = anniversaryEntityRepository;
@@ -40,7 +41,7 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
             .toList();
 
         noticeEntityRepository.saveAll(noticeEntities);
-        return anniversaryEntity.getId();
+        return anniversaryId;
     }
 
     @Override
@@ -67,17 +68,20 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
 
     @Override
     public void update(final Anniversary anniversary) {
+        removeBeforeNotice(anniversary);
+
         final AnniversaryEntity anniversaryEntity = anniversaryMapper.toEntity(anniversary);
         anniversaryEntityRepository.save(anniversaryEntity);
-
-        noticeEntityRepository.deleteByAnniversaryId(anniversary.getId());
-        noticeEntityRepository.flush();
-
         final List<NoticeEntity> noticeEntities = anniversary.getNotices()
             .stream()
             .map(it -> noticeMapper.toEntity(it,anniversaryEntity.getId()))
             .toList();
         noticeEntityRepository.saveAll(noticeEntities);
+    }
+
+    private void removeBeforeNotice(final Anniversary anniversary) {
+        noticeEntityRepository.deleteByAnniversaryId(anniversary.getId());
+        noticeEntityRepository.flush();
     }
 
     @Override

@@ -9,10 +9,10 @@ import com.dontforget.dontforget.domain.anniversary.service.CreateAnniversary;
 import com.dontforget.dontforget.domain.anniversary.service.DeleteAnniversary;
 import com.dontforget.dontforget.domain.anniversary.service.ReadAnniversary;
 import com.dontforget.dontforget.domain.anniversary.service.UpdateAnniversary;
-import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,30 +28,17 @@ public class AnniversaryApplication {
         return createAnniversary.create(query);
     }
 
+    @Transactional(readOnly = true)
     public AnniversaryDetailResponse getAnniversary(final Long anniversaryId) {
         final Anniversary anniversary = readAnniversary.getAnniversary(anniversaryId);
 
-        return new AnniversaryDetailResponse(
-            anniversary.getId(),
-            anniversary.getTitle(),
-            anniversary.getLunarDate(),
-            anniversary.getSolarDate(),
-            anniversary.getNotices()
-                .stream()
-                .map(it -> it.getNoticeType().toString()).toList(),
-            anniversary.getContent(),
-            anniversary.getDeviceUuid()
-        );
+        return AnniversaryDetailResponse.from(anniversary);
     }
 
+    @Transactional(readOnly = true)
     public List<AnniversaryListResponse> getAnniversaryList(final String deviceId) {
         return readAnniversary.getAnniversaryList(deviceId).stream()
-            .map(it -> new AnniversaryListResponse(
-                it.getId(),
-                it.getTitle(),
-                it.getLunarDate(),
-                it.getSolarDate()
-            ))
+            .map(AnniversaryListResponse::from)
             .toList();
     }
 
