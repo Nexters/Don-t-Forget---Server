@@ -13,7 +13,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 
-
 @DisplayName("CalenderCalculator 테스트")
 class CalendarCalculatorTest {
 

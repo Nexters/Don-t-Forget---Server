@@ -36,4 +36,6 @@ public class RepositoryTestConfig {
     NoticeMapper noticeMapper() {
         return new NoticeMapper();
     }
+
+
 }
