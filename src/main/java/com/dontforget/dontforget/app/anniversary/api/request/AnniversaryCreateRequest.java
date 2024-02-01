@@ -1,8 +1,9 @@
 package com.dontforget.dontforget.app.anniversary.api.request;
 
-import com.dontforget.dontforget.app.anniversary.application.query.CreateAnnivarsaryQuery;
+import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
 import com.dontforget.dontforget.domain.notice.NoticeType;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,32 +12,32 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AnniversaryCreateRequest {
 
-  private String title;
+    private String title;
 
-  private LocalDateTime date;
+    private LocalDate date;
 
-  private String content;
+    private String content;
 
-  private String type;
+    private CalenderType type;
 
-  private List<NoticeType> alarmSchedule;
+    private List<NoticeType> alarmSchedule;
 
-  public AnniversaryCreateRequest(String title, LocalDateTime date, String content, String type,
-      List<NoticeType> alarmSchedule) {
-    this.title = title;
-    this.date = date;
-    this.content = content;
-    this.type = type;
-    this.alarmSchedule = alarmSchedule;
-  }
+    public AnniversaryCreateRequest(
+        String title, LocalDate date,
+        String content, CalenderType type,
+        List<NoticeType> alarmSchedule
+    ) {
+        this.title = title;
+        this.date = date;
+        this.content = content;
+        this.type = type;
+        this.alarmSchedule = alarmSchedule;
+    }
 
-  public CreateAnnivarsaryQuery toQuery(String deviceUuid) {
-    return new CreateAnnivarsaryQuery(
-        deviceUuid = deviceUuid,
-        title = title,
-        date = date,
-        content = content,
-        type = type,
-        alarmSchedule = alarmSchedule);
-  }
+    public CreateAnniversaryQuery toQuery(final String deviceUuid) {
+        return new CreateAnniversaryQuery(
+            deviceUuid, title, date,
+            content, type, alarmSchedule
+        );
+    }
 }
