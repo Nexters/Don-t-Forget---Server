@@ -12,6 +12,7 @@ env:
   S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
   CODEDEPLOY_APPLCIATION_NAME : ${{ secrets.CODEDEPLOY_APPLCIATION_NAME}}
   CODEDEPLOY_DEPLOY_GROUP : ${{secrets.CODEDEPLOY_DEPLOY_GROUP}}
+  NOTICE: ${{secrets.NOTICE}}
 permissions:
   contents: read
 
@@ -35,6 +36,11 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - name: make noticeServiceKey.json
+        run: |
+            cd ./src/main/resources
+            echo ${{ secrets.NOTICE }} >> ./noticeServiceKey.json
+          shell: bash
       # 3. Spring Boot 애플리케이션 빌드
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1

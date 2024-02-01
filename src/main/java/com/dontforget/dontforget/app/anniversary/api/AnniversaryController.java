@@ -27,13 +27,13 @@ public class AnniversaryController {
     private final AnniversaryApplication anniversaryApplication;
 
     @PostMapping
-    public ResponseEntity<Void> createAnniversary(
+    public ResponseEntity<Long> createAnniversary(
         @RequestHeader("deviceId") final String deviceId,
         @RequestBody final AnniversaryCreateRequest request
     ) {
         final Long id = anniversaryApplication.create(request.toQuery(deviceId));
 
-        return ResponseEntity.created(URI.create("/anniversary/" + id)).build();
+        return ResponseEntity.created(URI.create("/api/anniversary/" + id)).body(id);
     }
 
     @GetMapping("/{anniversaryId}")
