@@ -33,7 +33,6 @@ public class AnniversaryController {
     ) {
         final Long id = anniversaryApplication.create(request.toQuery(deviceId));
 
-        // body에 id를 담아서 반환
         return ResponseEntity.created(URI.create("/api/anniversary/" + id)).body(id);
     }
 
