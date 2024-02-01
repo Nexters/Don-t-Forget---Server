@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dontForget
+    username: dontForget
+    password: dontForget
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        show_sql: true
+server:
+  port: 8081
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+firebase:
+  project-id: fir-d61fb
+  key-path: noticeServiceKey.json
