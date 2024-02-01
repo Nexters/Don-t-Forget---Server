@@ -1,6 +1,6 @@
-package com.dontforget.dontforget.infra.notice.repository;
+package com.dontforget.dontforget.infra.jpa.notice.repository;
 
-import com.dontforget.dontforget.infra.notice.NoticeDeviceEntity;
+import com.dontforget.dontforget.infra.jpa.notice.NoticeDeviceEntity;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

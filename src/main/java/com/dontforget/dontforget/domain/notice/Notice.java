@@ -7,15 +7,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Notice {
 
-  private Long id;
+    private Long id;
 
-  private Long anniversaryId;
+    private Long anniversaryId;
 
-  private NoticeType noticeType = NoticeType.D_DAY;
+    private NoticeType noticeType = NoticeType.D_DAY;
 
-  public Notice(Long id, Long anniversaryId, NoticeType noticeType) {
-    this.id = id;
-    this.anniversaryId = anniversaryId;
-    this.noticeType = noticeType;
-  }
+    public Notice(Long id, Long anniversaryId, NoticeType noticeType) {
+        this.id = id;
+        this.anniversaryId = anniversaryId;
+        this.noticeType = noticeType;
+    }
+
+    public Notice(final Long anniversaryId, final NoticeType noticeType) {
+        this(null, anniversaryId, noticeType);
+    }
 }
