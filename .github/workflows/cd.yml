@@ -39,7 +39,7 @@ jobs:
       - name: make noticeServiceKey.json
         run: |
             cd ./src/main/resources
-            echo ${{ secrets.NOTICE }} >> ./noticeServiceKey.json
+            echo "${{ secrets.NOTICE }}" >> ./noticeServiceKey.json
         shell: bash
       # 3. Spring Boot 애플리케이션 빌드
       - name: Build with Gradle
