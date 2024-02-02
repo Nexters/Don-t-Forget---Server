@@ -17,4 +17,4 @@ else
 fi
 
 echo "> $JAR_PATH 배포" #3
-nohup java -jar $JAR_PATH > $REPOSITORY/nohup.out
+nohup java -jar $JAR_PATH > $REPOSITORY/nohup.out /dev/null 2> /dev/null < /dev/null &

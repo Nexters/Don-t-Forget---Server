@@ -13,6 +13,7 @@ env:
   CODEDEPLOY_APPLCIATION_NAME : ${{ secrets.CODEDEPLOY_APPLCIATION_NAME}}
   CODEDEPLOY_DEPLOY_GROUP : ${{secrets.CODEDEPLOY_DEPLOY_GROUP}}
   NOTICE: ${{secrets.NOTICE}}
+  APPLICATIONYML : ${{ secrets.APPLICATIONYML }}
 permissions:
   contents: read
 
@@ -40,7 +41,9 @@ jobs:
         run: |
             cd ./src/main/resources
             echo "${{ secrets.NOTICE }}" >> ./noticeServiceKey.json
+            echo "${{ secrets.APPLICATIONYML }}" > ./application.yml
         shell: bash
+
       # 3. Spring Boot 애플리케이션 빌드
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
