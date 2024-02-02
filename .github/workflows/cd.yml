@@ -13,6 +13,7 @@ env:
   CODEDEPLOY_APPLCIATION_NAME : ${{ secrets.CODEDEPLOY_APPLCIATION_NAME}}
   CODEDEPLOY_DEPLOY_GROUP : ${{secrets.CODEDEPLOY_DEPLOY_GROUP}}
   NOTICE: ${{secrets.NOTICE}}
+  APPLICATIONYML : ${{ secrets.APPLICATIONYML }}
 permissions:
   contents: read
 

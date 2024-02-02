@@ -12,8 +12,6 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
         show_sql: true
-server:
-  port: 8081
 logging:
   level:
     org.hibernate.SQL: debug
