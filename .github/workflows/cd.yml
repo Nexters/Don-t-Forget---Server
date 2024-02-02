@@ -13,6 +13,10 @@ env:
   CODEDEPLOY_APPLCIATION_NAME : ${{ secrets.CODEDEPLOY_APPLCIATION_NAME}}
   CODEDEPLOY_DEPLOY_GROUP : ${{secrets.CODEDEPLOY_DEPLOY_GROUP}}
   NOTICE: ${{secrets.NOTICE}}
+  DB_URL : ${{secrets.DB_URL}}
+  DB_USERNAME : ${{secrets.DB_USERNAME}}
+  DB_PASSWORD : ${{secrets.DB_PASSWORD}}
+
 permissions:
   contents: read
 
@@ -40,6 +44,10 @@ jobs:
         run: |
             cd ./src/main/resources
             echo "${{ secrets.NOTICE }}" >> ./noticeServiceKey.json
+            echo "${{ secrets.NOTICE }}" >> ./noticeServiceKey.json
+            echo "spring.datasource.password=${{ secrets.DB_PASSWORD }}" >> ./application.yml
+            echo "spring.datasource.url=${{ secrets.DB_URL }}" >> ./application.yml
+            echo "spring.datasource.username=${{ secrets.DB_USERNAME }}" >> ./application.yml
         shell: bash
       # 3. Spring Boot 애플리케이션 빌드
       - name: Build with Gradle
