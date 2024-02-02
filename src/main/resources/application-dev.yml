@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/dontForget
     username: dontForget
-    password: dontForget
+    password: dontforget
   jpa:
     hibernate:
       ddl-auto: create-drop
