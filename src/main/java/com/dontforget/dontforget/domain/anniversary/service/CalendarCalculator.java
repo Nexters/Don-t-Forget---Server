@@ -1,7 +1,7 @@
 package com.dontforget.dontforget.domain.anniversary.service;
 
 import com.dontforget.dontforget.common.DomainService;
-import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CalendarType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import lombok.RequiredArgsConstructor;
 
@@ -13,17 +13,17 @@ public class CalendarCalculator {
 
     private final KoreanLunarCalendarCalculator koreanLunar;
 
-    public LocalDate calculateSolarDate(final LocalDate dateTime, final CalenderType type) {
-        if (CalenderType.LUNAR == type) {
+    public LocalDate calculateSolarDate(final LocalDate dateTime, final CalendarType type) {
+        if (CalendarType.LUNAR == type) {
             return getCurSolarDate(dateTime);
         }
 
-        if (CalenderType.SOLAR == type) {
+        if (CalendarType.SOLAR == type) {
             koreanLunar.setSolarDate(dateTime);
             return getCurSolarDate(koreanLunar.getLunarDate());
         }
 
-        throw new IllegalArgumentException("잘못된 타입입니다.");
+        throw new IllegalArgumentException("CalendarType이 잘못된 타입입니다.");
     }
 
     private LocalDate getCurSolarDate(final LocalDate dateTime) {
@@ -32,16 +32,16 @@ public class CalendarCalculator {
         return koreanLunar.getSolarDate();
     }
 
-    public LocalDate calculateLunarDate(final LocalDate date, final CalenderType type) {
-        if (CalenderType.LUNAR == type) {
+    public LocalDate calculateLunarDate(final LocalDate date, final CalendarType type) {
+        if (CalendarType.LUNAR == type) {
             return getCurLunarDate(date);
         }
 
-        if (CalenderType.SOLAR == type) {
+        if (CalendarType.SOLAR == type) {
             koreanLunar.setSolarDate(date);
             return getCurLunarDate(koreanLunar.getLunarDate());
         }
-        throw new IllegalArgumentException("잘못된 타입입니다.");
+        throw new IllegalArgumentException("CalenderType이 잘못된 타입입니다.");
     }
 
     private LocalDate getCurLunarDate(final LocalDate date) {

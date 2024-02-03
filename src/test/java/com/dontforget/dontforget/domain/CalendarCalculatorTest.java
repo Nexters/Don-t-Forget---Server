@@ -3,7 +3,7 @@ package com.dontforget.dontforget.domain;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
-import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CalendarType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import java.time.LocalDate;
@@ -20,19 +20,19 @@ class CalendarCalculatorTest {
     @Test
     void 타입이_음력_또는_양력이_아닐_경우_예외를_던진다() {
         // given
-        final CalenderType type = null;
+        final CalendarType type = null;
         final LocalDate localDate = LocalDate.of(2024, 1, 1);
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
 
         // when & then
         assertThatCode(() -> sut.calculateSolarDate(localDate, type))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("잘못된 타입입니다.");
+            .hasMessage("CalendarType이 잘못된 타입입니다.");
     }
 
     @ParameterizedTest
-    @EnumSource(value = CalenderType.class)
-    void 타입이_음력_또는_양력일_경우_정상적으로_작동한다(final CalenderType type) {
+    @EnumSource(value = CalendarType.class)
+    void 타입이_음력_또는_양력일_경우_정상적으로_작동한다(final CalendarType type) {
         // given
         final LocalDate localDate = LocalDate.of(2024, 1, 1);
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
@@ -50,7 +50,7 @@ class CalendarCalculatorTest {
         final LocalDate expectedDate
     ) {
         // given
-        final CalenderType type = CalenderType.LUNAR;
+        final CalendarType type = CalendarType.LUNAR;
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
 
         // when
@@ -66,7 +66,7 @@ class CalendarCalculatorTest {
         final LocalDate solarDate, final LocalDate expectedDate
     ) {
         // given
-        final CalenderType type = CalenderType.SOLAR;
+        final CalendarType type = CalendarType.SOLAR;
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
 
         // when
@@ -83,7 +83,7 @@ class CalendarCalculatorTest {
         final LocalDate expectedDate
     ) {
         // given
-        final CalenderType type = CalenderType.SOLAR;
+        final CalendarType type = CalendarType.SOLAR;
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
 
         // when
@@ -100,7 +100,7 @@ class CalendarCalculatorTest {
         final LocalDate expectedDate
     ) {
         // given
-        final CalenderType type = CalenderType.LUNAR;
+        final CalendarType type = CalendarType.LUNAR;
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
 
         // when

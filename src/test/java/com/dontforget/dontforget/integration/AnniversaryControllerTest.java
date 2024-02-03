@@ -7,7 +7,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryCreateRequest;
 import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryUpdateRequest;
-import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CalendarType;
 import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import io.restassured.RestAssured;
@@ -27,7 +27,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
         // given
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
-            LocalDate.now(), "hello", CalenderType.SOLAR,
+            LocalDate.now(), "hello", CalendarType.SOLAR,
             CardType.ARM, List.of(NoticeType.D_DAY)
         );
 
@@ -52,7 +52,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
             LocalDate.of(2000, 3, 23), "hello",
-            CalenderType.SOLAR, CardType.ARM, List.of(NoticeType.D_DAY)
+            CalendarType.SOLAR, CardType.ARM, List.of(NoticeType.D_DAY)
         );
         final String deviceId = "deviceId";
         final Long anniversaryId = RestAssured
@@ -82,12 +82,12 @@ class AnniversaryControllerTest extends AcceptanceTest {
         // given
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
-            LocalDate.of(2000, 2, 1), "hello", CalenderType.SOLAR,
+            LocalDate.of(2000, 2, 1), "hello", CalendarType.SOLAR,
             CardType.ARM, List.of(NoticeType.D_DAY)
         );
         final AnniversaryCreateRequest request2 = new AnniversaryCreateRequest(
             "생일",
-            LocalDate.of(2000, 5, 21), "hello", CalenderType.SOLAR,
+            LocalDate.of(2000, 5, 21), "hello", CalendarType.SOLAR,
             CardType.ARM, List.of(NoticeType.D_DAY)
         );
 
@@ -128,7 +128,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
             LocalDate.of(2000, 2, 1), "hello",
-            CalenderType.SOLAR, CardType.ARM, List.of(NoticeType.D_DAY)
+            CalendarType.SOLAR, CardType.ARM, List.of(NoticeType.D_DAY)
         );
         final Long anniversaryId = RestAssured
             .given()
@@ -143,7 +143,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
         final AnniversaryUpdateRequest updateRequest = new AnniversaryUpdateRequest(
             "생일",
             LocalDate.of(2000, 3, 23),
-            CalenderType.SOLAR,
+            CalendarType.SOLAR,
             List.of(NoticeType.ONE_MONTH, NoticeType.ONE_DAYS),
             "hello2"
         );
@@ -168,7 +168,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
             LocalDate.of(2000, 2, 1), "hello",
-            CalenderType.SOLAR, CardType.ARM,
+            CalendarType.SOLAR, CardType.ARM,
             List.of(NoticeType.D_DAY)
         );
         final Long anniversaryId = RestAssured

@@ -1,6 +1,6 @@
 package com.dontforget.dontforget.domain.anniversary.query;
 
-import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CalendarType;
 import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import lombok.Getter;
@@ -17,13 +17,13 @@ public class CreateAnniversaryQuery {
     private String title;
     private LocalDate date;
     private String content;
-    private CalenderType calenderType;
+    private CalendarType calendarType;
     private CardType cardType;
     private List<NoticeType> alarmSchedule;
 
     public CreateAnniversaryQuery(
         String deviceUuid, String title, LocalDate date,
-        String content, CalenderType calenderType,
+        String content, CalendarType calendarType,
         CardType cardType,
         List<NoticeType> alarmSchedule
     ) {
@@ -31,7 +31,7 @@ public class CreateAnniversaryQuery {
         this.title = title;
         this.date = date;
         this.content = content;
-        this.calenderType = calenderType;
+        this.calendarType = calendarType;
         this.cardType = cardType;
         this.alarmSchedule = alarmSchedule;
     }

@@ -4,7 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import autoparams.AutoSource;
-import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CalendarType;
 import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
@@ -49,7 +49,7 @@ class UpdateAnniversaryTest {
         final CardType cardType
     ) {
         // given
-        final CalenderType type = CalenderType.SOLAR;
+        final CalendarType type = CalendarType.SOLAR;
         final CalendarCalculator calculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(

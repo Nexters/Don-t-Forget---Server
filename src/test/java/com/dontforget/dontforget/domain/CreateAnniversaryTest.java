@@ -4,7 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import autoparams.AutoSource;
-import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CalendarType;
 import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
@@ -48,7 +48,7 @@ class CreateAnniversaryTest {
         // given
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(
             deviceUuid, title, date,
-            content, CalenderType.SOLAR, cardType, notices
+            content, CalendarType.SOLAR, cardType, notices
         );
         final CalendarCalculator calculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());
@@ -83,7 +83,7 @@ class CreateAnniversaryTest {
         final List<NoticeType> notices
     ) {
         // given
-        final CalenderType type = null;
+        final CalendarType type = null;
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(
             deviceUuid, title, date,
             content, type, cardType, notices
@@ -95,6 +95,6 @@ class CreateAnniversaryTest {
         // when & then
         assertThatThrownBy(() -> sut.create(query))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("잘못된 타입입니다.");
+            .hasMessage("CalenderType이 잘못된 타입입니다.");
     }
 }
