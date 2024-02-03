@@ -1,5 +1,5 @@
 package com.dontforget.dontforget.common;
 
-public enum CalenderType {
+public enum CalendarType {
     SOLAR, LUNAR
 }

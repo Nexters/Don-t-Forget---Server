@@ -19,7 +19,7 @@ public class CreateAnniversary {
             query.getTitle(),
             query.getDate(),
             query.getContent(),
-            query.getCalenderType(),
+            query.getCalendarType(),
             query.getAlarmSchedule(),
             query.getCardType(),
             calendarCalculator
