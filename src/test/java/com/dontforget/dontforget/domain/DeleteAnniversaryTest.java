@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import autoparams.AutoSource;
 import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
@@ -43,13 +44,14 @@ class DeleteAnniversaryTest {
         final String title,
         final LocalDate date,
         final String content,
-        final List<NoticeType> notices
+        final List<NoticeType> notices,
+        final CardType cardType
     ) {
         // given
         final CalenderType type = CalenderType.SOLAR;
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(
             deviceUuid, title, date,
-            content, type, notices
+            content, type, cardType, notices
         );
         final CalendarCalculator calculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());
@@ -66,9 +68,9 @@ class DeleteAnniversaryTest {
             anniversaryId);
         assertThat(noticeEntities).isEmpty();
 
-        assertThatCode(()->anniversaryRepository.findById(anniversaryId))
+        assertThatCode(() -> anniversaryRepository.findById(anniversaryId))
             .isInstanceOf(NotFoundAnniversaryException.class)
-            .hasMessage("id가 " + anniversaryId+ " 인 기념일은 존재하지 않습니다.");
+            .hasMessage("id가 " + anniversaryId + " 인 기념일은 존재하지 않습니다.");
     }
 
 }

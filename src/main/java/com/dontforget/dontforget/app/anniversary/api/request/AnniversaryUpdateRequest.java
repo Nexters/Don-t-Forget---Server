@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record AnniversaryUpdateRequest(String title, LocalDate date, CalenderType type,
-    List<NoticeType> alarmSchedule, String content) {
-
+    List<NoticeType> alarmSchedule, String content
+) {
 
     public UpdateAnniversaryQuery toQuery(Long anniversaryId) {
         return new UpdateAnniversaryQuery(

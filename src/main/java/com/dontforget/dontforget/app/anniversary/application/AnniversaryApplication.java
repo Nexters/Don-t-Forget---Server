@@ -24,7 +24,7 @@ public class AnniversaryApplication {
     private final DeleteAnniversary deleteAnniversary;
 
     @Transactional
-    public Long create(CreateAnniversaryQuery query) {
+    public Long create(final CreateAnniversaryQuery query) {
         return createAnniversary.create(query);
     }
 
@@ -37,7 +37,8 @@ public class AnniversaryApplication {
 
     @Transactional(readOnly = true)
     public List<AnniversaryListResponse> getAnniversaryList(final String deviceId) {
-        return readAnniversary.getAnniversaryList(deviceId).stream()
+        return readAnniversary.getAnniversaryList(deviceId)
+            .stream()
             .map(AnniversaryListResponse::from)
             .toList();
     }

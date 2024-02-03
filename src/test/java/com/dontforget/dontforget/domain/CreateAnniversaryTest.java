@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import autoparams.AutoSource;
 import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
@@ -41,12 +42,13 @@ class CreateAnniversaryTest {
         final String title,
         final LocalDate date,
         final String content,
+        final CardType cardType,
         final List<NoticeType> notices
     ) {
         // given
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(
             deviceUuid, title, date,
-            content, CalenderType.SOLAR, notices
+            content, CalenderType.SOLAR, cardType, notices
         );
         final CalendarCalculator calculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());
@@ -77,13 +79,14 @@ class CreateAnniversaryTest {
         final String title,
         final LocalDate date,
         final String content,
+        final CardType cardType,
         final List<NoticeType> notices
     ) {
         // given
         final CalenderType type = null;
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(
             deviceUuid, title, date,
-            content, type, notices
+            content, type, cardType, notices
         );
         final CalendarCalculator calculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());
