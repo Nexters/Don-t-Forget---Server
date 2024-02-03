@@ -4,14 +4,11 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/app # 인스턴스에서 파일이 저장될 위치
-permissions:
-  - object: /home/ubuntu
-    pattern: '**'
-    owner: ubuntu
-    group: ubuntu
-    
+    overwrite: yes
+file_exists_behavior: OVERWRITE
+
 hooks:
   AfterInstall:
     - location: ./scripts/deploy.sh
       timeout: 60
-      runas: ubuntu
+      runas: root
