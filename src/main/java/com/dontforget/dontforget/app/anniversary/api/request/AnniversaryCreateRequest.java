@@ -1,6 +1,7 @@
 package com.dontforget.dontforget.app.anniversary.api.request;
 
 import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import java.time.LocalDate;
@@ -18,26 +19,29 @@ public class AnniversaryCreateRequest {
 
     private String content;
 
-    private CalenderType type;
+    private CalenderType calenderType;
 
+    private CardType cardType;
     private List<NoticeType> alarmSchedule;
 
     public AnniversaryCreateRequest(
         String title, LocalDate date,
-        String content, CalenderType type,
+        String content, CalenderType calenderType,
+        CardType cardType,
         List<NoticeType> alarmSchedule
     ) {
         this.title = title;
         this.date = date;
         this.content = content;
-        this.type = type;
+        this.calenderType = calenderType;
+        this.cardType = cardType;
         this.alarmSchedule = alarmSchedule;
     }
 
     public CreateAnniversaryQuery toQuery(final String deviceUuid) {
         return new CreateAnniversaryQuery(
             deviceUuid, title, date,
-            content, type, alarmSchedule
+            content, calenderType, cardType, alarmSchedule
         );
     }
 }

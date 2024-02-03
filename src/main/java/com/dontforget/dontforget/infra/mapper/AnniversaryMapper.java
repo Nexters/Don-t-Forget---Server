@@ -1,5 +1,6 @@
 package com.dontforget.dontforget.infra.mapper;
 
+import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
 import com.dontforget.dontforget.domain.notice.Notice;
 import com.dontforget.dontforget.infra.jpa.anniversary.AnniversaryEntity;
@@ -15,7 +16,8 @@ public class AnniversaryMapper {
             anniversary.getContent(),
             anniversary.getDeviceUuid(),
             anniversary.getLunarDate(),
-            anniversary.getSolarDate()
+            anniversary.getSolarDate(),
+            anniversary.getCardType().name()
         );
     }
 
@@ -27,7 +29,8 @@ public class AnniversaryMapper {
             anniversaryEntity.getDeviceUuid(),
             anniversaryEntity.getLunarDate(),
             anniversaryEntity.getSolarDate(),
-            notices
+            notices,
+            CardType.valueOf(anniversaryEntity.getCardType())
         );
     }
 
@@ -39,7 +42,8 @@ public class AnniversaryMapper {
             anniversaryEntity.getDeviceUuid(),
             anniversaryEntity.getLunarDate(),
             anniversaryEntity.getSolarDate(),
-            null
+            null,
+            CardType.valueOf(anniversaryEntity.getCardType())
         );
     }
 }

@@ -1,6 +1,7 @@
 package com.dontforget.dontforget.domain.anniversary;
 
 import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.notice.Notice;
 import com.dontforget.dontforget.domain.notice.NoticeType;
@@ -29,8 +30,10 @@ public class Anniversary {
 
     private List<Notice> notices = new ArrayList<>();
 
+    private CardType cardType;
+
     public Anniversary(Long id, String title, String content, String deviceUuid,
-        LocalDate lunarDate, LocalDate solarDate, List<Notice> notices
+        LocalDate lunarDate, LocalDate solarDate, List<Notice> notices, CardType cardType
     ) {
         this.id = id;
         this.title = title;
@@ -39,17 +42,21 @@ public class Anniversary {
         this.lunarDate = lunarDate;
         this.solarDate = solarDate;
         this.notices = notices;
+        this.cardType = cardType;
     }
 
-    public Anniversary(String title, String content, String deviceUuid,
-        LocalDate lunarDate, LocalDate solarDate, List<Notice> notices
+    public Anniversary(
+        String title, String content, String deviceUuid,
+        LocalDate lunarDate, LocalDate solarDate,
+        List<Notice> notices, CardType cardType
     ) {
-        this(null, title, content, deviceUuid, lunarDate, solarDate, notices);
+        this(null, title, content, deviceUuid, lunarDate, solarDate, notices, cardType);
     }
 
     public static Anniversary create(
         String deviceUuid, String title, LocalDate date,
         String content, CalenderType type, List<NoticeType> alarmSchedule,
+        CardType cardType,
         CalendarCalculator calendarCalculator
     ) {
         return new Anniversary(
@@ -58,7 +65,8 @@ public class Anniversary {
             deviceUuid,
             calendarCalculator.calculateLunarDate(date, type),
             calendarCalculator.calculateSolarDate(date, type),
-            calculateNotice(alarmSchedule)
+            calculateNotice(alarmSchedule),
+            cardType
         );
     }
 

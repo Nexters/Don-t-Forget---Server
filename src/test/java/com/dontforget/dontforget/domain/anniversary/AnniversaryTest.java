@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import autoparams.AutoSource;
 import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.notice.Notice;
@@ -24,7 +25,8 @@ class AnniversaryTest {
         final String title,
         final LocalDate date,
         final String content,
-        final List<NoticeType> alarmSchedule
+        final List<NoticeType> alarmSchedule,
+        final CardType cardType
     ) {
         // given
         final CalenderType type = CalenderType.SOLAR;
@@ -39,6 +41,7 @@ class AnniversaryTest {
             content,
             type,
             alarmSchedule,
+            cardType,
             calendarCalculator
         );
 
@@ -52,7 +55,8 @@ class AnniversaryTest {
             () -> assertThat(anniversary.getLunarDate()).isEqualTo(
                 calendarCalculator.calculateLunarDate(date, type)),
             () -> assertThat(anniversary.getSolarDate()).isEqualTo(
-                calendarCalculator.calculateSolarDate(date, type))
+                calendarCalculator.calculateSolarDate(date, type)),
+            () -> assertThat(anniversary.getCardType()).isEqualTo(cardType)
         );
 
         final List<Notice> notices = alarmSchedule

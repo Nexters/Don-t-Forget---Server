@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import autoparams.AutoSource;
 import com.dontforget.dontforget.common.CalenderType;
+import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
@@ -44,14 +45,15 @@ class UpdateAnniversaryTest {
         final String updatedTitle,
         final LocalDate updatedDate,
         final String updatedContent,
-        final List<NoticeType> updatedNotices
+        final List<NoticeType> updatedNotices,
+        final CardType cardType
     ) {
         // given
         final CalenderType type = CalenderType.SOLAR;
         final CalendarCalculator calculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());
         final CreateAnniversaryQuery query = new CreateAnniversaryQuery(
-            deviceUuid, title, date, content, type, notices);
+            deviceUuid, title, date, content, type, cardType, notices);
 
         final CreateAnniversary createAnniversary = new CreateAnniversary(anniversaryRepository,
             calculator);
