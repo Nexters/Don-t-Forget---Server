@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({NoSuchElementException.class, NotFoundAnniversaryException.class})
-    public ResponseEntity<ErrorResponse> handleNoSuchElementException(final NoSuchElementException e) {
-        log.error("NoSuchElementException: {}", e.getMessage());
+    public ResponseEntity<ErrorResponse> handleNoSuchElementException(final RuntimeException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
             .body(new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()));
     }
