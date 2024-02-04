@@ -7,7 +7,8 @@ import java.util.List;
 public record AnniversaryDetailResponse(
     Long anniversaryId, String title, LocalDate lunarDate,
     LocalDate solarDate, List<String> alarmSchedule,
-    String content, String deviceId
+    String content, String deviceId,
+    String cardType
 
 ) {
 
@@ -22,7 +23,8 @@ public record AnniversaryDetailResponse(
                 .map(it -> it.getNoticeType().toString())
                 .toList(),
             anniversary.getContent(),
-            anniversary.getDeviceUuid()
+            anniversary.getDeviceUuid(),
+            anniversary.getCardType().name()
         );
     }
 }
