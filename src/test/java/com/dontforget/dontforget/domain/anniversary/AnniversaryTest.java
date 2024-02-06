@@ -53,9 +53,9 @@ class AnniversaryTest {
             () -> assertThat(anniversary.getTitle()).isEqualTo(title),
             () -> assertThat(anniversary.getContent()).isEqualTo(content),
             () -> assertThat(anniversary.getLunarDate()).isEqualTo(
-                calendarCalculator.calculateLunarDate(date, type)),
+                calendarCalculator.calculateCurLunarDate(date, type)),
             () -> assertThat(anniversary.getSolarDate()).isEqualTo(
-                calendarCalculator.calculateSolarDate(date, type)),
+                calendarCalculator.calculateCurSolarDate(date, type)),
             () -> assertThat(anniversary.getCardType()).isEqualTo(cardType)
         );
 

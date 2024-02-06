@@ -2,42 +2,8 @@ package com.dontforget.dontforget.common;
 
 import java.time.LocalDate;
 
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2018 usingsky(usingsky@gmail.com)
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
- * associated documentation files (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge, publish, distribute,
- * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
- * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
 @DomainService
 public class KoreanLunarCalendarCalculator {
-
-    private int lunarYear = 0;
-    private int lunarMonth = 0;
-    private int lunarDay = 0;
-    private boolean isIntercalation = false;
-
-    private int solarYear = 0;
-    private int solarMonth = 0;
-    private int solarDay = 0;
-
-    private int[] gapjaYearInx = {0, 0, 0};
-    private int[] gapjaMonthInx = {0, 0, 1};
-    private int[] gapjaDayInx = {0, 0, 2};
-
     private static int KOREAN_LUNAR_MIN_VALUE = 10000101;
     private static int KOREAN_LUNAR_MAX_VALUE = 20501118;
     private static int KOREAN_SOLAR_MIN_VALUE = 10000213;
@@ -52,20 +18,6 @@ public class KoreanLunarCalendarCalculator {
     private static int SOLAR_BIG_YEAR_DAY = 366;
 
     private static int[] SOLAR_DAYS = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 29};
-    private static char[] KOREAN_CHEONGAN = {0xac11, 0xc744, 0xbcd1, 0xc815, 0xbb34, 0xae30, 0xacbd,
-        0xc2e0, 0xc784, 0xacc4};
-    private static char[] KOREAN_GANJI = {0xc790, 0xcd95, 0xc778, 0xbb18, 0xc9c4, 0xc0ac, 0xc624,
-        0xbbf8, 0xc2e0, 0xc720, 0xc220, 0xd574};
-    private static char[] KOREAN_GAPJA_UNIT = {0xb144, 0xc6d4, 0xc77c};
-
-    private static char[] CHINESE_CHEONGAN = {0x7532, 0x4e59, 0x4e19, 0x4e01, 0x620a, 0x5df1,
-        0x5e9a,
-        0x8f9b, 0x58ec, 0x7678};
-    private static char[] CHINESE_GANJI = {0x5b50, 0x4e11, 0x5bc5, 0x536f, 0x8fb0, 0x5df3, 0x5348,
-        0x672a, 0x7533, 0x9149, 0x620c, 0x4ea5};
-    private static char[] CHINESE_GAPJA_UNIT = {0x5e74, 0x6708, 0x65e5};
-
-    private static char[] INTERCALATION_STR = {0xc724, 0x958f};
 
     // 1000 ~ 2050
     private static int[] KOREAN_LUNAR_DATA = {
@@ -281,10 +233,112 @@ public class KoreanLunarCalendarCalculator {
         0x83015b25, 0xc2c406d4, 0x82c60ada,
         0x830138b6,};
 
-
     public boolean isLeap(int year) {
         return (year % 4 == 0 && year % 100 != 0 || year % 400 == 0);
     }
+
+    public LocalDate convertSolarDateFromLunarDate(LocalDate localDate) {
+        int lunarYear1 = localDate.getYear();
+        int lunarMonth1 = localDate.getMonthValue();
+        int lunarDay1 = localDate.getDayOfMonth();
+        boolean isIntercalation = determineIsIntercalation(lunarYear1, lunarMonth1);
+        if (checkValidDate(true, isIntercalation, lunarYear1, lunarMonth1, lunarDay1)) {
+            return getSolarDateByLunarDate(lunarYear1, lunarMonth1, lunarDay1,
+                isIntercalation && (getLunarIntercalationMonth(getLunarData(lunarYear1))
+                    == lunarMonth1));
+        }
+        throw new IllegalArgumentException("날짜의 범위가 잘못되었습니다.");
+    }
+
+    public LocalDate convertLunarDateFromSolarDate(LocalDate localDate) {
+        int solarYear1 = localDate.getYear();
+        int solarMonth1 = localDate.getMonthValue();
+        int solarDay1 = localDate.getDayOfMonth();
+        if (checkValidDate(false, false, solarYear1, solarMonth1, solarDay1)) {
+            return getLunarDateBySolarDate(solarYear1, solarMonth1, solarDay1);
+        }
+        throw new IllegalArgumentException("날짜의 범위가 잘못되었습니다.");
+    }
+
+    private LocalDate getSolarDateByLunarDate(
+        int lunarYear, int lunarMonth, int lunarDay, boolean isIntercalation) {
+        int absDays = getLunarAbsDays(lunarYear, lunarMonth, lunarDay, isIntercalation);
+        int solarYear = 0;
+        int solarMonth = 0;
+        int solarDay = 0;
+
+        solarYear = (absDays < getSolarAbsDays(lunarYear + 1, 1, 1)) ? lunarYear : lunarYear + 1;
+
+        for (int month = 12; month > 0; month--) {
+            int absDaysByMonth = getSolarAbsDays(solarYear, month, 1);
+            if (absDays >= absDaysByMonth) {
+                solarMonth = month;
+                solarDay = absDays - absDaysByMonth + 1;
+                break;
+            }
+        }
+        return LocalDate.of(solarYear, solarMonth, solarDay);
+    }
+
+    private LocalDate getLunarDateBySolarDate(int solarYear, int solarMonth, int solarDay) {
+        int absDays = getSolarAbsDays(solarYear, solarMonth, solarDay);
+        int lunarYear = 0;
+        int lunarMonth = 0;
+        int lunarDay = 0;
+        boolean isIntercalation = false;
+
+        lunarYear =
+            (absDays >= getLunarAbsDays(solarYear, 1, 1, false)) ? solarYear : solarYear - 1;
+
+        for (int month = 12; month > 0; month--) {
+            int absDaysByMonth = getLunarAbsDays(lunarYear, month, 1, false);
+            if (absDays >= absDaysByMonth) {
+                lunarMonth = month;
+
+                if (getLunarIntercalationMonth(getLunarData(lunarYear)) == month) {
+                    isIntercalation = absDays >= getLunarAbsDays(lunarYear, month, 1, true);
+                }
+
+                lunarDay = absDays - getLunarAbsDays(lunarYear, lunarMonth, 1, isIntercalation) + 1;
+                break;
+            }
+        }
+        return LocalDate.of(lunarYear, lunarMonth, lunarDay);
+    }
+
+    private boolean checkValidDate(boolean isLunar, boolean isIntercalation, int year, int month,
+        int day) {
+        boolean isValid = false;
+        int dateValue = year * 10000 + month * 100 + day;
+        // 1582. 10. 5 ~ 1582. 10. 14 is not enable
+        if ((isLunar ? KOREAN_LUNAR_MIN_VALUE : KOREAN_SOLAR_MIN_VALUE) <= dateValue
+            && (isLunar ? KOREAN_LUNAR_MAX_VALUE : KOREAN_SOLAR_MAX_VALUE) >= dateValue) {
+            if (month > 0 && month < 13 && day > 0) {
+                int dayLimit =
+                    isLunar ? getLunarDays(year, month, isIntercalation)
+                        : getSolarDays(year, month);
+                if (!isLunar && year == 1582 && month == 10) {
+                    if (day > 4 && day < 15) {
+                        return false;
+                    } else {
+                        dayLimit += 10;
+                    }
+                }
+                if (day <= dayLimit) {
+                    isValid = true;
+                }
+            }
+        }
+        return isValid;
+    }
+
+    private boolean determineIsIntercalation(int lunarYear, int lunarMonth) {
+        int lunarData = getLunarData(lunarYear);
+        int intercalationMonth = getLunarIntercalationMonth(lunarData);
+
+        return lunarMonth == intercalationMonth;
+    }
+
 
     private int getLunarData(int year) {
         return KOREAN_LUNAR_DATA[year - KOREAN_LUNAR_BASE_YEAR];
@@ -357,9 +411,6 @@ public class KoreanLunarCalendarCalculator {
         int days = 0;
         int lunarData = getLunarData(year);
         days = isSolarIntercalationYear(lunarData) ? SOLAR_BIG_YEAR_DAY : SOLAR_SMALL_YEAR_DAY;
-        /*
-         * if(year == 1582){ days -= 10; }
-         */
         return days;
     }
 
@@ -397,322 +448,4 @@ public class KoreanLunarCalendarCalculator {
         days -= SOLAR_LUNAR_DAY_DIFF;
         return days;
     }
-
-    private void setSolarDateByLunarDate(
-        int lunarYear, int lunarMonth, int lunarDay, boolean isIntercalation) {
-        int absDays = getLunarAbsDays(lunarYear, lunarMonth, lunarDay, isIntercalation);
-        int solarYear = 0;
-        int solarMonth = 0;
-        int solarDay = 0;
-
-        solarYear = (absDays < getSolarAbsDays(lunarYear + 1, 1, 1)) ? lunarYear : lunarYear + 1;
-
-        for (int month = 12; month > 0; month--) {
-            int absDaysByMonth = getSolarAbsDays(solarYear, month, 1);
-            if (absDays >= absDaysByMonth) {
-                solarMonth = month;
-                solarDay = absDays - absDaysByMonth + 1;
-                break;
-            }
-        }
-
-        setSolarYear(solarYear);
-        setSolarMonth(solarMonth);
-        setSolarDay(solarDay);
-    }
-
-    private void setLunarDateBySolarDate(int solarYear, int solarMonth, int solarDay) {
-        int absDays = getSolarAbsDays(solarYear, solarMonth, solarDay);
-        int lunarYear = 0;
-        int lunarMonth = 0;
-        int lunarDay = 0;
-        boolean isIntercalation = false;
-
-        lunarYear =
-            (absDays >= getLunarAbsDays(solarYear, 1, 1, false)) ? solarYear : solarYear - 1;
-
-        for (int month = 12; month > 0; month--) {
-            int absDaysByMonth = getLunarAbsDays(lunarYear, month, 1, false);
-            if (absDays >= absDaysByMonth) {
-                lunarMonth = month;
-
-                if (getLunarIntercalationMonth(getLunarData(lunarYear)) == month) {
-                    isIntercalation = absDays >= getLunarAbsDays(lunarYear, month, 1, true);
-                }
-
-                lunarDay = absDays - getLunarAbsDays(lunarYear, lunarMonth, 1, isIntercalation) + 1;
-                break;
-            }
-        }
-
-        setLunarYear(lunarYear);
-        setLunarMonth(lunarMonth);
-        setLunarDay(lunarDay);
-        setIntercalation(isIntercalation);
-    }
-
-    private boolean checkValidDate(boolean isLunar, boolean isIntercalation, int year, int month,
-        int day) {
-        boolean isValid = false;
-        int dateValue = year * 10000 + month * 100 + day;
-        // 1582. 10. 5 ~ 1582. 10. 14 is not enable
-        if ((isLunar ? KOREAN_LUNAR_MIN_VALUE : KOREAN_SOLAR_MIN_VALUE) <= dateValue
-            && (isLunar ? KOREAN_LUNAR_MAX_VALUE : KOREAN_SOLAR_MAX_VALUE) >= dateValue) {
-            if (month > 0 && month < 13 && day > 0) {
-                int dayLimit =
-                    isLunar ? getLunarDays(year, month, isIntercalation)
-                        : getSolarDays(year, month);
-                if (!isLunar && year == 1582 && month == 10) {
-                    if (day > 4 && day < 15) {
-                        return false;
-                    } else {
-                        dayLimit += 10;
-                    }
-                }
-                if (day <= dayLimit) {
-                    isValid = true;
-                }
-            }
-        }
-        return isValid;
-    }
-
-    public void setLunarDate(LocalDate localDate) {
-        setLunarDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
-    }
-
-    public void setSolarDate(LocalDate localDate) {
-        setSolarDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
-    }
-
-    /**
-     * @param lunarYear
-     * @param lunarMonth
-     * @param lunarDay
-     * @return
-     */
-    private void setLunarDate(int lunarYear, int lunarMonth, int lunarDay) {
-        boolean isIntercalation = determineIsIntercalation(lunarYear, lunarMonth);
-        boolean isValid = false;
-        if (checkValidDate(true, isIntercalation, lunarYear, lunarMonth, lunarDay)) {
-            setLunarYear(lunarYear);
-            setLunarMonth(lunarMonth);
-            setLunarDay(lunarDay);
-            setIntercalation(
-                isIntercalation && (getLunarIntercalationMonth(getLunarData(lunarYear))
-                    == lunarMonth));
-            setSolarDateByLunarDate(lunarYear, lunarMonth, lunarDay, isIntercalation);
-            isValid = true;
-        }
-        if (!isValid) {
-            throw new IllegalArgumentException("날짜의 범위가 잘못되었습니다.");
-        }
-    }
-
-    private boolean determineIsIntercalation(int lunarYear, int lunarMonth) {
-        int lunarData = getLunarData(lunarYear);
-        int intercalationMonth = getLunarIntercalationMonth(lunarData);
-
-        return lunarMonth == intercalationMonth;
-    }
-
-
-    /**
-     * @param solarYear
-     * @param solarMonth
-     * @param solarDay
-     * @return
-     */
-    private void setSolarDate(int solarYear, int solarMonth, int solarDay) {
-        boolean isValid = false;
-        if (checkValidDate(false, false, solarYear, solarMonth, solarDay)) {
-            setSolarYear(solarYear);
-            setSolarMonth(solarMonth);
-            setSolarDay(solarDay);
-            setLunarDateBySolarDate(solarYear, solarMonth, solarDay);
-            isValid = true;
-        }
-        if (!isValid) {
-            throw new IllegalArgumentException("날짜의 범위가 잘못되었습니다.");
-        }
-    }
-
-    private void getGapJa() {
-        int absDays = getLunarAbsDays(lunarYear, lunarMonth, lunarDay, isIntercalation);
-        if (absDays > 0) {
-            gapjaYearInx[0] = ((lunarYear + 6) - KOREAN_LUNAR_BASE_YEAR) % KOREAN_CHEONGAN.length;
-            gapjaYearInx[1] = ((lunarYear + 0) - KOREAN_LUNAR_BASE_YEAR) % KOREAN_GANJI.length;
-
-            int monthCount = this.lunarMonth;
-            monthCount += 12 * (lunarYear - KOREAN_LUNAR_BASE_YEAR);
-            gapjaMonthInx[0] = (monthCount + 3) % KOREAN_CHEONGAN.length;
-            gapjaMonthInx[1] = (monthCount + 1) % KOREAN_GANJI.length;
-
-            gapjaDayInx[0] = (absDays + 4) % KOREAN_CHEONGAN.length;
-            gapjaDayInx[1] = (absDays + 2) % KOREAN_GANJI.length;
-        }
-    }
-
-    /**
-     * @return
-     */
-    public String getGapjaString() {
-        getGapJa();
-
-        StringBuilder gapjaString = new StringBuilder();
-        gapjaString.append(KOREAN_CHEONGAN[gapjaYearInx[0]]);
-        gapjaString.append(KOREAN_GANJI[gapjaYearInx[1]]);
-        gapjaString.append(KOREAN_GAPJA_UNIT[gapjaYearInx[2]]);
-        gapjaString.append(" ");
-        gapjaString.append(KOREAN_CHEONGAN[gapjaMonthInx[0]]);
-        gapjaString.append(KOREAN_GANJI[gapjaMonthInx[1]]);
-        gapjaString.append(KOREAN_GAPJA_UNIT[gapjaMonthInx[2]]);
-        gapjaString.append(" ");
-        gapjaString.append(KOREAN_CHEONGAN[gapjaDayInx[0]]);
-        gapjaString.append(KOREAN_GANJI[gapjaDayInx[1]]);
-        gapjaString.append(KOREAN_GAPJA_UNIT[gapjaDayInx[2]]);
-
-        if (isIntercalation()) {
-            gapjaString.append(" (");
-            gapjaString.append(INTERCALATION_STR[0]);
-            gapjaString.append(KOREAN_GAPJA_UNIT[1]);
-            gapjaString.append(")");
-        }
-        return gapjaString.toString();
-    }
-
-    /**
-     * @return
-     */
-    public String getChineseGapJaString() {
-        getGapJa();
-
-        StringBuilder gapjaString = new StringBuilder();
-        gapjaString.append(CHINESE_CHEONGAN[gapjaYearInx[0]]);
-        gapjaString.append(CHINESE_GANJI[gapjaYearInx[1]]);
-        gapjaString.append(CHINESE_GAPJA_UNIT[gapjaYearInx[2]]);
-        gapjaString.append(" ");
-        gapjaString.append(CHINESE_CHEONGAN[gapjaMonthInx[0]]);
-        gapjaString.append(CHINESE_GANJI[gapjaMonthInx[1]]);
-        gapjaString.append(CHINESE_GAPJA_UNIT[gapjaMonthInx[2]]);
-        gapjaString.append(" ");
-        gapjaString.append(CHINESE_CHEONGAN[gapjaDayInx[0]]);
-        gapjaString.append(CHINESE_GANJI[gapjaDayInx[1]]);
-        gapjaString.append(CHINESE_GAPJA_UNIT[gapjaDayInx[2]]);
-
-        if (isIntercalation()) {
-            gapjaString.append(" (");
-            gapjaString.append(INTERCALATION_STR[1]);
-            gapjaString.append(CHINESE_GAPJA_UNIT[1]);
-            gapjaString.append(")");
-        }
-        return gapjaString.toString();
-    }
-
-    /**
-     * @return
-     */
-    public String getLunarIsoFormat() {
-        String isoStr = String.format("%04d-%02d-%02d", lunarYear, lunarMonth, lunarDay);
-        if (isIntercalation()) {
-            isoStr += " Intercalation";
-        }
-
-        return isoStr;
-    }
-
-    public LocalDate getLunarDate() {
-        return LocalDate.of(lunarYear, lunarMonth, lunarDay);
-    }
-
-    public LocalDate getSolarDate() {
-        return LocalDate.of(solarYear, solarMonth, solarDay);
-    }
-
-    /**
-     * @return
-     */
-    public String getSolarIsoFormat() {
-        String isoStr = String.format("%04d-%02d-%02d", solarYear, solarMonth, solarDay);
-
-        return isoStr;
-    }
-
-    /**
-     * @return
-     */
-    public int getLunarYear() {
-        return lunarYear;
-    }
-
-    private void setLunarYear(int lunarYear) {
-        this.lunarYear = lunarYear;
-    }
-
-    /**
-     * @return
-     */
-    public int getLunarMonth() {
-        return lunarMonth;
-    }
-
-    private void setLunarMonth(int lunarMonth) {
-        this.lunarMonth = lunarMonth;
-    }
-
-    /**
-     * @return
-     */
-    public int getLunarDay() {
-        return lunarDay;
-    }
-
-    private void setLunarDay(int lunarDay) {
-        this.lunarDay = lunarDay;
-    }
-
-    /**
-     * @return
-     */
-    public boolean isIntercalation() {
-        return isIntercalation;
-    }
-
-    private void setIntercalation(boolean isIntercalation) {
-        this.isIntercalation = isIntercalation;
-    }
-
-    /**
-     * @return
-     */
-    public int getSolarYear() {
-        return solarYear;
-    }
-
-    private void setSolarYear(int solarYear) {
-        this.solarYear = solarYear;
-    }
-
-    /**
-     * @return
-     */
-    public int getSolarMonth() {
-        return solarMonth;
-    }
-
-    private void setSolarMonth(int solarMonth) {
-        this.solarMonth = solarMonth;
-    }
-
-    /**
-     * @return
-     */
-    public int getSolarDay() {
-        return solarDay;
-    }
-
-    private void setSolarDay(int solarDay) {
-        this.solarDay = solarDay;
-    }
-
 }

@@ -95,6 +95,6 @@ class CreateAnniversaryTest {
         // when & then
         assertThatThrownBy(() -> sut.create(query))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("CalenderType이 잘못된 타입입니다.");
+            .hasMessage("CalendarType이 잘못된 타입입니다.");
     }
 }

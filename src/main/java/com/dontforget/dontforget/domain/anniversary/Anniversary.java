@@ -91,26 +91,28 @@ public class Anniversary {
             deviceUuid,
             date,
             type.name(),
-            calendarCalculator.calculateLunarDate(date, type),
-            calendarCalculator.calculateSolarDate(date, type),
-            calculateNotice(alarmSchedule),
+            calendarCalculator.calculateCurLunarDate(date, type),
+            calendarCalculator.calculateCurSolarDate(date, type),
+            convertNotice(alarmSchedule),
             cardType
         );
     }
 
-    private static List<Notice> calculateNotice(final List<NoticeType> alarmSchedule) {
+    public void update(
+        String title, LocalDate date, CalendarType type,
+        List<NoticeType> noticeTypes, String content,
+        CalendarCalculator calculator
+    ) {
+        this.title = title;
+        this.lunarDate = calculator.calculateCurLunarDate(date, type);
+        this.solarDate = calculator.calculateCurSolarDate(date, type);
+        this.notices = convertNotice(noticeTypes);
+        this.content = content;
+    }
+
+    private static List<Notice> convertNotice(final List<NoticeType> alarmSchedule) {
         return alarmSchedule.stream()
             .map(it -> new Notice(null, it))
             .toList();
-    }
-
-    public void update(String title, LocalDate date, CalendarType type,
-        List<NoticeType> noticeTypes, String content, CalendarCalculator calendarCalculator
-    ) {
-        this.title = title;
-        this.lunarDate = calendarCalculator.calculateLunarDate(date, type);
-        this.solarDate = calendarCalculator.calculateSolarDate(date, type);
-        this.notices = calculateNotice(noticeTypes);
-        this.content = content;
     }
 }

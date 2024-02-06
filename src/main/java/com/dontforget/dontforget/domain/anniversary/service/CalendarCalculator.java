@@ -13,35 +13,33 @@ public class CalendarCalculator {
 
     private final KoreanLunarCalendarCalculator koreanLunar;
 
-    public LocalDate calculateSolarDate(final LocalDate dateTime, final CalendarType type) {
-        if (CalendarType.LUNAR == type) {
-            return getCurSolarDate(dateTime);
-        }
-
+    public LocalDate calculateCurSolarDate(final LocalDate date, final CalendarType type) {
+        validateCalendarType(type);
+        LocalDate dateTime = date;
         if (CalendarType.SOLAR == type) {
-            koreanLunar.setSolarDate(dateTime);
-            return getCurSolarDate(koreanLunar.getLunarDate());
+            dateTime = koreanLunar.convertLunarDateFromSolarDate(date);
         }
-
-        throw new IllegalArgumentException("CalendarType이 잘못된 타입입니다.");
+        return getCurSolarDate(dateTime);
     }
 
     private LocalDate getCurSolarDate(final LocalDate dateTime) {
         final LocalDate nowLunarDate = getCurLunarDate(dateTime);
-        koreanLunar.setLunarDate(nowLunarDate);
-        return koreanLunar.getSolarDate();
+        return koreanLunar.convertSolarDateFromLunarDate(nowLunarDate);
     }
 
-    public LocalDate calculateLunarDate(final LocalDate date, final CalendarType type) {
-        if (CalendarType.LUNAR == type) {
-            return getCurLunarDate(date);
-        }
-
+    public LocalDate calculateCurLunarDate(final LocalDate date, final CalendarType type) {
+        validateCalendarType(type);
+        LocalDate dateTime = date;
         if (CalendarType.SOLAR == type) {
-            koreanLunar.setSolarDate(date);
-            return getCurLunarDate(koreanLunar.getLunarDate());
+            dateTime = koreanLunar.convertLunarDateFromSolarDate(date);
         }
-        throw new IllegalArgumentException("CalenderType이 잘못된 타입입니다.");
+        return getCurLunarDate(dateTime);
+    }
+
+    private void validateCalendarType(CalendarType type) {
+        if (!(CalendarType.LUNAR == type || CalendarType.SOLAR == type)) {
+            throw new IllegalArgumentException("CalendarType이 잘못된 타입입니다.");
+        }
     }
 
     private LocalDate getCurLunarDate(final LocalDate date) {

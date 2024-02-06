@@ -23,8 +23,7 @@ class KoreanLunarCalendarCalculatorTest {
         final KoreanLunarCalendarCalculator sut = new KoreanLunarCalendarCalculator();
 
         // when
-        sut.setSolarDate(jonghaSolarBirthday);
-        final LocalDate actual = sut.getLunarDate();
+        LocalDate actual = sut.convertLunarDateFromSolarDate(jonghaSolarBirthday);
 
         // then
         assertThat(actual).isEqualTo(expectedDate);
@@ -40,8 +39,7 @@ class KoreanLunarCalendarCalculatorTest {
         final KoreanLunarCalendarCalculator sut = new KoreanLunarCalendarCalculator();
 
         // when
-        sut.setLunarDate(lunarDate);
-        final LocalDate actual = sut.getSolarDate();
+        final LocalDate actual = sut.convertSolarDateFromLunarDate(lunarDate);
 
         // then
         assertThat(actual).isEqualTo(expectedDate);
@@ -54,7 +52,7 @@ class KoreanLunarCalendarCalculatorTest {
         final LocalDate wrongDate = LocalDate.of(2500, 1, 1);
 
         // when
-        assertThatCode(() -> sut.setSolarDate(wrongDate))
+        assertThatCode(() -> sut.convertLunarDateFromSolarDate(wrongDate))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("날짜의 범위가 잘못되었습니다.");
     }
