@@ -5,9 +5,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record AnniversaryDetailResponse(
-    Long anniversaryId, String title, LocalDate lunarDate,
-    LocalDate solarDate, List<String> alarmSchedule,
-    String content, String deviceId,
+    Long anniversaryId,
+    String title,
+    LocalDate lunarDate,
+    String baseType,
+    LocalDate baseDate,
+    LocalDate solarDate,
+    List<String> alarmSchedule,
+    String content,
+    String deviceId,
     String cardType
 
 ) {
@@ -17,6 +23,8 @@ public record AnniversaryDetailResponse(
             anniversary.getId(),
             anniversary.getTitle(),
             anniversary.getLunarDate(),
+            anniversary.getBaseType(),
+            anniversary.getBaseDate(),
             anniversary.getSolarDate(),
             anniversary.getNotices()
                 .stream()

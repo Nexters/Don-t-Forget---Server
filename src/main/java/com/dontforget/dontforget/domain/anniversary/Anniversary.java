@@ -5,6 +5,7 @@ import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.notice.Notice;
 import com.dontforget.dontforget.domain.notice.NoticeType;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,10 @@ public class Anniversary {
 
     private String deviceUuid;
 
+    private LocalDate baseDate;
+
+    private String baseType;
+
     private LocalDate lunarDate;
 
     private LocalDate solarDate;
@@ -32,13 +37,22 @@ public class Anniversary {
 
     private CardType cardType;
 
-    public Anniversary(Long id, String title, String content, String deviceUuid,
-        LocalDate lunarDate, LocalDate solarDate, List<Notice> notices, CardType cardType
-    ) {
+    public Anniversary(Long id,
+        String title,
+        String content,
+        String deviceUuid,
+        LocalDate baseDate,
+        String baseType,
+        LocalDate lunarDate,
+        LocalDate solarDate,
+        List<Notice> notices,
+        CardType cardType) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.deviceUuid = deviceUuid;
+        this.baseDate = baseDate;
+        this.baseType = baseType;
         this.lunarDate = lunarDate;
         this.solarDate = solarDate;
         this.notices = notices;
@@ -46,16 +60,28 @@ public class Anniversary {
     }
 
     public Anniversary(
-        String title, String content, String deviceUuid,
-        LocalDate lunarDate, LocalDate solarDate,
-        List<Notice> notices, CardType cardType
+        String title,
+        String content,
+        String deviceUuid,
+        LocalDate baseDate,
+        String baseType,
+        LocalDate lunarDate,
+        LocalDate solarDate,
+        List<Notice> notices,
+        CardType cardType
     ) {
-        this(null, title, content, deviceUuid, lunarDate, solarDate, notices, cardType);
+        this(null, title, content, deviceUuid,
+            baseDate, baseType, lunarDate, solarDate, notices,
+            cardType);
     }
 
     public static Anniversary create(
-        String deviceUuid, String title, LocalDate date,
-        String content, CalendarType type, List<NoticeType> alarmSchedule,
+        String deviceUuid,
+        String title,
+        LocalDate date,
+        String content,
+        CalendarType type,
+        List<NoticeType> alarmSchedule,
         CardType cardType,
         CalendarCalculator calendarCalculator
     ) {
@@ -63,6 +89,8 @@ public class Anniversary {
             title,
             content,
             deviceUuid,
+            date,
+            type.name(),
             calendarCalculator.calculateLunarDate(date, type),
             calendarCalculator.calculateSolarDate(date, type),
             calculateNotice(alarmSchedule),

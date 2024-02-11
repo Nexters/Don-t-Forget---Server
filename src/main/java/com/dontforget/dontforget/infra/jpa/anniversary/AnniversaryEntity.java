@@ -30,33 +30,45 @@ public class AnniversaryEntity {
     @Column(name = "device_uuid", nullable = false)
     private String deviceUuid;
 
+    @Column(name = "base_date", nullable = true)
+    private LocalDate baseDate;
+
+    @Column(name = "base_type", nullable = true)
+    private String baseType;
+
     @Column(name = "lunar_date", nullable = false)
     private LocalDate lunarDate;
 
     @Column(name = "solar_date", nullable = false)
     private LocalDate solarDate;
 
-    @Column(name ="card_type", nullable = false)
+    @Column(name = "card_type", nullable = false)
     private String cardType;
 
-    public AnniversaryEntity(
-        Long id, String title, String content,
-        String deviceUuid, LocalDate lunarDate, LocalDate solarDate,
-        String cardType
-    ) {
+    public AnniversaryEntity(Long id, String title, String content, String deviceUuid,
+        LocalDate baseDate, String baseType, LocalDate lunarDate, LocalDate solarDate,
+        String cardType) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.deviceUuid = deviceUuid;
+        this.baseDate = baseDate;
+        this.baseType = baseType;
         this.lunarDate = lunarDate;
         this.solarDate = solarDate;
         this.cardType = cardType;
     }
 
     public AnniversaryEntity(
-        String title, String content, String deviceUuid,
-        LocalDate lunarDate, LocalDate solarDate, String cardType
+        String title,
+        String content,
+        String deviceUuid,
+        LocalDate baseDate,
+        String baseType,
+        LocalDate lunarDate,
+        LocalDate solarDate,
+        String cardType
     ) {
-        this(null, title, content, deviceUuid, lunarDate, solarDate, cardType);
+        this(null, title, content, deviceUuid, baseDate, baseType, lunarDate, solarDate, cardType);
     }
 }
