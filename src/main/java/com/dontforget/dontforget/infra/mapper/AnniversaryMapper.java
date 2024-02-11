@@ -9,24 +9,30 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AnniversaryMapper {
+
     public AnniversaryEntity toEntity(final Anniversary anniversary) {
         return new AnniversaryEntity(
             anniversary.getId(),
             anniversary.getTitle(),
             anniversary.getContent(),
             anniversary.getDeviceUuid(),
+            anniversary.getBaseDate(),
+            anniversary.getBaseType(),
             anniversary.getLunarDate(),
             anniversary.getSolarDate(),
             anniversary.getCardType().name()
         );
     }
 
-    public Anniversary toDomain(final AnniversaryEntity anniversaryEntity, final List<Notice> notices) {
+    public Anniversary toDomain(final AnniversaryEntity anniversaryEntity,
+        final List<Notice> notices) {
         return new Anniversary(
             anniversaryEntity.getId(),
             anniversaryEntity.getTitle(),
             anniversaryEntity.getContent(),
             anniversaryEntity.getDeviceUuid(),
+            anniversaryEntity.getBaseDate(),
+            anniversaryEntity.getBaseType(),
             anniversaryEntity.getLunarDate(),
             anniversaryEntity.getSolarDate(),
             notices,
@@ -40,6 +46,8 @@ public class AnniversaryMapper {
             anniversaryEntity.getTitle(),
             anniversaryEntity.getContent(),
             anniversaryEntity.getDeviceUuid(),
+            anniversaryEntity.getBaseDate(),
+            anniversaryEntity.getBaseType(),
             anniversaryEntity.getLunarDate(),
             anniversaryEntity.getSolarDate(),
             null,
