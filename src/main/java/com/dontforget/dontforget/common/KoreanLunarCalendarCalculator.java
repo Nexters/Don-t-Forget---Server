@@ -247,7 +247,7 @@ public class KoreanLunarCalendarCalculator {
                 isIntercalation && (getLunarIntercalationMonth(getLunarData(lunarYear1))
                     == lunarMonth1));
         }
-        throw new IllegalArgumentException("날짜의 범위가 잘못되었습니다.");
+        throw new IllegalArgumentException("존재하지 않는 날짜입니다.");
     }
 
     public LocalDate convertLunarDateFromSolarDate(LocalDate localDate) {
@@ -257,7 +257,7 @@ public class KoreanLunarCalendarCalculator {
         if (checkValidDate(false, false, solarYear1, solarMonth1, solarDay1)) {
             return getLunarDateBySolarDate(solarYear1, solarMonth1, solarDay1);
         }
-        throw new IllegalArgumentException("날짜의 범위가 잘못되었습니다.");
+        throw new IllegalArgumentException("존재하지 않는 날짜입니다.");
     }
 
     private LocalDate getSolarDateByLunarDate(
