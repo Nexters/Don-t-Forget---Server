@@ -54,6 +54,6 @@ class KoreanLunarCalendarCalculatorTest {
         // when
         assertThatCode(() -> sut.convertLunarDateFromSolarDate(wrongDate))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("날짜의 범위가 잘못되었습니다.");
+            .hasMessageContaining("존재하지 않는 날짜입니다.");
     }
 }

@@ -98,21 +98,21 @@ public class Anniversary {
         );
     }
 
-    public void update(
-        String title, LocalDate date, CalendarType type,
-        List<NoticeType> noticeTypes, String content,
-        CalendarCalculator calculator
-    ) {
-        this.title = title;
-        this.lunarDate = calculator.calculateCurLunarDate(date, type);
-        this.solarDate = calculator.calculateCurSolarDate(date, type);
-        this.notices = convertNotice(noticeTypes);
-        this.content = content;
-    }
-
     private static List<Notice> convertNotice(final List<NoticeType> alarmSchedule) {
         return alarmSchedule.stream()
             .map(it -> new Notice(null, it))
             .toList();
+    }
+
+    public void update(String title, LocalDate date, CalendarType type,
+        List<NoticeType> noticeTypes, String content, CalendarCalculator calendarCalculator
+    ) {
+        this.title = title;
+        this.baseDate = date;
+        this.baseType = type.name();
+        this.lunarDate = calendarCalculator.calculateCurLunarDate(date, type);
+        this.solarDate = calendarCalculator.calculateCurSolarDate(date, type);
+        this.notices = convertNotice(noticeTypes);
+        this.content = content;
     }
 }
