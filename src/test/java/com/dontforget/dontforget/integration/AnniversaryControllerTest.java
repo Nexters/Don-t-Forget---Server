@@ -27,7 +27,7 @@ class AnniversaryControllerTest extends AcceptanceTest {
         // given
         final AnniversaryCreateRequest request = new AnniversaryCreateRequest(
             "생일",
-            LocalDate.now(), "hello", CalendarType.SOLAR,
+            LocalDate.of(2000,3,23), "hello", CalendarType.SOLAR,
             CardType.ARM, List.of(NoticeType.D_DAY)
         );
 

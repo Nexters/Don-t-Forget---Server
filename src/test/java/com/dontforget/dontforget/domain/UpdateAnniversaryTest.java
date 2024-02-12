@@ -74,9 +74,9 @@ class UpdateAnniversaryTest {
             () -> assertThat(anniversary.getTitle()).isEqualTo(updatedTitle),
             () -> assertThat(anniversary.getContent()).isEqualTo(updatedContent),
             () -> assertThat(anniversary.getLunarDate()).isEqualTo(
-                calculator.calculateLunarDate(updatedDate, type)),
+                calculator.calculateCurLunarDate(updatedDate, type)),
             () -> assertThat(anniversary.getSolarDate()).isEqualTo(
-                calculator.calculateSolarDate(updatedDate, type)),
+                calculator.calculateCurSolarDate(updatedDate, type)),
             () -> assertThat(anniversary.getNotices().stream()
                 .map(Notice::getNoticeType).toList())
                 .usingRecursiveComparison()
