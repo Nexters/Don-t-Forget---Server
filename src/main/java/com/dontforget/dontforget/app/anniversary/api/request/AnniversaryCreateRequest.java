@@ -22,6 +22,7 @@ public class AnniversaryCreateRequest {
     private CalendarType calendarType;
 
     private CardType cardType;
+
     private List<NoticeType> alarmSchedule;
 
     public AnniversaryCreateRequest(
