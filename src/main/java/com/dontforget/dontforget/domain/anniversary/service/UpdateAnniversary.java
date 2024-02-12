@@ -16,8 +16,10 @@ public class UpdateAnniversary {
     public void updateAnniversary(final UpdateAnniversaryQuery request) {
         final Anniversary anniversary = anniversaryRepository.findById(request.anniversaryId());
         anniversary.update(
-            request.title(), request.date(),
-            request.calendarType(), request.alarmSchedule(),
+            request.title(),
+            request.date(),
+            request.calendarType(),
+            request.alarmSchedule(),
             request.content(),
             calendarCalculator
         );
