@@ -11,7 +11,9 @@ import com.dontforget.dontforget.infra.mapper.NoticeMapper;
 import com.dontforget.dontforget.infra.jpa.notice.NoticeEntity;
 import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class AnniversaryRepositoryImpl implements AnniversaryRepository {
 
     private final AnniversaryEntityRepository anniversaryEntityRepository;

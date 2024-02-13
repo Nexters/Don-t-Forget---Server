@@ -1,6 +1,7 @@
 package com.dontforget.dontforget.app.notice.application;
 
 import com.dontforget.dontforget.app.notice.api.request.FCMNoticeRequest;
+import com.dontforget.dontforget.app.notice.api.request.NoticeDeviceRequest;
 import com.dontforget.dontforget.infra.jpa.notice.NoticeDeviceEntity;
 import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeDeviceEntityRepository;
 import com.google.firebase.messaging.AndroidConfig;
