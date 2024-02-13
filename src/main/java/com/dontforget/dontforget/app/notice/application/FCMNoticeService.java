@@ -2,6 +2,8 @@ package com.dontforget.dontforget.app.notice.application;
 
 import com.dontforget.dontforget.app.notice.api.request.FCMNoticeRequest;
 import com.dontforget.dontforget.app.notice.api.request.NoticeDeviceRequest;
+import com.dontforget.dontforget.domain.notice.NoticeDevice;
+import com.dontforget.dontforget.domain.notice.NoticeDeviceRepository;
 import com.dontforget.dontforget.infra.jpa.notice.NoticeDeviceEntity;
 import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeDeviceEntityRepository;
 import com.google.firebase.messaging.AndroidConfig;
@@ -22,56 +24,53 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FCMNoticeService {
 
-    private final NoticeDeviceEntityRepository repository;
+    private final NoticeDeviceRepository noticeDeviceRepository;
 
     public String sendNoticeByToken(FCMNoticeRequest request) {
-        Optional<NoticeDeviceEntity> user = repository.findNoticeDeviceEntityByDeviceUuid(
-                request.getDeviceUuid());
+        NoticeDevice user = noticeDeviceRepository.findByUuid(request.getDeviceUuid());
 
-        if (user.isPresent()) {
-            Message message = buildFcmMessage(request, user.get().getDeviceUuid());
-            try {
-                String response = FirebaseMessaging.getInstance().send(message);
-                log.info("FCM-send-" + response);
-            } catch (FirebaseMessagingException e) {
-                log.info("FCM-except-" + e.getMessage());
-                return "알림 실패";
-            }
+        Message message = buildFcmMessage(request, user.getFcmToken());
+        try {
+            String response = FirebaseMessaging.getInstance().send(message);
+            log.info("FCM-send-" + response);
+        } catch (FirebaseMessagingException e) {
+            log.info("FCM-except-" + e.getMessage());
+            return "알림 실패";
         }
         return "알림 전송";
     }
 
-    private Message buildFcmMessage(FCMNoticeRequest request, String deviceUuid) {
+    private Message buildFcmMessage(FCMNoticeRequest request, String token) {
         return Message.builder()
-                .setToken(deviceUuid)
-                .setNotification(
-                        Notification.builder()
-                                .setTitle(request.getTitle())
-                                .setBody(request.getBody())
-                                .build()
-                )
-                .setAndroidConfig(buildAndroidConfig(request))
-                .setApnsConfig(buildApnsConfig())
-                .build();
+            .setToken(token)
+            .setNotification(
+                Notification.builder()
+                    .setTitle(request.getTitle())
+                    .setBody(request.getBody())
+                    .build()
+            )
+            .setAndroidConfig(buildAndroidConfig(request))
+            .setApnsConfig(buildApnsConfig())
+            .build();
     }
 
     private AndroidConfig buildAndroidConfig(FCMNoticeRequest request) {
         return AndroidConfig.builder()
-                .setNotification(
-                        AndroidNotification.builder()
-                                .setTitle(request.getTitle())
-                                .setBody(request.getBody())
-                                .setClickAction("push_click")
-                                .build()
-                )
-                .build();
+            .setNotification(
+                AndroidNotification.builder()
+                    .setTitle(request.getTitle())
+                    .setBody(request.getBody())
+                    .setClickAction("push_click")
+                    .build()
+            )
+            .build();
     }
 
     private ApnsConfig buildApnsConfig() {
         return ApnsConfig.builder()
-                .setAps(Aps.builder()
-                        .setCategory("push_click")
-                        .build())
-                .build();
+            .setAps(Aps.builder()
+                .setCategory("push_click")
+                .build())
+            .build();
     }
 }
