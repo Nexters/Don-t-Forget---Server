@@ -26,7 +26,18 @@ public class NoticeDeviceEntity {
     @Column(name = "device_uuid", nullable = false)
     private String deviceUuid;
 
+    @Column(name = "fcm_token", nullable = false)
+    private String fcmToken;
+
     @Column(name = "device_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private DeviceStatus deviceStatus;
+
+    public NoticeDeviceEntity(Long id, String deviceUuid, String fcmToken,
+        DeviceStatus deviceStatus) {
+        this.id = id;
+        this.deviceUuid = deviceUuid;
+        this.fcmToken = fcmToken;
+        this.deviceStatus = deviceStatus;
+    }
 }
