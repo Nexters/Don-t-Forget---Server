@@ -42,7 +42,7 @@ jobs:
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "noticeServiceKey.json"
-          json: ${{ secrets.NOTICE }}
+          json: ${{ secrets.NOTICE }} >> ./src/main/resources/noticeServiceKey.json
       - name: make noticeServiceKey.json
         run: |
             cd ./src/main/resources
