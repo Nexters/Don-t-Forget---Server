@@ -37,10 +37,15 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "noticeServiceKey.json"
+          json: ${{ secrets.NOTICE }} >> ./src/main/resources/noticeServiceKey.json
       - name: make noticeServiceKey.json
         run: |
             cd ./src/main/resources
-            echo "${{ secrets.NOTICE }}" >> ./noticeServiceKey.json
             echo "${{ secrets.APPLICATIONYML }}" > ./application.yml
         shell: bash
 
