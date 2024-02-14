@@ -38,8 +38,8 @@ public class RepositoryTestConfig {
         return new NoticeMapper();
     }
 
-//    @Bean
-//    AlarmExecutor alarmExecutor() {
-//        return new FakeFcmExecutor();
-//    }
+    @Bean
+    AlarmExecutor alarmExecutor() {
+        return new FakeFcmExecutor();
+    }
 }
