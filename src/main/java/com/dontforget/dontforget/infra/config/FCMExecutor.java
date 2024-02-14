@@ -4,8 +4,10 @@ import com.dontforget.dontforget.domain.notice.AlarmExecutor;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.gson.stream.JsonReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +25,8 @@ public class FCMExecutor implements AlarmExecutor {
     public void initialize() {
         try {
             final InputStream refreshToken = new ClassPathResource(fcmKeyPath).getInputStream();
-
+            JsonReader reader = new JsonReader(new InputStreamReader(refreshToken, "UTF-8"));
+            reader.setLenient(true);
             final FirebaseOptions options = FirebaseOptions
                 .builder()
                 .setCredentials(GoogleCredentials.fromStream(refreshToken))
