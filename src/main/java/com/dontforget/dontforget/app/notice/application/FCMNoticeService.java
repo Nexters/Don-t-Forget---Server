@@ -1,11 +1,8 @@
 package com.dontforget.dontforget.app.notice.application;
 
 import com.dontforget.dontforget.app.notice.api.request.FCMNoticeRequest;
-import com.dontforget.dontforget.app.notice.api.request.NoticeDeviceRequest;
 import com.dontforget.dontforget.domain.notice.NoticeDevice;
 import com.dontforget.dontforget.domain.notice.NoticeDeviceRepository;
-import com.dontforget.dontforget.infra.jpa.notice.NoticeDeviceEntity;
-import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeDeviceEntityRepository;
 import com.google.firebase.messaging.AndroidConfig;
 import com.google.firebase.messaging.AndroidNotification;
 import com.google.firebase.messaging.ApnsConfig;
@@ -14,7 +11,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
