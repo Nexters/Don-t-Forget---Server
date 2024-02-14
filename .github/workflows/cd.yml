@@ -42,7 +42,11 @@ jobs:
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "noticeServiceKey.json"
-          json: ${{ secrets.NOTICE }} >> ./src/main/resources/noticeServiceKey.json
+          json: ${{ secrets.NOTICE }}
+      - name: Move noticeServiceKey.json to Resources
+        run: |
+          mkdir -p ./src/main/resources
+          mv noticeServiceKey.json ./src/main/resources/
       - name: make noticeServiceKey.json
         run: |
             cd ./src/main/resources
