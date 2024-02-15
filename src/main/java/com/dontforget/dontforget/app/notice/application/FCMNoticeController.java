@@ -36,7 +36,7 @@ public class FCMNoticeController {
     })
     @PostMapping("/device")
     public ResponseEntity<Long> saveNoticeDeviceInfo(@RequestBody NoticeDeviceRequest request) {
-        Long noticeDeviceId = createNoticeDevice.create(request);
+        Long noticeDeviceId = createNoticeDevice.upsert(request);
         return ResponseEntity.ok(noticeDeviceId);
     }
 

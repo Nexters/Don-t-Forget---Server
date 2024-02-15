@@ -12,12 +12,12 @@ public class CreateNoticeDevice {
 
     private final NoticeDeviceRepository repository;
 
-    public Long create(final NoticeDeviceRequest request) {
+    public Long upsert(final NoticeDeviceRequest request) {
         final NoticeDevice noticeDevice = NoticeDevice.create(
             request.getDeviceUuid(),
             request.getToken(),
             request.getStatus()
         );
-        return repository.save(noticeDevice);
+        return repository.upsert(noticeDevice);
     }
 }
