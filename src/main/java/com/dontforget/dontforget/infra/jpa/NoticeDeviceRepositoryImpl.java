@@ -35,4 +35,17 @@ public class NoticeDeviceRepositoryImpl implements NoticeDeviceRepository {
             .save(noticeMapper.toEntity(noticeDevice))
             .getId();
     }
+
+    @Override
+    public Long upsert(NoticeDevice noticeDevice) {
+        NoticeDeviceEntity existingDevice = noticeDeviceRepository
+            .findNoticeDeviceEntityByDeviceUuid(noticeDevice.getDeviceUuid())
+            .orElse(null);
+
+        existingDevice = existingDevice != null ?
+            noticeMapper.toEntity(noticeDevice, existingDevice.getId()) :
+            noticeMapper.toEntity(noticeDevice);
+
+        return noticeDeviceRepository.save(existingDevice).getId();
+    }
 }

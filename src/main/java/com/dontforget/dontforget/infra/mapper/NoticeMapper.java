@@ -42,6 +42,15 @@ public class NoticeMapper {
         );
     }
 
+    public NoticeDeviceEntity toEntity(final NoticeDevice device, final Long id) {
+        return new NoticeDeviceEntity(
+            id,
+            device.getDeviceUuid(),
+            device.getFcmToken(),
+            device.getDeviceStatus()
+        );
+    }
+
     public NoticeDevice toDomain(final NoticeDeviceEntity device) {
         return new NoticeDevice(
             device.getId(),
