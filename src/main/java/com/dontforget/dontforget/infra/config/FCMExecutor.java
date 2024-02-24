@@ -1,6 +1,6 @@
 package com.dontforget.dontforget.infra.config;
 
-import com.dontforget.dontforget.domain.notice.AlarmExecutor;
+import com.dontforget.dontforget.domain.notice.service.AlarmExecutor;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;

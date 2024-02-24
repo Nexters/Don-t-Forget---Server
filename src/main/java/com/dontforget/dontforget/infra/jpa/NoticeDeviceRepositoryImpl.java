@@ -14,8 +14,10 @@ public class NoticeDeviceRepositoryImpl implements NoticeDeviceRepository {
     private final NoticeDeviceEntityRepository noticeDeviceRepository;
     private final NoticeMapper noticeMapper;
 
-    public NoticeDeviceRepositoryImpl(NoticeDeviceEntityRepository noticeDeviceRepository,
-        NoticeMapper noticeMapper) {
+    public NoticeDeviceRepositoryImpl(
+        NoticeDeviceEntityRepository noticeDeviceRepository,
+        NoticeMapper noticeMapper
+    ) {
         this.noticeDeviceRepository = noticeDeviceRepository;
         this.noticeMapper = noticeMapper;
     }
@@ -30,22 +32,15 @@ public class NoticeDeviceRepositoryImpl implements NoticeDeviceRepository {
     }
 
     @Override
-    public Long save(NoticeDevice noticeDevice) {
-        return noticeDeviceRepository
-            .save(noticeMapper.toEntity(noticeDevice))
-            .getId();
-    }
-
-    @Override
     public Long upsert(NoticeDevice noticeDevice) {
         NoticeDeviceEntity existingDevice = noticeDeviceRepository
             .findNoticeDeviceEntityByDeviceUuid(noticeDevice.getDeviceUuid())
             .orElse(null);
 
-        existingDevice = existingDevice != null ?
+        var noticeDeviceEntity = existingDevice != null ?
             noticeMapper.toEntity(noticeDevice, existingDevice.getId()) :
             noticeMapper.toEntity(noticeDevice);
 
-        return noticeDeviceRepository.save(existingDevice).getId();
+        return noticeDeviceRepository.save(noticeDeviceEntity).getId();
     }
 }

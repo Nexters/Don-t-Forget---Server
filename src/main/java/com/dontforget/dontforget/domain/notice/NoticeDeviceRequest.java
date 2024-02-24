@@ -1,6 +1,5 @@
-package com.dontforget.dontforget.app.notice.api.request;
+package com.dontforget.dontforget.domain.notice;
 
-import com.dontforget.dontforget.domain.notice.DeviceStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
