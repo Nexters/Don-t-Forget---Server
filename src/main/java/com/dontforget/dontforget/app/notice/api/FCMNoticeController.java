@@ -1,13 +1,12 @@
-package com.dontforget.dontforget.app.notice.application;
+package com.dontforget.dontforget.app.notice.api;
 
 import com.dontforget.dontforget.app.notice.api.request.FCMNoticeRequest;
-import com.dontforget.dontforget.app.notice.api.request.NoticeDeviceRequest;
-import com.dontforget.dontforget.domain.notice.service.CreateNoticeDevice;
+import com.dontforget.dontforget.domain.notice.NoticeDeviceRequest;
+import com.dontforget.dontforget.app.notice.application.NoticeApplication;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/notice")
 public class FCMNoticeController {
 
-    private final FCMNoticeService sender;
-    private final CreateNoticeDevice createNoticeDevice;
+    private final NoticeApplication noticeApplication;
 
-    public FCMNoticeController(FCMNoticeService sender, CreateNoticeDevice createNoticeDevice) {
-        this.sender = sender;
-        this.createNoticeDevice = createNoticeDevice;
+    public FCMNoticeController(NoticeApplication noticeApplication) {
+        this.noticeApplication = noticeApplication;
     }
 
     @Operation(summary = "알림 정보 저장", description = "발송 테스트")
@@ -36,7 +33,7 @@ public class FCMNoticeController {
     })
     @PostMapping("/device")
     public ResponseEntity<Long> saveNoticeDeviceInfo(@RequestBody NoticeDeviceRequest request) {
-        Long noticeDeviceId = createNoticeDevice.upsert(request);
+        Long noticeDeviceId = noticeApplication.upsert(request);
         return ResponseEntity.ok(noticeDeviceId);
     }
 
@@ -49,6 +46,6 @@ public class FCMNoticeController {
     })
     @PostMapping
     public String send(@RequestBody FCMNoticeRequest request) {
-        return sender.sendNoticeByToken(request);
+        return noticeApplication.sendNoticeByToken(request);
     }
 }

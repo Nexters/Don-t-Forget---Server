@@ -1,4 +1,4 @@
-package com.dontforget.dontforget.app.anniversary.api;
+package com.dontforget.dontforget.app;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -23,8 +23,10 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
 
     public AnniversaryRepositoryImpl(
         AnniversaryEntityRepository anniversaryEntityRepository,
-        NoticeEntityRepository noticeEntityRepository, AnniversaryMapper anniversaryMapper,
-        NoticeMapper noticeMapper) {
+        NoticeEntityRepository noticeEntityRepository,
+        AnniversaryMapper anniversaryMapper,
+        NoticeMapper noticeMapper
+    ) {
         this.anniversaryEntityRepository = anniversaryEntityRepository;
         this.noticeEntityRepository = noticeEntityRepository;
         this.anniversaryMapper = anniversaryMapper;

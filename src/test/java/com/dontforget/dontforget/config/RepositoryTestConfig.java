@@ -1,7 +1,7 @@
 package com.dontforget.dontforget.config;
 
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
-import com.dontforget.dontforget.domain.notice.AlarmExecutor;
+import com.dontforget.dontforget.domain.notice.service.AlarmExecutor;
 import com.dontforget.dontforget.infra.jpa.AnniversaryRepositoryImpl;
 import com.dontforget.dontforget.infra.jpa.anniversary.repository.AnniversaryEntityRepository;
 import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
