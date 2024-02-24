@@ -5,13 +5,11 @@ import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.notice.Notice;
 import com.dontforget.dontforget.domain.notice.NoticeType;
-import jakarta.persistence.Column;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
@@ -95,6 +93,30 @@ public class Anniversary {
             calendarCalculator.calculateCurSolarDate(date, type),
             convertNotice(alarmSchedule),
             cardType
+        );
+    }
+
+    public static Anniversary createNextAnniversary(
+        Anniversary anniversary,
+        CalendarCalculator calendarCalculator
+    ) {
+        LocalDate nextDate = LocalDate.of(
+            anniversary.getBaseDate().getYear() + 1,
+            anniversary.getBaseDate().getMonth(),
+            anniversary.getBaseDate().getDayOfMonth()
+        );
+        CalendarType type = CalendarType.valueOf(anniversary.getBaseType());
+
+        return new Anniversary(
+            anniversary.getTitle(),
+            anniversary.getContent(),
+            anniversary.getDeviceUuid(),
+            nextDate,
+            anniversary.getBaseType(),
+            calendarCalculator.calculateCurLunarDate(nextDate, type),
+            calendarCalculator.calculateCurSolarDate(nextDate, type),
+            anniversary.getNotices(),
+            anniversary.getCardType()
         );
     }
 
