@@ -1,8 +1,5 @@
 package com.dontforget.dontforget.domain.notice;
 
-import lombok.Getter;
-
-@Getter
 public enum NoticeType {
     ONE_MONTH(30),
     TWO_WEEKS(14),
