@@ -8,6 +8,8 @@ import com.dontforget.dontforget.domain.notice.NoticeTarget;
 import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -60,9 +62,10 @@ public class AlarmScheduler {
     }
 
     private void resetNotificationStatus(List<NoticeTarget> alarmTargets) {
-        List<Long> updateAnniversaryIds = alarmTargets.stream()
+        Set<Long> updateAnniversaryIds = alarmTargets.stream()
+            .filter(NoticeTarget::isDDay)
             .map(it -> it.getAnniversary().getId())
-            .toList();
+            .collect(Collectors.toSet());
         noticeEntityRepository.updateAllByAnniversaryId(NoticeStatus.WAITING_SEND,
             updateAnniversaryIds);
     }
