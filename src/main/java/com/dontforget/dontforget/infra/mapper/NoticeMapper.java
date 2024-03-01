@@ -2,6 +2,7 @@ package com.dontforget.dontforget.infra.mapper;
 
 import com.dontforget.dontforget.domain.notice.Notice;
 import com.dontforget.dontforget.domain.notice.NoticeDevice;
+import com.dontforget.dontforget.domain.notice.NoticeStatus;
 import com.dontforget.dontforget.infra.jpa.notice.NoticeDeviceEntity;
 import com.dontforget.dontforget.infra.jpa.notice.NoticeEntity;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,8 @@ public class NoticeMapper {
         return new NoticeEntity(
             notice.getId(),
             anniversaryId,
-            notice.getNoticeType()
+            notice.getNoticeType(),
+            NoticeStatus.WAITING_SEND
         );
     }
 
@@ -21,7 +23,8 @@ public class NoticeMapper {
         return new Notice(
             noticeEntity.getId(),
             noticeEntity.getAnniversaryId(),
-            noticeEntity.getNoticeType()
+            noticeEntity.getNoticeType(),
+            noticeEntity.getNoticeStatus()
         );
     }
 
@@ -29,7 +32,8 @@ public class NoticeMapper {
         return new NoticeEntity(
             notice.getId(),
             notice.getAnniversaryId(),
-            notice.getNoticeType()
+            notice.getNoticeType(),
+            NoticeStatus.WAITING_SEND
         );
     }
 
