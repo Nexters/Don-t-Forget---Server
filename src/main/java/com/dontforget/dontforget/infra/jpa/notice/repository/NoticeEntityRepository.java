@@ -3,6 +3,7 @@ package com.dontforget.dontforget.infra.jpa.notice.repository;
 import com.dontforget.dontforget.domain.notice.NoticeStatus;
 import com.dontforget.dontforget.infra.jpa.notice.NoticeEntity;
 import java.util.List;
+import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,5 +25,5 @@ public interface NoticeEntityRepository extends JpaRepository<NoticeEntity, Long
     @Modifying
     @Query("UPDATE NoticeEntity n SET n.noticeStatus = :noticeStatus WHERE n.anniversaryId IN :anniversaryIds")
     void updateAllByAnniversaryId(@Param("noticeStatus") final NoticeStatus noticeStatus,
-        @Param("anniversaryIds") final List<Long> anniversaryIds);
+        @Param("anniversaryIds") final Set<Long> anniversaryIds);
 }

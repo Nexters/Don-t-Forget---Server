@@ -37,7 +37,7 @@ public class Notice {
             && noticeStatus == NoticeStatus.WAITING_SEND;
     }
 
-    private LocalDate calculateNoticeTypeDate(LocalDate searchDay) {
+    private LocalDate calculateNoticeTypeDate(final LocalDate searchDay) {
         return searchDay.minusDays(noticeType.getDay());
     }
 }

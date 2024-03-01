@@ -37,7 +37,7 @@ public class AlarmSender {
         return "알림 전송";
     }
 
-    public Message buildFcmMessage(String title, String body, String token) {
+    private Message buildFcmMessage(String title, String body, String token) {
         return Message.builder()
             .setToken(token)
             .setNotification(

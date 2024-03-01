@@ -12,11 +12,9 @@ public enum NoticeType {
     D_DAY(0),
     ;
 
-    private int day;
+    private final int day;
 
     NoticeType(int day) {
         this.day = day;
     }
-
-
 }
