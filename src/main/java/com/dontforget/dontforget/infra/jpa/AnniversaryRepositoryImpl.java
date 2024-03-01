@@ -41,11 +41,29 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
 
         final List<NoticeEntity> noticeEntities = anniversary.getNotices()
             .stream()
-            .map(it -> noticeMapper.toEntity(it,anniversaryId))
+            .map(it -> noticeMapper.toEntity(it, anniversaryId))
             .toList();
 
         noticeEntityRepository.saveAll(noticeEntities);
         return anniversaryId;
+    }
+
+    @Override
+    public void saveAll(List<Anniversary> anniversaryList) {
+        List<AnniversaryEntity> anniversaryEntities = anniversaryList.stream()
+            .map(it -> anniversaryMapper.toEntity(it))
+            .toList();
+        anniversaryEntityRepository.saveAll(anniversaryEntities);
+    }
+
+    @Override
+    public List<Anniversary> findAll() {
+        final List<AnniversaryEntity> anniversaryList = anniversaryEntityRepository.findAll();
+
+        return anniversaryList
+            .stream()
+            .map(it -> anniversaryMapper.toDomain(it, getNotice(it.getId())))
+            .toList();
     }
 
     @Override
@@ -54,20 +72,24 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
                 anniversaryId)
             .orElseThrow(() -> new NotFoundAnniversaryException(anniversaryId));
 
-        final List<Notice> notices = noticeEntityRepository.findAllByAnniversaryId(anniversaryId)
-            .stream()
-            .map(noticeMapper::toDomain)
-            .toList();
+        final List<Notice> notices = getNotice(anniversaryId);
 
         return anniversaryMapper.toDomain(anniversaryEntity, notices);
     }
 
+    private List<Notice> getNotice(Long anniversaryId) {
+        return noticeEntityRepository.findAllByAnniversaryId(anniversaryId)
+            .stream()
+            .map(noticeMapper::toDomain)
+            .toList();
+    }
+
     @Override
     public List<Anniversary> findByDeviceUuidOrderByRecentDate(final String deviceId) {
-          return anniversaryEntityRepository.findByDeviceUuidOrderByRecentDate(deviceId)
-              .stream()
-              .map(anniversaryMapper::toDomain)
-              .toList();
+        return anniversaryEntityRepository.findByDeviceUuidOrderByRecentDate(deviceId)
+            .stream()
+            .map(anniversaryMapper::toDomain)
+            .toList();
     }
 
     @Override
@@ -78,7 +100,7 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
         anniversaryEntityRepository.save(anniversaryEntity);
         final List<NoticeEntity> noticeEntities = anniversary.getNotices()
             .stream()
-            .map(it -> noticeMapper.toEntity(it,anniversaryEntity.getId()))
+            .map(it -> noticeMapper.toEntity(it, anniversaryEntity.getId()))
             .toList();
         noticeEntityRepository.saveAll(noticeEntities);
     }
