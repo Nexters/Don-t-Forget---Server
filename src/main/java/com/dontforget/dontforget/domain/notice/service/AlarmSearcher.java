@@ -24,7 +24,7 @@ public class AlarmSearcher {
 
     private List<NoticeTarget> getSendMessageGroup(Anniversary anniversary, LocalDate today) {
         return anniversary.getNotices().stream()
-            .filter(notice -> notice.isSendNotice(today, anniversary.getLunarDate()))
+            .filter(notice -> notice.isSendNotice(today, anniversary.getSolarDate()))
             .map(notice -> NoticeTarget.of(anniversary, notice))
             .collect(Collectors.toList());
     }
