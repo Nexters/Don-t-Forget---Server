@@ -4,6 +4,7 @@ import com.dontforget.dontforget.domain.notice.NoticeStatus;
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,7 +32,7 @@ public class NoticeEntity {
     private NoticeType noticeType;
 
     @Column(name = "notice_status", nullable = false)
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private NoticeStatus noticeStatus;
 
     public NoticeEntity(Long id, Long anniversaryId, NoticeType noticeType,
