@@ -27,7 +27,7 @@ public class AlarmScheduler {
     private final AnniversaryRepository anniversaryRepository;
     private final CalendarCalculator calendarCalculator;
 
-    @Scheduled(cron = "0 9 * * *")
+    @Scheduled(cron = "* 0 9 * * *")
     @Transactional
     public void run() {
         List<NoticeTarget> alarmTargets = searcher.findAlarmTargets();
