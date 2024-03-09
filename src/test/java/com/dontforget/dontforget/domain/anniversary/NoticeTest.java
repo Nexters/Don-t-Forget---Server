@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import autoparams.AutoSource;
 import com.dontforget.dontforget.domain.notice.Notice;
+import com.dontforget.dontforget.domain.notice.NoticeStatus;
 import com.dontforget.dontforget.domain.notice.NoticeType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,11 +18,12 @@ class NoticeTest {
     void Notice_생성_테스트(
         final Long id,
         final Long anniversaryId,
-        final NoticeType type
+        final NoticeType type,
+        final NoticeStatus status
     ) {
         // given
         // when
-        Notice notice = new Notice(id, anniversaryId, type);
+        Notice notice = new Notice(id, anniversaryId, type, status);
 
         // then
         assertAll(
