@@ -1,9 +1,8 @@
 package com.dontforget.dontforget.app.anniversary.api.request;
 
 import com.dontforget.dontforget.common.CalendarType;
-import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.domain.anniversary.query.UpdateAnniversaryQuery;
-import com.dontforget.dontforget.domain.notice.NoticeType;
+import com.dontforget.dontforget.domain.notice.enums.NoticeType;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;

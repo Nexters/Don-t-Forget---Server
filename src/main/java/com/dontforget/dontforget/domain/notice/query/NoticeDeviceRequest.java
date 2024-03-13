@@ -1,5 +1,6 @@
-package com.dontforget.dontforget.domain.notice;
+package com.dontforget.dontforget.domain.notice.query;
 
+import com.dontforget.dontforget.domain.notice.enums.DeviceStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -1,6 +1,6 @@
 package com.dontforget.dontforget.infra.jpa.notice.repository;
 
-import com.dontforget.dontforget.domain.notice.NoticeStatus;
+import com.dontforget.dontforget.domain.notice.enums.NoticeStatus;
 import com.dontforget.dontforget.infra.jpa.notice.NoticeEntity;
 import java.util.List;
 import java.util.Set;

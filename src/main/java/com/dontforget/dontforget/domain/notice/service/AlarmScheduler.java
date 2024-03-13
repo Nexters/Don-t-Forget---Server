@@ -1,23 +1,22 @@
 package com.dontforget.dontforget.domain.notice.service;
 
+import com.dontforget.dontforget.common.DomainService;
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
-import com.dontforget.dontforget.domain.notice.NoticeStatus;
+import com.dontforget.dontforget.domain.notice.enums.NoticeStatus;
 import com.dontforget.dontforget.domain.notice.NoticeTarget;
 import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
-
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@Service
+@DomainService
 @RequiredArgsConstructor
 public class AlarmScheduler {
 

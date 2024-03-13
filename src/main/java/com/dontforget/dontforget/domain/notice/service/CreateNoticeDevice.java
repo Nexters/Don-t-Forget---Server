@@ -1,6 +1,6 @@
 package com.dontforget.dontforget.domain.notice.service;
 
-import com.dontforget.dontforget.domain.notice.NoticeDeviceRequest;
+import com.dontforget.dontforget.domain.notice.query.NoticeDeviceRequest;
 import com.dontforget.dontforget.common.DomainService;
 import com.dontforget.dontforget.domain.notice.NoticeDevice;
 import com.dontforget.dontforget.domain.notice.NoticeDeviceRepository;

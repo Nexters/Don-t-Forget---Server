@@ -9,7 +9,7 @@ import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryCreateRe
 import com.dontforget.dontforget.app.anniversary.api.request.AnniversaryUpdateRequest;
 import com.dontforget.dontforget.common.CalendarType;
 import com.dontforget.dontforget.common.CardType;
-import com.dontforget.dontforget.domain.notice.NoticeType;
+import com.dontforget.dontforget.domain.notice.enums.NoticeType;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

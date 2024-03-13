@@ -14,7 +14,7 @@ import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.anniversary.service.CreateAnniversary;
 import com.dontforget.dontforget.domain.anniversary.service.DeleteAnniversary;
-import com.dontforget.dontforget.domain.notice.NoticeType;
+import com.dontforget.dontforget.domain.notice.enums.NoticeType;
 import com.dontforget.dontforget.infra.jpa.notice.NoticeEntity;
 import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
 import java.time.LocalDate;
