@@ -4,7 +4,7 @@ import com.dontforget.dontforget.common.CalendarType;
 import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.notice.Notice;
-import com.dontforget.dontforget.domain.notice.NoticeType;
+import com.dontforget.dontforget.domain.notice.enums.NoticeType;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +83,9 @@ public class Anniversary {
         CardType cardType,
         CalendarCalculator calendarCalculator
     ) {
+        if (type == null) {
+            throw new IllegalArgumentException("CalendarType이 잘못된 타입입니다.");
+        }
         return new Anniversary(
             title,
             content,

@@ -9,7 +9,7 @@ import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.notice.Notice;
-import com.dontforget.dontforget.domain.notice.NoticeType;
+import com.dontforget.dontforget.domain.notice.enums.NoticeType;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

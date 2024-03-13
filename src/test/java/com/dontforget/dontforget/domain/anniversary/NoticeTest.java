@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import autoparams.AutoSource;
 import com.dontforget.dontforget.domain.notice.Notice;
-import com.dontforget.dontforget.domain.notice.NoticeStatus;
-import com.dontforget.dontforget.domain.notice.NoticeType;
+import com.dontforget.dontforget.domain.notice.enums.NoticeStatus;
+import com.dontforget.dontforget.domain.notice.enums.NoticeType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 

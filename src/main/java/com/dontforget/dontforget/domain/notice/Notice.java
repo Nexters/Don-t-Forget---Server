@@ -1,5 +1,7 @@
 package com.dontforget.dontforget.domain.notice;
 
+import com.dontforget.dontforget.domain.notice.enums.NoticeStatus;
+import com.dontforget.dontforget.domain.notice.enums.NoticeType;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

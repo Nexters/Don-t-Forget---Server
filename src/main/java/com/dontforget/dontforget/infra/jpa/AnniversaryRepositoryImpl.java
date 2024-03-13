@@ -4,12 +4,10 @@ import com.dontforget.dontforget.domain.anniversary.Anniversary;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
 import com.dontforget.dontforget.domain.anniversary.exception.NotFoundAnniversaryException;
 import com.dontforget.dontforget.domain.notice.Notice;
+import com.dontforget.dontforget.domain.notice.NoticeRepository;
 import com.dontforget.dontforget.infra.jpa.anniversary.AnniversaryEntity;
 import com.dontforget.dontforget.infra.jpa.anniversary.repository.AnniversaryEntityRepository;
 import com.dontforget.dontforget.infra.mapper.AnniversaryMapper;
-import com.dontforget.dontforget.infra.mapper.NoticeMapper;
-import com.dontforget.dontforget.infra.jpa.notice.NoticeEntity;
-import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -17,20 +15,17 @@ import org.springframework.stereotype.Repository;
 public class AnniversaryRepositoryImpl implements AnniversaryRepository {
 
     private final AnniversaryEntityRepository anniversaryEntityRepository;
-    private final NoticeEntityRepository noticeEntityRepository;
     private final AnniversaryMapper anniversaryMapper;
-    private final NoticeMapper noticeMapper;
+    private final NoticeRepository noticeRepository;
 
     public AnniversaryRepositoryImpl(
-        AnniversaryEntityRepository anniversaryEntityRepository,
-        NoticeEntityRepository noticeEntityRepository,
-        AnniversaryMapper anniversaryMapper,
-        NoticeMapper noticeMapper
+        final AnniversaryEntityRepository anniversaryEntityRepository,
+        final AnniversaryMapper anniversaryMapper,
+        final NoticeRepository noticeRepository
     ) {
         this.anniversaryEntityRepository = anniversaryEntityRepository;
-        this.noticeEntityRepository = noticeEntityRepository;
         this.anniversaryMapper = anniversaryMapper;
-        this.noticeMapper = noticeMapper;
+        this.noticeRepository = noticeRepository;
     }
 
     @Override
@@ -39,19 +34,14 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
         final Long anniversaryId = anniversaryEntityRepository.save(anniversaryEntity)
             .getId();
 
-        final List<NoticeEntity> noticeEntities = anniversary.getNotices()
-            .stream()
-            .map(it -> noticeMapper.toEntity(it, anniversaryId))
-            .toList();
-
-        noticeEntityRepository.saveAll(noticeEntities);
+        noticeRepository.saveAll(anniversaryId, anniversary.getNotices());
         return anniversaryId;
     }
 
     @Override
-    public void saveAll(List<Anniversary> anniversaryList) {
-        List<AnniversaryEntity> anniversaryEntities = anniversaryList.stream()
-            .map(it -> anniversaryMapper.toEntity(it))
+    public void saveAll(final List<Anniversary> anniversaryList) {
+        var anniversaryEntities = anniversaryList.stream()
+            .map(anniversaryMapper::toEntity)
             .toList();
         anniversaryEntityRepository.saveAll(anniversaryEntities);
     }
@@ -62,8 +52,10 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
 
         return anniversaryList
             .stream()
-            .map(it -> anniversaryMapper.toDomain(it, getNotice(it.getId())))
-            .toList();
+            .map(it -> {
+                var notices = noticeRepository.findAllByAnniversaryId(it.getId());
+                return anniversaryMapper.toDomain(it, notices);
+            }).toList();
     }
 
     @Override
@@ -72,16 +64,8 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
                 anniversaryId)
             .orElseThrow(() -> new NotFoundAnniversaryException(anniversaryId));
 
-        final List<Notice> notices = getNotice(anniversaryId);
-
+        final List<Notice> notices = noticeRepository.findAllByAnniversaryId(anniversaryId);
         return anniversaryMapper.toDomain(anniversaryEntity, notices);
-    }
-
-    private List<Notice> getNotice(Long anniversaryId) {
-        return noticeEntityRepository.findAllByAnniversaryId(anniversaryId)
-            .stream()
-            .map(noticeMapper::toDomain)
-            .toList();
     }
 
     @Override
@@ -94,31 +78,18 @@ public class AnniversaryRepositoryImpl implements AnniversaryRepository {
 
     @Override
     public void update(final Anniversary anniversary) {
-        removeBeforeNotice(anniversary);
+        noticeRepository.deleteNoticeEntites(anniversary.getId());
 
         final AnniversaryEntity anniversaryEntity = anniversaryMapper.toEntity(anniversary);
         anniversaryEntityRepository.save(anniversaryEntity);
-        final List<NoticeEntity> noticeEntities = anniversary.getNotices()
-            .stream()
-            .map(it -> noticeMapper.toEntity(it, anniversaryEntity.getId()))
-            .toList();
-        noticeEntityRepository.saveAll(noticeEntities);
-    }
 
-    private void removeBeforeNotice(final Anniversary anniversary) {
-        noticeEntityRepository.deleteByAnniversaryId(anniversary.getId());
-        noticeEntityRepository.flush();
+        noticeRepository.saveAll(anniversaryEntity.getId(), anniversary.getNotices());
     }
 
     @Override
     public void delete(final Anniversary anniversary) {
         final AnniversaryEntity anniversaryEntity = anniversaryMapper.toEntity(anniversary);
         anniversaryEntityRepository.delete(anniversaryEntity);
-
-        final List<Long> deleteIds = anniversary.getNotices()
-            .stream()
-            .map(Notice::getId)
-            .toList();
-        noticeEntityRepository.deleteAllByIdInBatch(deleteIds);
+        noticeRepository.deleteNoticeEntites(anniversary.getId());
     }
 }

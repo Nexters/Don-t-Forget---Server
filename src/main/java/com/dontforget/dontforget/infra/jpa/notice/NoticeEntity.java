@@ -1,7 +1,7 @@
 package com.dontforget.dontforget.infra.jpa.notice;
 
-import com.dontforget.dontforget.domain.notice.NoticeStatus;
-import com.dontforget.dontforget.domain.notice.NoticeType;
+import com.dontforget.dontforget.domain.notice.enums.NoticeStatus;
+import com.dontforget.dontforget.domain.notice.enums.NoticeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,21 +33,23 @@ public class NoticeEntity {
 
     @Column(name = "notice_status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private NoticeStatus noticeStatus;
+    private NoticeStatus noticeStatus = NoticeStatus.WAITING_SEND;
 
-    public NoticeEntity(Long id, Long anniversaryId, NoticeType noticeType,
-        NoticeStatus noticeStatus) {
+    public NoticeEntity(
+        final Long id,
+        final Long anniversaryId,
+        final NoticeType noticeType,
+        final NoticeStatus noticeStatus
+    ) {
         this.id = id;
         this.anniversaryId = anniversaryId;
         this.noticeType = noticeType;
         this.noticeStatus = noticeStatus;
     }
 
-    public NoticeEntity(Long anniversaryId, NoticeType noticeType, NoticeStatus noticeStatus) {
-        this(null, anniversaryId, noticeType, noticeStatus);
-    }
-
-    public NoticeEntity(Long anniversaryId, NoticeType noticeType) {
-        this(null, anniversaryId, noticeType, NoticeStatus.WAITING_SEND);
+    public NoticeEntity(Long id, Long anniversaryId, NoticeType noticeType) {
+        this.id = id;
+        this.anniversaryId = anniversaryId;
+        this.noticeType = noticeType;
     }
 }

@@ -1,7 +1,7 @@
 package com.dontforget.dontforget.app.notice.api;
 
 import com.dontforget.dontforget.app.notice.api.request.FCMNoticeRequest;
-import com.dontforget.dontforget.domain.notice.NoticeDeviceRequest;
+import com.dontforget.dontforget.domain.notice.query.NoticeDeviceRequest;
 import com.dontforget.dontforget.app.notice.application.NoticeApplication;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

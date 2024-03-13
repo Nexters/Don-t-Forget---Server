@@ -3,43 +3,42 @@ package com.dontforget.dontforget.infra.jpa;
 import com.dontforget.dontforget.domain.notice.NoticeDevice;
 import com.dontforget.dontforget.domain.notice.NoticeDeviceRepository;
 import com.dontforget.dontforget.domain.notice.exception.NotFoundNoticeDeviceException;
-import com.dontforget.dontforget.infra.jpa.notice.NoticeDeviceEntity;
 import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeDeviceEntityRepository;
-import com.dontforget.dontforget.infra.mapper.NoticeMapper;
+import com.dontforget.dontforget.infra.mapper.NoticeDeviceMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class NoticeDeviceRepositoryImpl implements NoticeDeviceRepository {
 
     private final NoticeDeviceEntityRepository noticeDeviceRepository;
-    private final NoticeMapper noticeMapper;
+    private final NoticeDeviceMapper noticeDeviceMapper;
 
     public NoticeDeviceRepositoryImpl(
-        NoticeDeviceEntityRepository noticeDeviceRepository,
-        NoticeMapper noticeMapper
+        final NoticeDeviceEntityRepository noticeDeviceRepository,
+        final NoticeDeviceMapper noticeDeviceMapper
     ) {
         this.noticeDeviceRepository = noticeDeviceRepository;
-        this.noticeMapper = noticeMapper;
+        this.noticeDeviceMapper = noticeDeviceMapper;
     }
 
     @Override
-    public NoticeDevice findByUuid(String uuid) {
-        NoticeDeviceEntity findDevice = noticeDeviceRepository
+    public NoticeDevice findByUuid(final String uuid) {
+        var deviceEntity = noticeDeviceRepository
             .findNoticeDeviceEntityByDeviceUuid(uuid)
             .orElseThrow(() -> new NotFoundNoticeDeviceException(uuid));
 
-        return noticeMapper.toDomain(findDevice);
+        return noticeDeviceMapper.toDomain(deviceEntity);
     }
 
     @Override
-    public Long upsert(NoticeDevice noticeDevice) {
-        NoticeDeviceEntity existingDevice = noticeDeviceRepository
+    public Long upsert(final NoticeDevice noticeDevice) {
+        var existingDevice = noticeDeviceRepository
             .findNoticeDeviceEntityByDeviceUuid(noticeDevice.getDeviceUuid())
             .orElse(null);
 
         var noticeDeviceEntity = existingDevice != null ?
-            noticeMapper.toEntity(noticeDevice, existingDevice.getId()) :
-            noticeMapper.toEntity(noticeDevice);
+            noticeDeviceMapper.toEntity(noticeDevice, existingDevice.getId()) :
+            noticeDeviceMapper.toEntity(noticeDevice);
 
         return noticeDeviceRepository.save(noticeDeviceEntity).getId();
     }

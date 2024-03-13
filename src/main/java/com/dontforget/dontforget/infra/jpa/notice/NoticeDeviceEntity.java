@@ -1,6 +1,6 @@
 package com.dontforget.dontforget.infra.jpa.notice;
 
-import com.dontforget.dontforget.domain.notice.DeviceStatus;
+import com.dontforget.dontforget.domain.notice.enums.DeviceStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,8 +33,12 @@ public class NoticeDeviceEntity {
     @Enumerated(EnumType.STRING)
     private DeviceStatus deviceStatus;
 
-    public NoticeDeviceEntity(Long id, String deviceUuid, String fcmToken,
-        DeviceStatus deviceStatus) {
+    public NoticeDeviceEntity(
+        final Long id,
+        final String deviceUuid,
+        final String fcmToken,
+        final DeviceStatus deviceStatus
+    ) {
         this.id = id;
         this.deviceUuid = deviceUuid;
         this.fcmToken = fcmToken;

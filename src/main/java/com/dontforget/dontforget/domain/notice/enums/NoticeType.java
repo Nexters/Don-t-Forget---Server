@@ -1,4 +1,4 @@
-package com.dontforget.dontforget.domain.notice;
+package com.dontforget.dontforget.domain.notice.enums;
 
 import lombok.Getter;
 

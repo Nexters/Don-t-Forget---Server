@@ -1,11 +1,6 @@
 package com.dontforget.dontforget.domain.notice;
 
-import com.dontforget.dontforget.common.CalendarType;
-import com.dontforget.dontforget.common.CardType;
-import com.dontforget.dontforget.domain.anniversary.Anniversary;
-import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
-import java.time.LocalDate;
-import java.util.List;
+import com.dontforget.dontforget.domain.notice.enums.DeviceStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

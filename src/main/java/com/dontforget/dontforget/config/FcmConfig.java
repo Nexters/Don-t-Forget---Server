@@ -1,6 +1,5 @@
-package com.dontforget.dontforget.infra.config;
+package com.dontforget.dontforget.config;
 
-import com.dontforget.dontforget.domain.notice.service.AlarmExecutor;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -9,12 +8,14 @@ import java.io.InputStream;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Service
-public class FCMExecutor implements AlarmExecutor {
+@Component
+@Profile("!test")
+public class FcmConfig {
 
     @Value("${firebase.key-path}")
     private String fcmKeyPath;
@@ -36,5 +37,4 @@ public class FCMExecutor implements AlarmExecutor {
             throw new RuntimeException(e.getMessage());
         }
     }
-
 }

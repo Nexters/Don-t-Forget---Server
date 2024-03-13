@@ -1,10 +1,9 @@
 package com.dontforget.dontforget.app.notice.application;
 
 import com.dontforget.dontforget.app.notice.api.request.FCMNoticeRequest;
-import com.dontforget.dontforget.domain.notice.NoticeDeviceRequest;
+import com.dontforget.dontforget.domain.notice.query.NoticeDeviceRequest;
 import com.dontforget.dontforget.domain.notice.service.AlarmSender;
 import com.dontforget.dontforget.domain.notice.service.CreateNoticeDevice;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

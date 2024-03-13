@@ -1,6 +1,7 @@
 package com.dontforget.dontforget.domain.notice;
 
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
+import com.dontforget.dontforget.domain.notice.enums.NoticeType;
 import lombok.Getter;
 
 @Getter
@@ -32,7 +33,7 @@ public class NoticeTarget {
             it.getNoticeType());
     }
 
-    public boolean isDDay() {
+    public Boolean isDDay() {
         return noticeType == NoticeType.D_DAY;
     }
 

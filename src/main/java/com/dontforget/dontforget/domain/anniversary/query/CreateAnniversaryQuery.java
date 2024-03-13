@@ -2,7 +2,7 @@ package com.dontforget.dontforget.domain.anniversary.query;
 
 import com.dontforget.dontforget.common.CalendarType;
 import com.dontforget.dontforget.common.CardType;
-import com.dontforget.dontforget.domain.notice.NoticeType;
+import com.dontforget.dontforget.domain.notice.enums.NoticeType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
