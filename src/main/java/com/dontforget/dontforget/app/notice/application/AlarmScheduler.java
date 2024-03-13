@@ -13,31 +13,28 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AlarmScheduler {
+    private final AnniversaryRepository anniversaryRepository;
+    private final NoticeEntityRepository noticeEntityRepository;
 
     private final AlarmSearcher searcher;
     private final AlarmSender sender;
-    private final NoticeEntityRepository noticeEntityRepository;
-    private final AnniversaryRepository anniversaryRepository;
     private final CalendarCalculator calendarCalculator;
 
-    @Scheduled(cron = "* 0 9 * * *")
-    @Transactional
-    public void run() {
-        List<NoticeTarget> alarmTargets = searcher.findAlarmTargets();
-
-        sendNotifications(alarmTargets);
-        updateNotificationStatus(alarmTargets);
-        updateNextAnniversary(alarmTargets);
-        resetNotificationStatus(alarmTargets);
-    }
+//    @Scheduled(cron = "* 0 9 * * *")
+//    @Transactional
+//    public void run() {
+//        List<NoticeTarget> alarmTargets = searcher.findAlarmTargets();
+//        sendNotifications(alarmTargets);
+//        updateNotificationStatus(alarmTargets);
+//        updateNextAnniversary(alarmTargets);
+//        resetNotificationStatus(alarmTargets);
+//    }
 
     private void sendNotifications(List<NoticeTarget> alarmTargets) {
         alarmTargets.forEach(it -> sender.send(it.getDeviceUuid(), it.getTitle(), it.getMessage()));
