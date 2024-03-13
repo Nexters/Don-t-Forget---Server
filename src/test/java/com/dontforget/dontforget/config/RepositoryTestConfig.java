@@ -1,8 +1,10 @@
 package com.dontforget.dontforget.config;
 
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
+import com.dontforget.dontforget.domain.notice.NoticeRepository;
 import com.dontforget.dontforget.domain.notice.service.AlarmExecutor;
 import com.dontforget.dontforget.infra.jpa.AnniversaryRepositoryImpl;
+import com.dontforget.dontforget.infra.jpa.NoticeRepositoryImpl;
 import com.dontforget.dontforget.infra.jpa.anniversary.repository.AnniversaryEntityRepository;
 import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
 import com.dontforget.dontforget.infra.mapper.AnniversaryMapper;
@@ -16,14 +18,23 @@ public class RepositoryTestConfig {
     @Bean
     public AnniversaryRepository anniversaryRepository(
         AnniversaryEntityRepository anniversaryEntityRepository,
-        NoticeEntityRepository noticeEntityRepository,
         AnniversaryMapper anniversaryMapper,
-        NoticeMapper noticeMapper
+        NoticeRepository noticeRepository
     ) {
         return new AnniversaryRepositoryImpl(
             anniversaryEntityRepository,
-            noticeEntityRepository,
             anniversaryMapper,
+            noticeRepository
+        );
+    }
+
+    @Bean
+    public NoticeRepository noticeRepository(
+        NoticeEntityRepository noticeEntityRepository,
+        NoticeMapper noticeMapper
+    ) {
+        return new NoticeRepositoryImpl(
+            noticeEntityRepository,
             noticeMapper
         );
     }
