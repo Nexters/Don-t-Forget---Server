@@ -10,7 +10,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SpringBootTest(
     webEnvironment = WebEnvironment.RANDOM_PORT,
-    properties = "spring.profiles.active=test"
+    properties = "spring.profiles.active:test"
 )
 public abstract class AcceptanceTest {
 

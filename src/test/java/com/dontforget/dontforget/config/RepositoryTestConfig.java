@@ -2,7 +2,6 @@ package com.dontforget.dontforget.config;
 
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
 import com.dontforget.dontforget.domain.notice.NoticeRepository;
-import com.dontforget.dontforget.domain.notice.service.AlarmExecutor;
 import com.dontforget.dontforget.infra.jpa.AnniversaryRepositoryImpl;
 import com.dontforget.dontforget.infra.jpa.NoticeRepositoryImpl;
 import com.dontforget.dontforget.infra.jpa.anniversary.repository.AnniversaryEntityRepository;
@@ -47,10 +46,5 @@ public class RepositoryTestConfig {
     @Bean
     NoticeMapper noticeMapper() {
         return new NoticeMapper();
-    }
-
-    @Bean
-    AlarmExecutor alarmExecutor() {
-        return new FakeFcmExecutor();
     }
 }

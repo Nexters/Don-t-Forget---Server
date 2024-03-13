@@ -1,16 +1,16 @@
 package com.dontforget.dontforget.config;
 
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
+import com.dontforget.dontforget.domain.notice.NoticeDeviceRepository;
 import com.dontforget.dontforget.domain.notice.NoticeRepository;
-import com.dontforget.dontforget.domain.notice.service.AlarmExecutor;
-import com.dontforget.dontforget.infra.FCMExecutor;
+import com.dontforget.dontforget.domain.notice.service.AlarmSender;
+import com.dontforget.dontforget.infra.FcmAlarmSender;
 import com.dontforget.dontforget.infra.jpa.AnniversaryRepositoryImpl;
 import com.dontforget.dontforget.infra.jpa.NoticeRepositoryImpl;
 import com.dontforget.dontforget.infra.jpa.anniversary.repository.AnniversaryEntityRepository;
 import com.dontforget.dontforget.infra.jpa.notice.repository.NoticeEntityRepository;
 import com.dontforget.dontforget.infra.mapper.AnniversaryMapper;
 import com.dontforget.dontforget.infra.mapper.NoticeMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -44,9 +44,7 @@ public class RepositoryConfig {
 
     @Bean
     @Profile("!test")
-    public AlarmExecutor alarmExecutor(
-        @Value("${firebase.key-path}") final String fcmKeyPath
-    ) {
-        return new FCMExecutor(fcmKeyPath);
+    public AlarmSender alarmSender(NoticeDeviceRepository noticeDeviceRepository) {
+        return new FcmAlarmSender(noticeDeviceRepository);
     }
 }
