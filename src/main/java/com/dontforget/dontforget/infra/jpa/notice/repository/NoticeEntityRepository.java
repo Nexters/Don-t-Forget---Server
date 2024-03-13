@@ -19,8 +19,10 @@ public interface NoticeEntityRepository extends JpaRepository<NoticeEntity, Long
 
     @Modifying
     @Query("UPDATE NoticeEntity n SET n.noticeStatus = :noticeStatus WHERE n.id IN :noticeIds")
-    void updateAllById(@Param("noticeStatus") final NoticeStatus noticeStatus,
-        @Param("noticeIds") final List<Long> noticeIds);
+    void updateNoticeStatus(
+        @Param("noticeStatus") final NoticeStatus noticeStatus,
+        @Param("noticeIds") final List<Long> noticeIds
+    );
 
     @Modifying
     @Query("UPDATE NoticeEntity n SET n.noticeStatus = :noticeStatus WHERE n.anniversaryId IN :anniversaryIds")

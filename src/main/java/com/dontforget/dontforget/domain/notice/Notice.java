@@ -34,12 +34,12 @@ public class Notice {
         this(null, anniversaryId, noticeType, NoticeStatus.WAITING_SEND);
     }
 
-    public boolean isSendNotice(final LocalDate searchDay, final LocalDate noticeDate) {
-        return calculateNoticeTypeDate(searchDay).isEqual(noticeDate)
+    public boolean isSendable(
+        final LocalDate now,
+        final LocalDate dDay
+    ) {
+        return now.plusDays(noticeType.getDay()).isEqual(dDay)
             && noticeStatus == NoticeStatus.WAITING_SEND;
     }
 
-    private LocalDate calculateNoticeTypeDate(final LocalDate searchDay) {
-        return searchDay.minusDays(noticeType.getDay());
-    }
 }

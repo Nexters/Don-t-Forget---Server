@@ -33,7 +33,7 @@ public class Anniversary {
 
     private List<Notice> notices = new ArrayList<>();
 
-    private CardType cardType;
+    private CardType cardType = CardType.ARM;
 
     public Anniversary(Long id,
         String title,
