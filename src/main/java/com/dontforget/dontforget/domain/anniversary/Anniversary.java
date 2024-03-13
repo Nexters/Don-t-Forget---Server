@@ -83,6 +83,9 @@ public class Anniversary {
         CardType cardType,
         CalendarCalculator calendarCalculator
     ) {
+        if (type == null) {
+            throw new IllegalArgumentException("CalendarType이 잘못된 타입입니다.");
+        }
         return new Anniversary(
             title,
             content,
