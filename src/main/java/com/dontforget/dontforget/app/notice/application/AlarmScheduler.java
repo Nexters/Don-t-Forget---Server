@@ -25,51 +25,45 @@ public class AlarmScheduler {
     private final AnniversaryRepository anniversaryRepository;
     private final NoticeRepository noticeRepository;
 
-    private final AlarmSearcher alarmSearcher;
-    private final AlarmSender sender;
     private final CalendarCalculator calendarCalculator;
+
+    private final AlarmSearcher searcher;
+    private final AlarmSender sender;
 
     @Scheduled(cron = "* 0 9 * * *")
     @Transactional
     public void run() {
         // 1. 알람 대상 조회
-        var expectedNotices = alarmSearcher.findAlarmTargets(LocalDate.now());
+        var expectedNotices = searcher.findAlarmTargets(LocalDate.now());
         // 2. 알람 발송
-        sendNotifications(expectedNotices);
+        sender.sendNotifications(expectedNotices);
         // 3. 알람 상태 변경
         updateNotificationStatus(expectedNotices);
-        // 4. D-Day라면 다음 기념일 설정하고 create 하는 로직
-        // 5. D-Day가 아니라면 알람 상태를 변경한다.
+        // 4. D-Day라면 다음 기념일 설정하고 create 하는 로직 5. D-Day가 아니라면 알람 상태를 변경한다.
         updateDdayAnniversary(expectedNotices);
     }
 
-    private void sendNotifications(final List<NoticeTarget> alarmTargets) {
-        for (NoticeTarget it : alarmTargets) {
-            sender.send(it.getDeviceUuid(), it.getTitle(), it.getMessage());
-        }
-    }
-
-    private void updateNotificationStatus(List<NoticeTarget> alarmTargets) {
-        List<Long> noticeIds = alarmTargets
+    private void updateNotificationStatus(final List<NoticeTarget> alarmTargets) {
+        var noticeIds = alarmTargets
             .stream()
             .map(NoticeTarget::getNoticeId)
             .toList();
         noticeRepository.updateNoticeStatus(NoticeStatus.BE_SEND, noticeIds);
     }
 
-    private void updateDdayAnniversary(List<NoticeTarget> alarmTargets) {
-        List<Anniversary> endAnniversary = alarmTargets.stream()
+    private void updateDdayAnniversary(final List<NoticeTarget> alarmTargets) {
+        var anniversaries = alarmTargets.stream()
             .filter(NoticeTarget::isDDay)
             .map(NoticeTarget::getAnniversary)
-            .distinct().toList();
+            .distinct()
+            .toList();
 
-        List<Anniversary> anniversaries = endAnniversary
-            .stream()
+        var nextAnniversaries = anniversaries.stream()
             .map(it -> Anniversary.createNextAnniversary(it, calendarCalculator))
             .toList();
-        anniversaryRepository.saveAll(anniversaries);
+        anniversaryRepository.saveAll(nextAnniversaries);
 
-        List<Long> noticeIds = endAnniversary.stream().flatMap(it -> it.getNotices().stream())
+        List<Long> noticeIds = anniversaries.stream().flatMap(it -> it.getNotices().stream())
             .map(Notice::getId)
             .toList();
         noticeRepository.updateNoticeStatus(NoticeStatus.WAITING_SEND, noticeIds);

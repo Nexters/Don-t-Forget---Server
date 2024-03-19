@@ -11,7 +11,8 @@ public class NoticeMapper {
         return new NoticeEntity(
             notice.getId(),
             anniversaryId,
-            notice.getNoticeType()
+            notice.getNoticeType(),
+            notice.getNoticeStatus()
         );
     }
 

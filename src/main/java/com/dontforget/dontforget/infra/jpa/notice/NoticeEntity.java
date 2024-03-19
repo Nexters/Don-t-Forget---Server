@@ -33,7 +33,7 @@ public class NoticeEntity {
 
     @Column(name = "notice_status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private NoticeStatus noticeStatus = NoticeStatus.WAITING_SEND;
+    private NoticeStatus noticeStatus;
 
     public NoticeEntity(
         final Long id,
@@ -51,5 +51,6 @@ public class NoticeEntity {
         this.id = id;
         this.anniversaryId = anniversaryId;
         this.noticeType = noticeType;
+        this.noticeStatus = NoticeStatus.WAITING_SEND;
     }
 }
