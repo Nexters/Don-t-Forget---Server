@@ -9,7 +9,7 @@ import com.dontforget.dontforget.common.CardType;
 import com.dontforget.dontforget.common.KoreanLunarCalendarCalculator;
 import com.dontforget.dontforget.config.RepositoryTestConfig;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
-import com.dontforget.dontforget.domain.anniversary.exception.NotFoundAnniversaryException;
+import com.dontforget.dontforget.common.NotFoundAnniversaryException;
 import com.dontforget.dontforget.domain.anniversary.query.CreateAnniversaryQuery;
 import com.dontforget.dontforget.domain.anniversary.service.CalendarCalculator;
 import com.dontforget.dontforget.domain.anniversary.service.CreateAnniversary;

@@ -39,6 +39,7 @@ class AlarmSchedulerTest {
     private final KoreanLunarCalendarCalculator koreaCalculator = new KoreanLunarCalendarCalculator();
     private final CalendarCalculator calculator = new CalendarCalculator(koreaCalculator);
 
+
     @ParameterizedTest
     @AutoSource
     void 알림이_돌면_알림의_상태가_변경된다(
@@ -79,7 +80,6 @@ class AlarmSchedulerTest {
     @Test
     void 알림이_돌때_디데이일경우_다음_기념일을_생성한다() {
         Long anniversaryId = anniversaryRepository.save(dDayAnniversary);
-
         var alarmSearcher = new AlarmSearcher(anniversaryRepository);
         var alarmSender = new FakeAlarmSender();
         var sut = new AlarmScheduler(
@@ -98,6 +98,7 @@ class AlarmSchedulerTest {
 
         assertThat(actual)
             .usingRecursiveComparison()
+            .ignoringFields("id", "notices.id", "notices.anniversaryId")
             .isEqualTo(expected);
     }
 
@@ -148,7 +149,6 @@ class AlarmSchedulerTest {
     }
 
     private final Anniversary dDayAnniversary = new Anniversary(
-        1L,
         "title",
         "content",
         "deviceUuid",
@@ -156,12 +156,11 @@ class AlarmSchedulerTest {
         "SOLAR",
         LocalDate.now(),
         LocalDate.now(),
-        List.of(new Notice(1L, 1L, NoticeType.D_DAY, NoticeStatus.WAITING_SEND)),
+        List.of(new Notice(null, NoticeType.D_DAY, NoticeStatus.WAITING_SEND)),
         CardType.ARM
     );
 
     private final Anniversary notDDayAnniversary = new Anniversary(
-        1L,
         "title",
         "content",
         "deviceUuid",
@@ -169,7 +168,7 @@ class AlarmSchedulerTest {
         "SOLAR",
         LocalDate.now().plusDays(1L),
         LocalDate.now().plusDays(1L),
-        List.of(new Notice(1L, 1L, NoticeType.ONE_DAYS, NoticeStatus.WAITING_SEND)),
+        List.of(new Notice(null, NoticeType.ONE_DAYS, NoticeStatus.WAITING_SEND)),
         CardType.ARM
     );
 }

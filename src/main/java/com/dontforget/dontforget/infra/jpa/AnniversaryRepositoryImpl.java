@@ -2,7 +2,7 @@ package com.dontforget.dontforget.infra.jpa;
 
 import com.dontforget.dontforget.domain.anniversary.Anniversary;
 import com.dontforget.dontforget.domain.anniversary.AnniversaryRepository;
-import com.dontforget.dontforget.domain.anniversary.exception.NotFoundAnniversaryException;
+import com.dontforget.dontforget.common.NotFoundAnniversaryException;
 import com.dontforget.dontforget.domain.notice.Notice;
 import com.dontforget.dontforget.domain.notice.NoticeRepository;
 import com.dontforget.dontforget.infra.jpa.anniversary.AnniversaryEntity;
