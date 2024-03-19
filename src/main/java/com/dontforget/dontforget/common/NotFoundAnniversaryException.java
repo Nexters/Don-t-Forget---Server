@@ -1,4 +1,4 @@
-package com.dontforget.dontforget.domain.anniversary.exception;
+package com.dontforget.dontforget.common;
 
 public class NotFoundAnniversaryException extends RuntimeException {
 

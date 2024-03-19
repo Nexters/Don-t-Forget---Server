@@ -23,9 +23,9 @@ class CalendarCalculatorTest {
         final CalendarType type = null;
         final LocalDate localDate = LocalDate.of(2024, 1, 1);
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
-
+        int year = LocalDate.now().getYear();
         // when & then
-        assertThatCode(() -> sut.calculateCurSolarDate(localDate, type))
+        assertThatCode(() -> sut.calculateSolarDate(localDate, type, year))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("CalendarType이 잘못된 타입입니다.");
     }
@@ -36,9 +36,9 @@ class CalendarCalculatorTest {
         // given
         final LocalDate localDate = LocalDate.of(2024, 1, 1);
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
-
+        final int year = LocalDate.now().getYear();
         // when & then
-        assertThatCode(() -> sut.calculateCurSolarDate(localDate, type))
+        assertThatCode(() -> sut.calculateSolarDate(localDate, type, year))
             .doesNotThrowAnyException();
     }
 
@@ -52,9 +52,10 @@ class CalendarCalculatorTest {
         // given
         final CalendarType type = CalendarType.LUNAR;
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
+        final int year = LocalDate.now().getYear();
 
         // when
-        final LocalDate convertDateTime = sut.calculateCurSolarDate(lunarDate, type);
+        final LocalDate convertDateTime = sut.calculateSolarDate(lunarDate, type, year);
 
         // then
         assertThat(convertDateTime).isEqualTo(expectedDate);
@@ -68,9 +69,10 @@ class CalendarCalculatorTest {
         // given
         final CalendarType type = CalendarType.SOLAR;
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
+        final int year = LocalDate.now().getYear();
 
         // when
-        final LocalDate convertDateTime = sut.calculateCurSolarDate(solarDate, type);
+        final LocalDate convertDateTime = sut.calculateSolarDate(solarDate, type, year);
 
         // then
         assertThat(convertDateTime).isEqualTo(expectedDate);
@@ -85,9 +87,10 @@ class CalendarCalculatorTest {
         // given
         final CalendarType type = CalendarType.SOLAR;
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
+        final int year = LocalDate.now().getYear();
 
         // when
-        final LocalDate convertDateTime = sut.calculateCurLunarDate(solarDate, type);
+        final LocalDate convertDateTime = sut.calculateLunarDate(solarDate, type, year);
 
         // then
         assertThat(convertDateTime).isEqualTo(expectedDate);
@@ -102,11 +105,13 @@ class CalendarCalculatorTest {
         // given
         final CalendarType type = CalendarType.LUNAR;
         final CalendarCalculator sut = new CalendarCalculator(new KoreanLunarCalendarCalculator());
+        final int year = LocalDate.now().getYear();
 
         // when
-        final LocalDate convertDateTime = sut.calculateCurLunarDate(lunarDate, type);
+        final LocalDate convertDateTime = sut.calculateLunarDate(lunarDate, type, year);
 
         // then
         assertThat(convertDateTime).isEqualTo(expectedDate);
     }
+
 }

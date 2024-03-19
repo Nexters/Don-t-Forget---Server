@@ -1,6 +1,5 @@
 package com.dontforget.dontforget.common;
 
-import com.dontforget.dontforget.domain.anniversary.exception.NotFoundAnniversaryException;
 import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

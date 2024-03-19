@@ -2,6 +2,7 @@ package com.dontforget.dontforget.infra;
 
 import com.dontforget.dontforget.domain.notice.NoticeDevice;
 import com.dontforget.dontforget.domain.notice.NoticeDeviceRepository;
+import com.dontforget.dontforget.domain.notice.NoticeTarget;
 import com.dontforget.dontforget.domain.notice.service.AlarmSender;
 import com.google.firebase.messaging.AndroidConfig;
 import com.google.firebase.messaging.AndroidNotification;
@@ -11,6 +12,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -24,6 +26,14 @@ public class FcmAlarmSender implements AlarmSender {
 
     private final NoticeDeviceRepository noticeDeviceRepository;
 
+    @Override
+    public void sendNotifications(List<NoticeTarget> expectedNotices) {
+        for (NoticeTarget it : expectedNotices) {
+            send(it.getDeviceUuid(), it.getTitle(), it.getMessage());
+        }
+    }
+
+    @Override
     public String send(String deviceUuid, String title, String body) {
         NoticeDevice user = noticeDeviceRepository.findByUuid(deviceUuid);
 

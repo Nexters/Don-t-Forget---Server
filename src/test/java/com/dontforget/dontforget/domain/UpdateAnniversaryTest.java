@@ -63,7 +63,7 @@ class UpdateAnniversaryTest {
             anniversaryId, updatedTitle, updatedDate, type, updatedNotices, updatedContent
         );
         final UpdateAnniversary sut = new UpdateAnniversary(anniversaryRepository, calculator);
-
+        int year = LocalDate.now().getYear();
         // when
         sut.updateAnniversary(updateQuery);
 
@@ -74,9 +74,9 @@ class UpdateAnniversaryTest {
             () -> assertThat(anniversary.getTitle()).isEqualTo(updatedTitle),
             () -> assertThat(anniversary.getContent()).isEqualTo(updatedContent),
             () -> assertThat(anniversary.getLunarDate()).isEqualTo(
-                calculator.calculateCurLunarDate(updatedDate, type)),
+                calculator.calculateLunarDate(updatedDate, type, year)),
             () -> assertThat(anniversary.getSolarDate()).isEqualTo(
-                calculator.calculateCurSolarDate(updatedDate, type)),
+                calculator.calculateSolarDate(updatedDate, type, year)),
             () -> assertThat(anniversary.getNotices().stream()
                 .map(Notice::getNoticeType).toList())
                 .usingRecursiveComparison()
