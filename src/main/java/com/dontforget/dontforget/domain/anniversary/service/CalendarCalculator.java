@@ -13,27 +13,27 @@ public class CalendarCalculator {
 
     private final KoreanLunarCalendarCalculator koreanLunar;
 
-    public LocalDate calculateCurSolarDate(final LocalDate date, final CalendarType type) {
+    public LocalDate calculateSolarDate(final LocalDate date, final CalendarType type, final int year) {
         validateCalendarType(type);
         LocalDate dateTime = date;
         if (CalendarType.SOLAR == type) {
             dateTime = koreanLunar.convertLunarDateFromSolarDate(date);
         }
-        return getCurSolarDate(dateTime);
+        return getSolarDate(dateTime, year);
     }
 
-    private LocalDate getCurSolarDate(final LocalDate dateTime) {
-        final LocalDate nowLunarDate = getCurLunarDate(dateTime);
+    private LocalDate getSolarDate(final LocalDate dateTime, final int year) {
+        final LocalDate nowLunarDate = getLunarDate(dateTime, year);
         return koreanLunar.convertSolarDateFromLunarDate(nowLunarDate);
     }
 
-    public LocalDate calculateCurLunarDate(final LocalDate date, final CalendarType type) {
+    public LocalDate calculateLunarDate(final LocalDate date, final CalendarType type, final int year) {
         validateCalendarType(type);
         LocalDate dateTime = date;
         if (CalendarType.SOLAR == type) {
             dateTime = koreanLunar.convertLunarDateFromSolarDate(date);
         }
-        return getCurLunarDate(dateTime);
+        return getLunarDate(dateTime, LocalDate.now().getYear());
     }
 
     private void validateCalendarType(CalendarType type) {
@@ -42,7 +42,7 @@ public class CalendarCalculator {
         }
     }
 
-    private LocalDate getCurLunarDate(final LocalDate date) {
-        return LocalDate.of(LocalDate.now().getYear(), date.getMonth(), date.getDayOfMonth());
+    private LocalDate getLunarDate(final LocalDate date, final int year) {
+        return LocalDate.of(year, date.getMonth(), date.getDayOfMonth());
     }
 }

@@ -86,14 +86,15 @@ public class Anniversary {
         if (type == null) {
             throw new IllegalArgumentException("CalendarType이 잘못된 타입입니다.");
         }
+        int year = LocalDate.now().getYear();
         return new Anniversary(
             title,
             content,
             deviceUuid,
             date,
             type.name(),
-            calendarCalculator.calculateCurLunarDate(date, type),
-            calendarCalculator.calculateCurSolarDate(date, type),
+            calendarCalculator.calculateLunarDate(date, type, year),
+            calendarCalculator.calculateSolarDate(date, type, year),
             convertNotice(alarmSchedule),
             cardType
         );
@@ -103,21 +104,26 @@ public class Anniversary {
         Anniversary anniversary,
         CalendarCalculator calendarCalculator
     ) {
-        LocalDate nextDate = LocalDate.of(
-            anniversary.getBaseDate().getYear() + 1,
-            anniversary.getBaseDate().getMonth(),
-            anniversary.getBaseDate().getDayOfMonth()
+        LocalDate nextLunarDate = LocalDate.of(
+            anniversary.getLunarDate().getYear() + 1,
+            anniversary.getLunarDate().getMonth(),
+            anniversary.getLunarDate().getDayOfMonth()
         );
-        CalendarType type = CalendarType.valueOf(anniversary.getBaseType());
+        CalendarType type = CalendarType.valueOf(CalendarType.LUNAR.name());
+        int year = LocalDate.now().getYear() + 1;
+        LocalDate nextSolarDate = calendarCalculator.calculateSolarDate(nextLunarDate, type, year);
+        LocalDate nextDate = (anniversary.getBaseType().equals(CalendarType.LUNAR.name()))
+            ? nextLunarDate : nextSolarDate;
 
         return new Anniversary(
+            anniversary.getId(),
             anniversary.getTitle(),
             anniversary.getContent(),
             anniversary.getDeviceUuid(),
             nextDate,
             anniversary.getBaseType(),
-            calendarCalculator.calculateCurLunarDate(nextDate, type),
-            calendarCalculator.calculateCurSolarDate(nextDate, type),
+            nextLunarDate,
+            nextSolarDate,
             anniversary.getNotices(),
             anniversary.getCardType()
         );
@@ -132,11 +138,12 @@ public class Anniversary {
     public void update(String title, LocalDate date, CalendarType type,
         List<NoticeType> noticeTypes, String content, CalendarCalculator calendarCalculator
     ) {
+        int year = LocalDate.now().getYear();
         this.title = title;
         this.baseDate = date;
         this.baseType = type.name();
-        this.lunarDate = calendarCalculator.calculateCurLunarDate(date, type);
-        this.solarDate = calendarCalculator.calculateCurSolarDate(date, type);
+        this.lunarDate = calendarCalculator.calculateLunarDate(date, type, year);
+        this.solarDate = calendarCalculator.calculateSolarDate(date, type, year);
         this.notices = convertNotice(noticeTypes);
         this.content = content;
     }

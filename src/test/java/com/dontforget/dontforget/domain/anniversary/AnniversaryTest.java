@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @DisplayName("Anniversary 도메인 테스트")
 class AnniversaryTest {
@@ -32,7 +33,7 @@ class AnniversaryTest {
         final CalendarType type = CalendarType.SOLAR;
         final CalendarCalculator calendarCalculator = new CalendarCalculator(
             new KoreanLunarCalendarCalculator());
-
+        int year = LocalDate.now().getYear();
         // when
         final Anniversary anniversary = Anniversary.create(
             deviceUuid,
@@ -53,9 +54,9 @@ class AnniversaryTest {
             () -> assertThat(anniversary.getTitle()).isEqualTo(title),
             () -> assertThat(anniversary.getContent()).isEqualTo(content),
             () -> assertThat(anniversary.getLunarDate()).isEqualTo(
-                calendarCalculator.calculateCurLunarDate(date, type)),
+                calendarCalculator.calculateLunarDate(date, type, year)),
             () -> assertThat(anniversary.getSolarDate()).isEqualTo(
-                calendarCalculator.calculateCurSolarDate(date, type)),
+                calendarCalculator.calculateSolarDate(date, type, year)),
             () -> assertThat(anniversary.getCardType()).isEqualTo(cardType)
         );
 
@@ -66,5 +67,33 @@ class AnniversaryTest {
         assertThat(anniversary.getNotices())
             .usingRecursiveComparison()
             .isEqualTo(notices);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = "2024-02-14:2025-03-13", delimiter = ':')
+    void 다음년도_양력_날짜를_올바르게_계산한다(
+        final LocalDate lunarDate,
+        final LocalDate expectedDate
+    ) {
+        // given
+        final Anniversary anniversary = new Anniversary(
+            1L,
+            "title",
+            "content",
+            "deviceUuid",
+            LocalDate.now(),
+            "SOLAR",
+            lunarDate,
+            LocalDate.now(),
+            List.of(), CardType.ARM);
+        final CalendarType type = CalendarType.LUNAR;
+        final CalendarCalculator calculator = new CalendarCalculator(
+            new KoreanLunarCalendarCalculator());
+
+        // when
+        Anniversary nextAnniversary = Anniversary.createNextAnniversary(anniversary, calculator);
+
+        // then
+        assertThat(nextAnniversary.getSolarDate()).isEqualTo(expectedDate);
     }
 }
