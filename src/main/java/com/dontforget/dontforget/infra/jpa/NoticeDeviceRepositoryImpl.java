@@ -33,7 +33,7 @@ public class NoticeDeviceRepositoryImpl implements NoticeDeviceRepository {
     @Override
     public Long upsert(final NoticeDevice noticeDevice) {
         var existingDevice = noticeDeviceRepository
-            .findNoticeDeviceEntityByDeviceUuid(noticeDevice.getDeviceUuid())
+            .findNoticeDeviceEntityByDeviceUuidForUpdate(noticeDevice.getDeviceUuid())
             .orElse(null);
 
         var noticeDeviceEntity = existingDevice != null ?
